@@ -1,0 +1,27 @@
+syntax = "v1"
+
+info(
+    title: "go-zero最佳实践"
+    desc: "go-zero最佳实践"
+    author: "zjzjzjzj"
+    email: "zjzjzjzj1874@gmail.com"
+    version: "v0"
+)
+
+type (
+    LivenessRequest struct {}
+
+    LivenessResponse struct {}
+)
+
+@server(
+	prefix: go-zero/
+)
+
+service my-zero {
+    @doc(
+        summary: "健康检查"
+    )
+    @handler liveness
+    get /liveness (LivenessRequest) returns (LivenessResponse)
+}
