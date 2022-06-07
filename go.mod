@@ -2,7 +2,15 @@ module github.com/zjzjzjzj1874/best-pracrice-go-zero
 
 go 1.18
 
-require github.com/zeromicro/go-zero v1.3.4
+require (
+	github.com/go-redis/redis v6.15.9+incompatible
+	github.com/json-iterator/go v1.1.12
+	github.com/robfig/cron v1.2.0
+	github.com/sirupsen/logrus v1.8.1
+	github.com/zeromicro/go-zero v1.3.4
+	gorm.io/driver/mysql v1.3.4
+	gorm.io/gorm v1.23.5
+)
 
 require (
 	github.com/beorn7/perks v1.0.1 // indirect
@@ -10,13 +18,18 @@ require (
 	github.com/fatih/color v1.13.0 // indirect
 	github.com/go-logr/logr v1.2.3 // indirect
 	github.com/go-logr/stdr v1.2.2 // indirect
+	github.com/go-sql-driver/mysql v1.6.0 // indirect
 	github.com/golang-jwt/jwt/v4 v4.4.1 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/uuid v1.3.0 // indirect
+	github.com/jinzhu/inflection v1.0.0 // indirect
+	github.com/jinzhu/now v1.1.4 // indirect
 	github.com/justinas/alice v1.2.0 // indirect
 	github.com/mattn/go-colorable v0.1.9 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.2-0.20181231171920-c182affec369 // indirect
+	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
+	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/openzipkin/zipkin-go v0.4.0 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.1 // indirect
 	github.com/prometheus/client_golang v1.12.2 // indirect

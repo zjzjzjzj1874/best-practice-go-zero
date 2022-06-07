@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/config"
+	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/cron"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/handler"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/svc"
 
@@ -24,6 +25,7 @@ func main() {
 	server := rest.MustNewServer(c.RestConf)
 	defer server.Stop()
 
+	cron.Init(ctx) // 初始化轮询任务
 	handler.RegisterHandlers(server, ctx)
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
