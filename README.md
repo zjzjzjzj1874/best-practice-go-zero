@@ -1,9 +1,10 @@
 # best-practice-go-zero
+
 go-zero最佳实践
 
 ## How to create a service/project:
 
-- exec `goctl api new my_zero`,then you will see a new service named scana_task.
+- exec `goctl api new my_zero`,then you will see a new service named my-zero.
 
 ## Run with api file
 
