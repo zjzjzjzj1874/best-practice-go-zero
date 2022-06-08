@@ -4,6 +4,7 @@ import (
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/databases"
+	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper/rabbitmq"
 )
 
 type Config struct {
@@ -16,4 +17,5 @@ type Config struct {
 	Cron struct {
 		TaskTimeoutSpec string
 	}
+	RabbitMQ rabbitmq.Config
 }

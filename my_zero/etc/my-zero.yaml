@@ -31,3 +31,8 @@ MysqlConf:
 
 Cron:
   TaskTimeoutSpec: "* * 1 * * *"
+
+RabbitMQ:
+  Addr: "amqp://guest:guest@localhost:5672/"
+  Name: "TEST"
+  Goroutine: 3 # 协程数量
