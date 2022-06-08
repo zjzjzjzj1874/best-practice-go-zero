@@ -2,6 +2,7 @@ package pro
 
 import (
 	"context"
+
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper/rabbitmq"
 
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/svc"

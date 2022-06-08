@@ -8,7 +8,7 @@ type Config struct {
 	Goroutine uint   // 协程数量
 }
 
-var Producer chan PublishMetaData // 生产者
+var Producer chan PublishMetaData // 全局生产者
 
 type PublishMetaData struct {
 	Name    string   `json:"name"`    // 姓名
