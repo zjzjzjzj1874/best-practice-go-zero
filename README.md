@@ -13,3 +13,8 @@ go-zero最佳实践
 ## Create a Dockerfile
 
 - cd into target file && exec `goctl docker -go my-zero.go`
+
+## TODO list
+
+- validate集成校验
+- rabbitmq生产者消费者优化

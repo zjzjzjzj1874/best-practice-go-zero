@@ -4,6 +4,7 @@ package handler
 import (
 	"net/http"
 
+	v0pro "github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/handler/v0/pro"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -19,5 +20,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 		},
 		rest.WithPrefix("/go-zero"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/",
+				Handler: v0pro.RabbitMQProducerHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/go-zero/v0/pro"),
 	)
 }

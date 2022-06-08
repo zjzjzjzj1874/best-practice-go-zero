@@ -6,3 +6,12 @@ type LivenessRequest struct {
 
 type LivenessResponse struct {
 }
+
+type RabbitmqProRequest struct {
+	Name    string   `json:"name"`    // 姓名
+	Age     int      `json:"age"`     // 年龄
+	Hobbies []string `json:"hobbies"` // 爱好
+}
+
+type RabbitmqProResponse struct {
+}

@@ -1,3 +1,4 @@
 import (
 	"api/liveness.api"
+	"api/rabbitmq.api"
 )

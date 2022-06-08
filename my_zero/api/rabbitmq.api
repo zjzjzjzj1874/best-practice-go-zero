@@ -1,0 +1,32 @@
+syntax = "v1"
+
+info(
+    title: "go-zero最佳实践"
+    desc: "go-zero最佳实践"
+    author: "zjzjzjzj"
+    email: "zjzjzjzj1874@gmail.com"
+    version: "v0"
+)
+
+type (
+    RabbitmqProRequest struct {
+        Name    string   `json:"name"`      // 姓名
+        Age     int      `json:"age"`       // 年龄
+        Hobbies []string `json:"hobbies"`   // 爱好
+	}
+
+    RabbitmqProResponse struct {}
+)
+
+@server(
+	prefix: go-zero/v0/pro
+	group: v0/pro
+)
+
+service my-zero {
+    @doc(
+        summary: "消息队列生产者"
+    )
+    @handler RabbitMQProducer
+    post / (RabbitmqProRequest) returns (RabbitmqProResponse)
+}
