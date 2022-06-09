@@ -8,6 +8,7 @@ require (
 	github.com/robfig/cron v1.2.0
 	github.com/sirupsen/logrus v1.8.1
 	github.com/streadway/amqp v1.0.0
+	github.com/jinzhu/copier v0.3.5
 	github.com/zeromicro/go-zero v1.3.4
 	gorm.io/driver/mysql v1.3.4
 	gorm.io/gorm v1.23.5

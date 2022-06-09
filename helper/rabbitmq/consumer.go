@@ -9,11 +9,10 @@ import (
 )
 
 func init() {
-	fmt.Println("init something in rabbitmq")
+	fmt.Println("init something in rabbitmq consumer")
 }
 
 func InitConsumer(ctx context.Context, conf Config) {
-	Producer = make(chan PublishMetaData, 10)
 	go newConsumer(ctx, conf)
 }
 

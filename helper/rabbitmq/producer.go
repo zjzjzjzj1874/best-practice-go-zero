@@ -9,11 +9,11 @@ import (
 )
 
 func init() {
-	fmt.Println("init something in rabbitmq")
+	fmt.Println("init something in rabbitmq Producer")
 }
 
 func InitProducer(ctx context.Context, conf Config) {
-	Producer = make(chan PublishMetaData, 10)
+	produce = make(chan PublishMetaData, 10)
 	go newProducer(ctx, conf)
 }
 
@@ -63,7 +63,7 @@ func asyncProducer(ctx context.Context, ch *amqp.Channel, queue *amqp.Queue, idx
 		case <-ctx.Done():
 			fmt.Printf("recevice exit signal:bye-bye\n")
 			return
-		case meta := <-Producer:
+		case meta := <-produce:
 			data, err := meta.Marshal()
 			if err != nil {
 				fmt.Printf("meta marshal failure:[meta:%+v,err:%s]\n", meta, err)

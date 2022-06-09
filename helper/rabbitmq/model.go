@@ -8,7 +8,12 @@ type Config struct {
 	Goroutine uint   // 协程数量
 }
 
-var Producer chan PublishMetaData // 全局生产者
+// // 全局生产者:为什么需要私有化全局生产者:防止produce被到处乱传,造成意外,所以需要到处一个共有方法来处理
+var produce chan PublishMetaData
+
+func ProduceData(meta PublishMetaData) {
+	produce <- meta
+}
 
 type PublishMetaData struct {
 	Name    string   `json:"name"`    // 姓名
