@@ -7,6 +7,12 @@ type LivenessRequest struct {
 type LivenessResponse struct {
 }
 
+type MigrateRequest struct {
+}
+
+type MigrateResponse struct {
+}
+
 type RabbitmqProRequest struct {
 	Name    string   `json:"name"`    // 姓名
 	Age     int      `json:"age"`     // 年龄

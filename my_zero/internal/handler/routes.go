@@ -26,6 +26,17 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 		[]rest.Route{
 			{
 				Method:  http.MethodPost,
+				Path:    "/migrate",
+				Handler: migrateHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/go-zero"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
 				Path:    "/",
 				Handler: v0pro.RabbitMQProducerHandler(serverCtx),
 			},
