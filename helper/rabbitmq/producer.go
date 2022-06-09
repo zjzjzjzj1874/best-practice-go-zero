@@ -75,10 +75,10 @@ func asyncProducer(ctx context.Context, ch *amqp.Channel, queue *amqp.Queue, idx
 				Timestamp:   time.Now(),
 			})
 			if err != nil {
-				fmt.Printf("Publish failure:[name:%s,data:%+v,err:%s]", queue.Name, meta, err.Error())
+				fmt.Printf("Publish failure:[name:%s,data:%+v,err:%s]\n", queue.Name, meta, err.Error())
 				continue
 			}
-			fmt.Printf("Publish success:[data:%+v,idx:%d]", meta, idx)
+			fmt.Printf("Publish success:[data:%+v,idx:%d]\n", meta, idx)
 		}
 	}
 }

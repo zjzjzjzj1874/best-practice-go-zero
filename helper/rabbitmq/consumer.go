@@ -63,7 +63,7 @@ func asyncConsumer(ctx context.Context, deliveries <-chan amqp.Delivery, idx int
 			fmt.Printf("recevice exit signal:bye-bye\n")
 			return
 		case delivery := <-deliveries:
-			fmt.Printf("consumerAt:%v,producerAt:%s", time.Now(), delivery.Timestamp)
+			fmt.Printf("consumerAt:%v,producerAt:%s\n", time.Now(), delivery.Timestamp)
 			meta := PublishMetaData{}
 			err := meta.Unmarshal(delivery.Body)
 			if err != nil {
@@ -71,7 +71,7 @@ func asyncConsumer(ctx context.Context, deliveries <-chan amqp.Delivery, idx int
 				continue
 			}
 			// todo do next logic,save in DB or do other thing
-			fmt.Printf("Consumer success:[data:%+v,idx:%d]", meta, idx)
+			fmt.Printf("Consumer success:[data:%+v,idx:%d]\n", meta, idx)
 		}
 	}
 }
