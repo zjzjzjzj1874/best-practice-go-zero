@@ -1,10 +1,11 @@
 package databases
 
 import (
+	"database/sql"
 	"database/sql/driver"
-	"gorm.io/gorm"
-
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper/sqlx"
+	"gorm.io/gorm"
+	"time"
 )
 
 // Mock mock表
@@ -22,7 +23,9 @@ func (Mock) TableName() string {
 // Test test表
 type Test struct {
 	gorm.Model
-	TestName string `gorm:"uniqueIndex:idx_name;comment:测试名称" json:"test_name"`
+	ReceiveTime sql.NullTime `gorm:"column:receive_time;comment:收货时间"` // 收货时间
+	UpdateTime  time.Time    `gorm:"column:update_time;type:timestamp;not null;default:CURRENT_TIMESTAMP"`
+	TestName    string       `gorm:"uniqueIndex:idx_name;comment:测试名称" json:"test_name"`
 }
 
 func (Test) TableName() string {
