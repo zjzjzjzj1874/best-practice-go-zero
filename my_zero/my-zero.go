@@ -4,11 +4,10 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper"
 	_ "net/http/pprof"
 
+	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper/rabbitmq"
-
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/config"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/cron"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/handler"
@@ -31,7 +30,7 @@ func main() {
 	defer server.Stop()
 
 	if c.Debug {
-		go helper.OpenPPROF(c.Port + 1)
+		helper.OpenPPROF(c.Port + 1)
 	}
 	cron.Init(ctx)                                             // 初始化轮询任务
 	rabbitmq.InitProducer(context.TODO(), ctx.Config.RabbitMQ) // 初始化消息队列生产者
