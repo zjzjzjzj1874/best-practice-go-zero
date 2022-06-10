@@ -24,5 +24,6 @@ func NewMigrateLogic(ctx context.Context, svcCtx *svc.ServiceContext) *MigrateLo
 
 // Migrate 自动化生产表
 func (l *MigrateLogic) Migrate(req *types.MigrateRequest) (resp *types.MigrateResponse, err error) {
-	return nil, l.svcCtx.MysqlDB.MigrateWithApi(req.TableNames)
+	return nil, l.svcCtx.MysqlDB.MigrateWithApi([]string{})
+	//return nil, l.svcCtx.MysqlDB.MigrateWithApi(req.TableNames)
 }

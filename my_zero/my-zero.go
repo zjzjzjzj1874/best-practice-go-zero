@@ -4,6 +4,8 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper"
+	_ "net/http/pprof"
 
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper/rabbitmq"
 
@@ -28,6 +30,9 @@ func main() {
 	server := rest.MustNewServer(c.RestConf)
 	defer server.Stop()
 
+	if c.Debug {
+		go helper.OpenPPROF(c.Port + 1)
+	}
 	cron.Init(ctx)                                             // 初始化轮询任务
 	rabbitmq.InitProducer(context.TODO(), ctx.Config.RabbitMQ) // 初始化消息队列生产者
 	rabbitmq.InitConsumer(context.TODO(), ctx.Config.RabbitMQ) // 初始化消息队列消费者

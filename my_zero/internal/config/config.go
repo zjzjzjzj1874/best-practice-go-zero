@@ -9,6 +9,7 @@ import (
 
 type Config struct {
 	rest.RestConf
+	Debug bool `json:",optional"` // 调试模式是否开启
 
 	CacheRedis cache.CacheConf
 
