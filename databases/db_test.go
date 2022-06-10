@@ -1,6 +1,7 @@
 package databases
 
 import (
+	"database/sql"
 	"fmt"
 	"gorm.io/gorm"
 	"testing"
@@ -8,6 +9,7 @@ import (
 )
 
 var orm = MustNewDB(MysqlConfig{
+	//DSN:           "root:admin123@tcp(localhost:3306)/test?charset=utf8mb4&parseTime=True&loc=Local",
 	DSN:           "root:admin123@tcp(localhost:3306)/test?charset=utf8&parseTime=True&loc=Local",
 	SlowThreshold: 200,
 })
@@ -43,12 +45,34 @@ func TestGetFromDB(t *testing.T) {
 }
 
 func TestAddDataIntoTableTest(t *testing.T) {
-	t.Run("create test time", func(t *testing.T) {
+	t.Run("#Create", func(t *testing.T) {
 		test := Test{
-			TestName: "this is test",
+			TestName: "akjbe",
 		}
 
 		fmt.Println(orm.Create(&test).Error)
+	})
+
+	t.Run("#Created && Migrate", func(t *testing.T) {
+		test := Test{
+			TestName: "jhvjhf",
+			Emotion:  " ლ(ʘ▽ʘ)ლ   (๑ↀᆺↀ๑)✧",
+		}
+		orm.AutoMigrate(&test)
+
+		fmt.Println(orm.Create(&test).Error)
+	})
+	t.Run("#Select", func(t *testing.T) {
+		test := Test{
+			TestName: "jhvjhf",
+		}
+		orm.AutoMigrate(&test)
+		err := orm.First(&test).Error
+		if err != nil {
+			t.Log(err)
+			return
+		}
+		fmt.Println(test)
 	})
 
 	t.Run("update time", func(t *testing.T) {
@@ -59,6 +83,11 @@ func TestAddDataIntoTableTest(t *testing.T) {
 		}
 		update := map[string]interface{}{
 			"receive_time": time.Now(),
+			"test_time":    time.Now(),
+			"callback_time": sql.NullTime{
+				Time:  time.Now(),
+				Valid: true,
+			},
 		}
 
 		fmt.Println(orm.Model(&test).Updates(update).Error)

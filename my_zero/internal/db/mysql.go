@@ -2,8 +2,10 @@
 package db
 
 import (
+	"context"
 	"fmt"
 	"gorm.io/gorm"
+	"time"
 
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/databases"
 )
@@ -20,7 +22,17 @@ func NewMysqlClient(mysql *gorm.DB) *Mysql {
 }
 
 // MigrateWithApi 使用API来跑MySQL Migrate
-func (db *Mysql) MigrateWithApi() error {
+func (db *Mysql) MigrateWithApi(tableNames []string) error {
+	if len(tableNames) == 0 {
+		return db.migrateAll()
+	}
+	//
+	//tableMap := map[string]interface{}{
+	//	databases.Mock{}.TableName(): databases.Mock{},
+	//	databases.User{}.TableName(): databases.User{},
+	//	databases.Test{}.TableName(): databases.Test{},
+	//}
+
 	tables := []interface{}{
 		databases.Mock{},
 		databases.User{},
@@ -28,6 +40,27 @@ func (db *Mysql) MigrateWithApi() error {
 	}
 	for _, table := range tables {
 		err := db.AutoMigrate(&table)
+		if err != nil {
+			fmt.Printf("autoMigrate failure:[err:%s]", err.Error())
+			return err
+		}
+	}
+
+	return nil
+}
+
+// MigrateWithApi 使用API来跑MySQL Migrate
+func (db *Mysql) migrateAll() error {
+	tables := []interface{}{
+		databases.Mock{},
+		databases.User{},
+		databases.Test{},
+	}
+	ctx, cancel := context.WithTimeout(context.TODO(), 20*time.Second)
+	defer cancel()
+	tx := db.WithContext(ctx)
+	for _, table := range tables {
+		err := tx.AutoMigrate(&table)
 		if err != nil {
 			fmt.Printf("autoMigrate failure:[err:%s]", err.Error())
 			return err

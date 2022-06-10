@@ -9,7 +9,9 @@ info(
 )
 
 type (
-    MigrateRequest struct {}
+    MigrateRequest struct {
+        TableNames []string  `json:"table_names,omitempty" description:"更新表名列表"`
+    }
 
     MigrateResponse struct {}
 )
