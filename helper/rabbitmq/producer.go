@@ -3,9 +3,8 @@ package rabbitmq
 import (
 	"context"
 	"fmt"
-	"time"
-
 	"github.com/streadway/amqp"
+	"time"
 )
 
 func init() {
@@ -14,14 +13,14 @@ func init() {
 
 func InitProducer(ctx context.Context, conf Config) {
 	produce = make(chan PublishMetaData, 10)
-	go newProducer(ctx, conf)
+	go newProducer(conf)
 }
 
 // newProducer 设计:能够起多个协程生产数据
-func newProducer(ctx context.Context, conf Config) {
-	conn, err := amqp.Dial(conf.Addr)
+func newProducer(conf Config) {
+	conn, err := amqp.Dial(conf.Producer.Addr)
 	if err != nil {
-		fmt.Printf("Dial failure:[addr:%s,err:%s]\n", conf.Addr, err.Error())
+		fmt.Printf("Dial failure:[conf:%+v,err:%s]\n", conf.Producer, err.Error())
 		return
 	}
 	defer conn.Close()
@@ -33,52 +32,47 @@ func newProducer(ctx context.Context, conf Config) {
 	}
 	defer ch.Close()
 
-	for i := 0; i < int(conf.Goroutine); i++ {
-		q, err := ch.QueueDeclare(
-			conf.Name,
-			false,
-			false,
-			false,
-			false,
-			nil,
-		)
-		if err != nil {
-			fmt.Printf("QueueDeclare failure:[name:%s,err:%s]\n", conf.Name, err)
-			return
-		}
+	closeChan := make(chan *amqp.Error, 1)
+	notifyClose := ch.NotifyClose(closeChan)
 
-		go asyncProducer(ctx, ch, &q, i)
+	q, err := ch.QueueDeclare(
+		conf.Producer.Name,
+		false,
+		false,
+		false,
+		false,
+		nil,
+	)
+	if err != nil {
+		fmt.Printf("QueueDeclare failure:[name:%s,err:%s]\n", conf.Producer.Name, err)
+		return
 	}
 
-	select {
-	case <-ctx.Done():
-		fmt.Printf("recevice exit signal:bye-bye\n")
-	}
-}
-
-// asyncProducer 生产者异步生产数据
-func asyncProducer(ctx context.Context, ch *amqp.Channel, queue *amqp.Queue, idx int) {
-	for {
+	cond := true
+	for cond {
 		select {
-		case <-ctx.Done():
-			fmt.Printf("recevice exit signal:bye-bye\n")
-			return
+		case e := <-notifyClose:
+			fmt.Printf("receive producer chan err:[err:%s]\n", e.Error())
+			close(notifyClose)
+
+			newConsumer(conf) // 断线之后重连
+			cond = false
 		case meta := <-produce:
 			data, err := meta.Marshal()
 			if err != nil {
 				fmt.Printf("meta marshal failure:[meta:%+v,err:%s]\n", meta, err)
 				continue
 			}
-			err = ch.Publish("", queue.Name, false, false, amqp.Publishing{
+			err = ch.Publish("", q.Name, false, false, amqp.Publishing{
 				ContentType: "application/json",
 				Body:        data,
 				Timestamp:   time.Now(),
 			})
 			if err != nil {
-				fmt.Printf("Publish failure:[name:%s,data:%+v,err:%s]\n", queue.Name, meta, err.Error())
+				fmt.Printf("Publish failure:[name:%s,data:%+v,err:%s]\n", q.Name, meta, err.Error())
 				continue
 			}
-			fmt.Printf("Publish success:[data:%+v,idx:%d]\n", meta, idx)
+			fmt.Printf("Publish success:[data:%+v]\n", meta)
 		}
 	}
 }

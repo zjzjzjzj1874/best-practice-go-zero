@@ -35,6 +35,9 @@ Cron:
   TaskTimeoutSpec: "* * 1 * * *"
 
 RabbitMQ:
-  Addr: "amqp://guest:guest@localhost:5672/"
-  Name: "TEST"
-  Goroutine: 1 # 协程数量
+  Consumer:
+    Addr: "amqp://guest:guest@localhost:5672/"
+    Name: "TEST"
+  Producer:
+    Addr: "amqp://guest:guest@localhost:5672/"
+    Name: "TEST"
