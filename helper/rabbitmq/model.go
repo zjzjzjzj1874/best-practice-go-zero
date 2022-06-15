@@ -22,6 +22,10 @@ func ProduceData(meta PublishMetaData) {
 	produce <- meta
 }
 
+func ProducerLen() int {
+	return len(produce)
+}
+
 type PublishMetaData struct {
 	Name    string   `json:"name"`    // 姓名
 	Age     int      `json:"age"`     // 年龄

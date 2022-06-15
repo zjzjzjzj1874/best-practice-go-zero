@@ -17,6 +17,6 @@ go-zero最佳实践
 ## TODO list
 
 - validate集成校验
-- rabbitmq生产者消费者优化
 - 集成一个比较好用的log插件
 - 使用协程池处理一些并发较高的method或者逻辑
+- rabbitmq生产者消费者优化 TODO (断线重连优化)

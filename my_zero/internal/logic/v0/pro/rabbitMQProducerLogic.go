@@ -2,6 +2,7 @@ package pro
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper/rabbitmq"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/svc"
@@ -31,6 +32,8 @@ func (l *RabbitMQProducerLogic) RabbitMQProducer(req *types.RabbitmqProRequest) 
 		Age:     req.Age,
 		Hobbies: req.Hobbies,
 	})
+
+	fmt.Println("当前任务长度:", rabbitmq.ProducerLen())
 
 	return
 }

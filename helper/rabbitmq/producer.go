@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/streadway/amqp"
+	"log"
 	"time"
 )
 
@@ -21,6 +22,7 @@ func newProducer(conf Config) {
 	conn, err := amqp.Dial(conf.Producer.Addr)
 	if err != nil {
 		fmt.Printf("Dial failure:[conf:%+v,err:%s]\n", conf.Producer, err.Error())
+		log.Fatal(err)
 		return
 	}
 	defer conn.Close()
@@ -53,7 +55,7 @@ func newProducer(conf Config) {
 		select {
 		case e := <-notifyClose:
 			fmt.Printf("receive producer chan err:[err:%s]\n", e.Error())
-			close(notifyClose)
+			//close(notifyClose)
 
 			newConsumer(conf) // 断线之后重连
 			cond = false
