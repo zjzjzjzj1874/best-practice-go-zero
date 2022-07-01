@@ -1,0 +1,118 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-my-zero
+  namespace: default
+  labels:
+    app: deployment-my-zero
+spec:
+  replicas: 1
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: deployment-my-zero
+  template:
+    metadata:
+      labels:
+        app: deployment-my-zero
+    spec:
+      serviceAccountName: find-endpoints
+      containers:
+        - name: deployment-my-zero
+          image: my-zero
+          command: [ "/app/my-zero","-f","/etc/config/k8s.yaml" ] # 使用挂载出去的configmap
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/config
+            - name: timezone
+              mountPath: /etc/localtime
+          lifecycle:
+            preStop:
+              exec:
+                command: [ "sh","-c","sleep 5" ]
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 50m
+              memory: 100Mi
+            limits:
+              cpu: 1000m
+              memory: 1024Mi
+      volumes:
+        - name: config-volume
+          configMap:
+            name: conf-my-zero
+            items:
+              - key: my-zero.k8s.yaml # 配合上面的配置文件挂载
+                path: k8s.yaml
+        - name: timezone
+          hostPath:
+            path: /usr/share/zoneinfo/Asia/Shanghai
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: deployment-my-zero-svc
+  namespace: default
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: deployment-my-zero
+
+---
+
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: deployment-my-zero-hpa-c
+  namespace: default
+  labels:
+    app: deployment-my-zero-hpa-c
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: deployment-my-zero
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: 80
+
+---
+
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: deployment-my-zero-hpa-m
+  namespace: default
+  labels:
+    app: deployment-my-zero-hpa-m
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: deployment-my-zero
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: 80

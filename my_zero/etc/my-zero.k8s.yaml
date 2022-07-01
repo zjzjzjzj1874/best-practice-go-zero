@@ -42,3 +42,20 @@ RabbitMQ:
   Producer:
     Addr: "amqp://guest:guest@rabbitmq:5672/"
     Name: "TEST"
+
+# 这是k8s中服务发现的示例
+AccessRpc:
+  Target: deployment-access-rpc-svc:80 #goctl kube 默认生成的k8s yaml的serviceName: {rpc中定义的name}-svc
+  Timeout: 5000
+#  Etcd: # docker中使用这种方式
+#    Hosts:
+#      - http://etcd:2379
+#    Key: access.rpc
+
+UserRpc:
+  Target: deployment-user-rpc-svc:80 #goctl kube 默认生成的k8s yaml的serviceName: {rpc中定义的name}-svc
+  Timeout: 5000
+#  Etcd:
+#    Hosts:
+#      - http://etcd:2379
+#    Key: users.rpc
