@@ -1,0 +1,44 @@
+Name: my-zero
+Host: 0.0.0.0
+Port: 80
+
+Debug: false # debug模式
+DebugPort: 9999 # debug模式
+
+Logrus:
+  ReportCaller: false    #打印调用者信息
+  PrettyPrint: false   #格式化打印
+  Level: 4 # 0-Panic,1-Fatal,2-Error,3-Warn,4-Info,5-Debug,6-Trace
+  FilePath: ./logs/logrus.log
+
+CacheRedis:
+  - Host: redis:6379
+    Pass: 123456a
+    Type: node # cluster
+
+Redis:
+  PoolSize: 10
+  DB: 11 # 使用db的数据库
+  CacheRedis:
+    - Host: redis:6379
+      Pass: 123456a
+      Type: node # cluster
+
+Mongodb:
+  ScanAAuditURL: mongodb://mongo:27017/test
+
+MysqlConf:
+  DSN: "root:admin123@tcp(mysql:3306)/test?charset=utf8&parseTime=True&loc=Local"
+  LogLevel: 2
+  LogPath: ./logs/mysql.log
+
+Cron:
+  TaskTimeoutSpec: "* * 1 * * *"
+
+RabbitMQ:
+  Consumer:
+    Addr: "amqp://guest:guest@rabbitmq:5672/"
+    Name: "TEST"
+  Producer:
+    Addr: "amqp://guest:guest@rabbitmq:5672/"
+    Name: "TEST"

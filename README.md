@@ -20,3 +20,4 @@ go-zero最佳实践
 - 集成一个比较好用的log插件
 - 使用协程池处理一些并发较高的method或者逻辑
 - rabbitmq生产者消费者优化 TODO (断线重连优化)
+- rpc中etcd服务,如果使用k8s部署,那么将直接使用target注册到k8s中,由k8s的服务发现处理
