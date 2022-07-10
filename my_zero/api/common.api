@@ -1,0 +1,37 @@
+syntax = "v1"
+
+info(
+	title: "go-zero"
+	desc: "测试"
+	author: "zjzjzjzj"
+	email: "zjzjzjzj1874@gmail.com"
+	version: 1.0
+)
+
+type OperationTimes {
+	CreatedTime int64 `json:"created_time" bson:"created_time" description:"创建时间"`
+	UpdatedTime int64 `json:"updated_time" bson:"updated_time" description:"更新时间"`
+}
+
+type (
+	QueryOption {
+		Page          int      `form:"page,default=1,optional" description:"当前页"`
+		PageSize      int      `form:"page_size,default=10,optional" description:"每页条数"`
+		SortKeys      string   `form:"sort_keys,default=-created_time,optional" description:"排序键"` // "key1,-key2"
+		ProjectFields []string `form:"project_fields,optional" description:"查询键"`
+		ExcludeFields []string `form:"exclude_fields,optional" description:"不查询的值"`
+	}
+
+	QueryOptionInBody {
+		Page          int      `json:"page,default=1,optional" description:"当前页"`
+		PageSize      int      `json:"page_size,default=10,optional" description:"每页条数"`
+		SortKeys      string   `json:"sort_keys,default=-created_time,optional" description:"排序键"` // "key1,-key2"
+		ProjectFields []string `json:"project_fields,optional" description:"查询键"`
+		ExcludeFields []string `json:"exclude_fields,optional" description:"不查询的值"`
+	}
+
+	Operator {
+		ID   string `json:"id" description:"操作人ID"`
+		Name string `json:"name" description:"操作人名称"`
+	}
+)

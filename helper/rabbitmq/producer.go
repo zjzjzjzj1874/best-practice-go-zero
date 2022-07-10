@@ -57,7 +57,7 @@ func newProducer(conf Config) {
 			fmt.Printf("receive producer chan err:[err:%s]\n", e.Error())
 			//close(notifyClose)
 
-			newConsumer(conf) // 断线之后重连
+			newProducer(conf) // 断线之后重连
 			cond = false
 		case meta := <-produce:
 			data, err := meta.Marshal()

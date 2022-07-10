@@ -1,14 +1,14 @@
 Name: my-zero
 Host: 0.0.0.0
 Port: 8888
-Debug: false # debug模式
+Debug: true # debug模式
 DebugPort: 9999 # debug模式
 
-Logrus:
-  ReportCaller: false    #打印调用者信息
-  PrettyPrint: false   #格式化打印
-  Level: 4 # 0-Panic,1-Fatal,2-Error,3-Warn,4-Info,5-Debug,6-Trace
-  FilePath: ./logs/logrus.log
+#Logrus:
+#  ReportCaller: false    #打印调用者信息
+#  PrettyPrint: false   #格式化打印
+#  Level: 4 # 0-Panic,1-Fatal,2-Error,3-Warn,4-Info,5-Debug,6-Trace
+#  FilePath: ./logs/logrus.log
 
 CacheRedis:
   - Host: 127.0.0.1:6379

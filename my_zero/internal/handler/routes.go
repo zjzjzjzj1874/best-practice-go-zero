@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	v0pro "github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/handler/v0/pro"
+	v0test "github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/handler/v0/test"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -42,5 +43,21 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			},
 		},
 		rest.WithPrefix("/go-zero/v0/pro"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodPost,
+				Path:    "/",
+				Handler: v0test.POSTAPITestHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/",
+				Handler: v0test.GETAPITestHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/go-zero/v0/test"),
 	)
 }

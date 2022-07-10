@@ -1,0 +1,38 @@
+syntax = "v1"
+
+info(
+    title: "go-zero最佳实践"
+    desc: "go-zero最佳实践"
+    author: "zjzjzjzj"
+    email: "zjzjzjzj1874@gmail.com"
+    version: "v0"
+)
+
+type (
+    ListReq {
+        CreatedTime    []string     `json:"created_time,optional" description:"入库时间"`
+        ID             string       `json:"id,optional" description:"内容id"`
+        Name           string       `json:"name,optional" description:"名称"`
+    }
+
+    Response struct {}
+)
+
+@server(
+	prefix: go-zero/v0/test
+	group: v0/test
+)
+
+service my-zero {
+    @doc(
+        summary: "接口参数测试API"
+    )
+    @handler POSTAPITest
+    post / (ListReq) returns (Response)
+
+    @doc(
+        summary: "接口参数测试API"
+    )
+    @handler GETAPITest
+    get / (ListReq) returns (Response)
+}

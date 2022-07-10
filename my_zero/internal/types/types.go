@@ -8,6 +8,7 @@ type LivenessResponse struct {
 }
 
 type MigrateRequest struct {
+	TableNames []string `json:"table_names,omitempty" description:"更新表名列表"`
 }
 
 type MigrateResponse struct {
@@ -20,4 +21,13 @@ type RabbitmqProRequest struct {
 }
 
 type RabbitmqProResponse struct {
+}
+
+type ListReq struct {
+	CreatedTime []string `json:"created_time,optional" description:"入库时间"`
+	ID          string   `json:"id,optional" description:"内容id"`
+	Name        string   `json:"name,optional" description:"名称"`
+}
+
+type Response struct {
 }
