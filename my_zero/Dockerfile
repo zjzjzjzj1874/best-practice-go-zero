@@ -1,3 +1,6 @@
+# go-zero的镜像是多阶段构建的,这个是构建镜像,下面还有个FROM是运行时镜像;
+# 下面使用 `COPY --from=builder /app/etc /app/etc` 从上一阶段的镜像中复制文件，我们也可以复制任意镜像中的文件。
+# 请参考 https://yeasy.gitbook.io/docker_practice/image/multistage-builds
 FROM golang:alpine AS builder
 
 LABEL stage=gobuilder
