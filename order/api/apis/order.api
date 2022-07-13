@@ -22,11 +22,11 @@ type (
 
 
 @server(
-	prefix: v0/order
+	prefix: v0/api
 	group: v0/order
 )
 
 service order {
 	@handler getOrder
-	get /api/order/get/:id (OrderReq) returns (OrderReply)
+	get /order/:id (OrderReq) returns (OrderReply)
 }
