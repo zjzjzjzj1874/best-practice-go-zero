@@ -2,10 +2,11 @@
 package types
 
 type OrderReq struct {
-	Id string `path:"id"`
+	Id int64 `path:"id"`
 }
 
 type OrderReply struct {
-	Id   string `json:"id"`
-	Name string `json:"name"`
+	Id    int64  `json:"id"`
+	Name  string `json:"name"`
+	Email string `json:"email"`
 }
