@@ -1,0 +1,13 @@
+syntax = "v1"
+
+info(
+	title: "best-practise-go-zero"
+	desc: "best-practise-go-zero"
+	author: "zjzjzjzj1874"
+	email: "zjzjzjzj1874@gmail.com"
+	version: "v0"
+)
+
+import (
+	"apis/order.api"
+)

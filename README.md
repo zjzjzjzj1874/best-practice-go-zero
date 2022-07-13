@@ -6,6 +6,15 @@ go-zero最佳实践
 
 - exec `goctl api new my_zero`,then you will see a new service named my-zero.
 
+## start with microservice
+
+### user-rpc
+
+- if `protoc,protoc-gen-go,protoc-gen-rpc-go` are not installed, try with `goctl env check -i -f`;
+- write a *.proto eg:[user.proto](./user/rpc/user.proto)
+- exec `cd ./user/rpc && goctl rpc protoc user.proto --go_out=./types --go-grpc_out=./types --zrpc_out=.`
+- do your business in [getUserLogic.go](./user/rpc/internal/logic/getUserLogic.go)
+
 ## Run with api file
 
 - cd into target file && exec `goctl api go -api my_zero.api -style goZero -dir .`

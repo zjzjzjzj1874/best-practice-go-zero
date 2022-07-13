@@ -1,0 +1,31 @@
+syntax = "v1"
+
+info(
+    title: "go-zero最佳实践"
+    desc: "go-zero最佳实践"
+    author: "zjzjzjzj"
+    email: "zjzjzjzj1874@gmail.com"
+    version: "v0"
+)
+
+type (
+	OrderReq {
+		Id string `path:"id"`
+	}
+
+	OrderReply {
+		Id   string `json:"id"`
+		Name string `json:"name"`
+	}
+)
+
+
+@server(
+	prefix: v0/order
+	group: v0/order
+)
+
+service order {
+	@handler getOrder
+	get /api/order/get/:id (OrderReq) returns (OrderReply)
+}
