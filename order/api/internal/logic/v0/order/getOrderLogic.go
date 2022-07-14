@@ -2,10 +2,10 @@ package order
 
 import (
 	"context"
-	"github.com/zjzjzjzj1874/best-pracrice-go-zero/user/rpc/types/user"
 
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/order/api/internal/svc"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/order/api/internal/types"
+	"github.com/zjzjzjzj1874/best-pracrice-go-zero/user/rpc/user"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

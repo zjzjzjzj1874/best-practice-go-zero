@@ -7,7 +7,7 @@ import (
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/user/rpc/internal/config"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/user/rpc/internal/server"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/user/rpc/internal/svc"
-	"github.com/zjzjzjzj1874/best-pracrice-go-zero/user/rpc/types/user"
+	"github.com/zjzjzjzj1874/best-pracrice-go-zero/user/rpc/user"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"

@@ -6,16 +6,11 @@ package user
 import (
 	"context"
 
-	"github.com/zjzjzjzj1874/best-pracrice-go-zero/user/rpc/types/user"
-
 	"github.com/zeromicro/go-zero/zrpc"
 	"google.golang.org/grpc"
 )
 
 type (
-	IdReq        = user.IdReq
-	UserInfoResp = user.UserInfoResp
-
 	User interface {
 		GetUser(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*UserInfoResp, error)
 	}
@@ -32,6 +27,6 @@ func NewUser(cli zrpc.Client) User {
 }
 
 func (m *defaultUser) GetUser(ctx context.Context, in *IdReq, opts ...grpc.CallOption) (*UserInfoResp, error) {
-	client := user.NewUserClient(m.cli.Conn())
+	client := NewUserClient(m.cli.Conn())
 	return client.GetUser(ctx, in, opts...)
 }

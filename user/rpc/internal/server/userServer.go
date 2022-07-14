@@ -8,7 +8,7 @@ import (
 
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/user/rpc/internal/logic"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/user/rpc/internal/svc"
-	"github.com/zjzjzjzj1874/best-pracrice-go-zero/user/rpc/types/user"
+	"github.com/zjzjzjzj1874/best-pracrice-go-zero/user/rpc/user"
 )
 
 type UserServer struct {
