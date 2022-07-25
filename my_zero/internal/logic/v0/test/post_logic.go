@@ -28,13 +28,17 @@ func NewPostLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PostLogic {
 	}
 }
 
-func (l *PostLogic) TestPost(req *types.ListReq) (resp *types.MongoTest, err error) {
-	t := &mongo.Test{
-		ID:        bson.NewObjectId(),
-		TestName:  "Mongo test",
-		CreatedAt: time.Now().Unix(),
-		Hobbies:   []string{"羽毛球", "台球"},
-	}
+func (l *PostLogic) TestPost(req *types.ListReq) (*types.MongoTest, error) {
+	var (
+		err  error
+		resp = &types.MongoTest{}
+		t    = &mongo.Test{
+			ID:        bson.NewObjectId(),
+			TestName:  "Mongo test",
+			CreatedAt: time.Now().Unix(),
+			Hobbies:   []string{"羽毛球", "台球"},
+		}
+	)
 
 	// 添加一个基于函数式编程处理error的closure
 	errFunc := func(fn func() error) {
@@ -45,14 +49,9 @@ func (l *PostLogic) TestPost(req *types.ListReq) (resp *types.MongoTest, err err
 		err = fn()
 	}
 
-	errFunc(func() error {
-		return l.svcCtx.MongoTestModel.Insert(t)
-	})
+	errFunc(func() error { return l.svcCtx.MongoTestModel.Insert(t) })
 
-	resp = &types.MongoTest{}
-	errFunc(func() error {
-		return copier.CopyWithOption(resp, t, helper.OutOption())
-	})
+	errFunc(func() error { return copier.CopyWithOption(resp, t, helper.OutOption()) })
 
-	return
+	return resp, err
 }
