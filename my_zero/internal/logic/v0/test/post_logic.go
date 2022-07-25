@@ -35,12 +35,24 @@ func (l *PostLogic) TestPost(req *types.ListReq) (resp *types.MongoTest, err err
 		CreatedAt: time.Now().Unix(),
 		Hobbies:   []string{"羽毛球", "台球"},
 	}
-	if err = l.svcCtx.MongoTestModel.Insert(t); err != nil {
-		return nil, err
+
+	// 添加一个基于函数式编程处理error的closure
+	errFunc := func(fn func() error) {
+		if err != nil {
+			return
+		}
+
+		err = fn()
 	}
+
+	errFunc(func() error {
+		return l.svcCtx.MongoTestModel.Insert(t)
+	})
+
 	resp = &types.MongoTest{}
-	if err = copier.CopyWithOption(resp, t, helper.OutOption()); err != nil {
-		return nil, err
-	}
+	errFunc(func() error {
+		return copier.CopyWithOption(resp, t, helper.OutOption())
+	})
+
 	return
 }
