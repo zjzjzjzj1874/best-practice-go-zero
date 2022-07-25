@@ -7,7 +7,7 @@ import (
 )
 
 // MongoTest mongoDB的测试表 => TODO go-zero不带-c的生成有问题,因为go-zero/core/stores/mongo/collection中有一些方法没有实现,所以只能用这个
-//go:generate goctl model mongo -t MongoTest -c --style go_zero -d ./mongo
+//go:generate goctl model mongo -t MongoTest -c --style go_zero -d .
 type MongoTest struct {
 	ID        bson.ObjectId    `bson:"_id" json:"id" description:"主键ID"`
 	TestName  string           `bson:"test_name" json:"test_name" description:"测试名称"`
