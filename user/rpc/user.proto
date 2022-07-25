@@ -15,8 +15,19 @@ message UserInfoResp {
   string email = 3;
   string phone = 4;
   string gender = 5;
+  string nickname = 6;
 }
 
+message listUserReq {}
+
+message ListUserResp {
+  repeated UserInfoResp data = 3; //数据
+  int32 count = 4;                //总数
+  int32 total_page = 5;           //总页数
+}
 service user {
+  // getUserByID
   rpc getUser(IdReq) returns (UserInfoResp);
+  // listUser
+  rpc listUser(listUserReq) returns (ListUserResp);
 }
