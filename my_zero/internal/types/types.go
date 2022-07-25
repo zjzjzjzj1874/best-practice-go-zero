@@ -31,3 +31,10 @@ type ListReq struct {
 
 type Response struct {
 }
+
+type MongoTest struct {
+	ID        string   `bson:"_id" json:"id" description:"主键ID"`
+	TestName  string   `bson:"test_name" json:"test_name" description:"测试名称"`
+	CreatedAt int64    `bson:"created_at" json:"created_at" description:"创建时间"`
+	Hobbies   []string `bson:"hobbies" json:"hobbies" description:"爱好"`
+}

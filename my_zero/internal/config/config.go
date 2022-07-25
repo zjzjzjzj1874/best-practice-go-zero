@@ -4,9 +4,9 @@ import (
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/rest"
 
-	"github.com/zjzjzjzj1874/best-pracrice-go-zero/databases"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper/rabbitmq"
+	"github.com/zjzjzjzj1874/best-pracrice-go-zero/model"
 )
 
 type Config struct {
@@ -15,7 +15,10 @@ type Config struct {
 
 	CacheRedis cache.CacheConf
 
-	MysqlConf databases.MysqlConfig
+	MysqlConf model.MysqlConfig
+	MongoDB   struct {
+		URL string // MongoDB数据库链接url
+	}
 
 	Cron struct {
 		TaskTimeoutSpec string

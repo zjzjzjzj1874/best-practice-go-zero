@@ -4,10 +4,9 @@ package db
 import (
 	"context"
 	"fmt"
+	"github.com/zjzjzjzj1874/best-pracrice-go-zero/model"
 	"gorm.io/gorm"
 	"time"
-
-	"github.com/zjzjzjzj1874/best-pracrice-go-zero/databases"
 )
 
 type Mysql struct {
@@ -28,15 +27,15 @@ func (db *Mysql) MigrateWithApi(tableNames []string) error {
 	}
 	//
 	//tableMap := map[string]interface{}{
-	//	databases.Mock{}.TableName(): databases.Mock{},
-	//	databases.User{}.TableName(): databases.User{},
-	//	databases.Test{}.TableName(): databases.Test{},
+	//	model.Mock{}.TableName(): databases.Mock{},
+	//	model.User{}.TableName(): databases.User{},
+	//	model.Test{}.TableName(): databases.Test{},
 	//}
 
 	tables := []interface{}{
-		databases.Mock{},
-		databases.User{},
-		databases.Test{},
+		model.Mock{},
+		model.Test{},
+		model.User{},
 	}
 	for _, table := range tables {
 		err := db.AutoMigrate(&table)
@@ -52,9 +51,9 @@ func (db *Mysql) MigrateWithApi(tableNames []string) error {
 // MigrateWithApi 使用API来跑MySQL Migrate
 func (db *Mysql) migrateAll() error {
 	tables := []interface{}{
-		databases.Mock{},
-		databases.User{},
-		databases.Test{},
+		model.Mock{},
+		model.User{},
+		model.Test{},
 	}
 	ctx, cancel := context.WithTimeout(context.TODO(), 20*time.Second)
 	defer cancel()

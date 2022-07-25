@@ -1,4 +1,4 @@
-package databases
+package model
 
 import (
 	"database/sql"

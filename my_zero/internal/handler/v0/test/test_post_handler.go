@@ -9,7 +9,7 @@ import (
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/types"
 )
 
-func POSTAPITestHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func TestPostHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.ListReq
 		if err := httpx.Parse(r, &req); err != nil {
@@ -17,8 +17,8 @@ func POSTAPITestHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := test.NewPOSTAPITestLogic(r.Context(), svcCtx)
-		resp, err := l.POSTAPITest(&req)
+		l := test.NewTestPostLogic(r.Context(), svcCtx)
+		resp, err := l.TestPost(&req)
 		if err != nil {
 			httpx.Error(w, err)
 		} else {

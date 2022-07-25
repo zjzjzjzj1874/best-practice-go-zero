@@ -9,7 +9,7 @@ import (
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/types"
 )
 
-func RabbitMQProducerHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func RabbitmqProducerHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.RabbitmqProRequest
 		if err := httpx.Parse(r, &req); err != nil {

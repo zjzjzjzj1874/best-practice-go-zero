@@ -23,8 +23,8 @@ Redis:
       Pass: 123456a
       Type: node # cluster
 
-Mongodb:
-  ScanAAuditURL: mongodb://127.0.0.1:27017/test
+MongoDB:
+  URL: mongodb://127.0.0.1:27017/test
 
 MysqlConf:
   DSN: "root:admin123@tcp(localhost:3306)/test?charset=utf8&parseTime=True&loc=Local"

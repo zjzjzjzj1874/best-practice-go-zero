@@ -39,7 +39,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			{
 				Method:  http.MethodPost,
 				Path:    "/",
-				Handler: v0pro.RabbitMQProducerHandler(serverCtx),
+				Handler: v0pro.RabbitmqProducerHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/go-zero/v0/pro"),
@@ -50,12 +50,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			{
 				Method:  http.MethodPost,
 				Path:    "/",
-				Handler: v0test.POSTAPITestHandler(serverCtx),
+				Handler: v0test.TestPostHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodGet,
 				Path:    "/",
-				Handler: v0test.GETAPITestHandler(serverCtx),
+				Handler: v0test.TestGetHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/go-zero/v0/test"),

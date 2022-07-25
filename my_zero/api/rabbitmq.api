@@ -27,6 +27,6 @@ service my-zero {
     @doc(
         summary: "消息队列生产者"
     )
-    @handler RabbitMQProducer
+    @handler RabbitmqProducer
     post / (RabbitmqProRequest) returns (RabbitmqProResponse)
 }

@@ -3,10 +3,12 @@ module github.com/zjzjzjzj1874/best-pracrice-go-zero
 go 1.18
 
 require (
+	github.com/globalsign/mgo v0.0.0-20181015135952-eeefdecb41b8
 	github.com/go-playground/locales v0.14.0
 	github.com/go-playground/universal-translator v0.18.0
 	github.com/go-playground/validator/v10 v10.11.0
 	github.com/go-redis/redis v6.15.9+incompatible
+	github.com/jinzhu/copier v0.3.5
 	github.com/json-iterator/go v1.1.12
 	github.com/robfig/cron v1.2.0
 	github.com/sirupsen/logrus v1.8.1
