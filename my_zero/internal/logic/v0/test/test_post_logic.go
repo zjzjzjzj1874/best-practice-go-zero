@@ -5,7 +5,7 @@ import (
 	"github.com/globalsign/mgo/bson"
 	"github.com/jinzhu/copier"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper"
-	"github.com/zjzjzjzj1874/best-pracrice-go-zero/model"
+	"github.com/zjzjzjzj1874/best-pracrice-go-zero/model/mongo"
 	"time"
 
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/svc"
@@ -29,7 +29,7 @@ func NewTestPostLogic(ctx context.Context, svcCtx *svc.ServiceContext) *TestPost
 }
 
 func (l *TestPostLogic) TestPost(req *types.ListReq) (resp *types.MongoTest, err error) {
-	t := &model.MongoTest{
+	t := &mongo.MongoTest{
 		ID:        bson.NewObjectId(),
 		TestName:  "Mongo test",
 		CreatedAt: time.Now().Unix(),
