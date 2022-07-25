@@ -9,7 +9,7 @@ import (
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/types"
 )
 
-func TestGetHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+func PostHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.ListReq
 		if err := httpx.Parse(r, &req); err != nil {
@@ -17,8 +17,8 @@ func TestGetHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := test.NewTestGetLogic(r.Context(), svcCtx)
-		resp, err := l.TestGet(&req)
+		l := test.NewPostLogic(r.Context(), svcCtx)
+		resp, err := l.TestPost(&req)
 		if err != nil {
 			httpx.Error(w, err)
 		} else {

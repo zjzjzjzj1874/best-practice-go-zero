@@ -14,22 +14,22 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type TestPostLogic struct {
+type PostLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewTestPostLogic(ctx context.Context, svcCtx *svc.ServiceContext) *TestPostLogic {
-	return &TestPostLogic{
+func NewPostLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PostLogic {
+	return &PostLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *TestPostLogic) TestPost(req *types.ListReq) (resp *types.MongoTest, err error) {
-	t := &mongo.MongoTest{
+func (l *PostLogic) TestPost(req *types.ListReq) (resp *types.MongoTest, err error) {
+	t := &mongo.Test{
 		ID:        bson.NewObjectId(),
 		TestName:  "Mongo test",
 		CreatedAt: time.Now().Unix(),

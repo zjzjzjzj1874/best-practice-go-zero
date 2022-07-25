@@ -50,12 +50,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			{
 				Method:  http.MethodPost,
 				Path:    "/",
-				Handler: v0test.TestPostHandler(serverCtx),
+				Handler: v0test.PostHandler(serverCtx),
 			},
 			{
 				Method:  http.MethodGet,
 				Path:    "/",
-				Handler: v0test.TestGetHandler(serverCtx),
+				Handler: v0test.GetHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/go-zero/v0/test"),

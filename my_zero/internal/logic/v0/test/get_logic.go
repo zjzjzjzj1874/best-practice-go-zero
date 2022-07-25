@@ -11,21 +11,21 @@ import (
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type TestGetLogic struct {
+type GetLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewTestGetLogic(ctx context.Context, svcCtx *svc.ServiceContext) *TestGetLogic {
-	return &TestGetLogic{
+func NewGetLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetLogic {
+	return &GetLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-func (l *TestGetLogic) TestGet(req *types.ListReq) (resp *types.MongoTest, err error) {
+func (l *GetLogic) TestGet(req *types.ListReq) (resp *types.MongoTest, err error) {
 	mt, err := l.svcCtx.MongoTestModel.FindOne(req.ID)
 	if err != nil {
 		return nil, err

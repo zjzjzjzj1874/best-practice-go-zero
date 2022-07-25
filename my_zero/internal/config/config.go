@@ -3,10 +3,10 @@ package config
 import (
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/rest"
+	"github.com/zjzjzjzj1874/best-pracrice-go-zero/model/mysql"
 
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper/rabbitmq"
-	"github.com/zjzjzjzj1874/best-pracrice-go-zero/model"
 )
 
 type Config struct {
@@ -15,7 +15,7 @@ type Config struct {
 
 	CacheRedis cache.CacheConf
 
-	MysqlConf model.MysqlConfig
+	MysqlConf mysql.MysqlConfig
 	MongoDB   struct {
 		URL string // MongoDB数据库链接url
 	}

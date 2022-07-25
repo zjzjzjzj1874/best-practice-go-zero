@@ -10,14 +10,14 @@ import (
 var prefixMongoTestCacheKey = "cache:MongoTest:"
 
 type MongoTestModel interface {
-	Insert(data *MongoTest) error
-	BatchInsert(data []*MongoTest) error
-	FindOne(id string) (*MongoTest, error)
-	Update(data *MongoTest) error
+	Insert(data *Test) error
+	BatchInsert(data []*Test) error
+	FindOne(id string) (*Test, error)
+	Update(data *Test) error
 	Delete(id string) error
 	// query by any params
-	FindByAny(query interface{}) (*MongoTest, error)
-	List(query interface{}, opts ...mongoc.QueryOption) ([]MongoTest, error)
+	FindByAny(query interface{}) (*Test, error)
+	List(query interface{}, opts ...mongoc.QueryOption) ([]Test, error)
 	Count(query interface{}) (int, error)
 }
 
@@ -31,7 +31,7 @@ func NewMongoTestModel(url, collection string, c cachec.CacheConf) MongoTestMode
 	}
 }
 
-func (m *defaultMongoTestModel) Insert(data *MongoTest) error {
+func (m *defaultMongoTestModel) Insert(data *Test) error {
 	if !data.ID.Valid() {
 		data.ID = bson.NewObjectId()
 	}
@@ -45,7 +45,7 @@ func (m *defaultMongoTestModel) Insert(data *MongoTest) error {
 	return m.GetCollection(session).Insert(data)
 }
 
-func (m *defaultMongoTestModel) BatchInsert(datas []*MongoTest) error {
+func (m *defaultMongoTestModel) BatchInsert(datas []*Test) error {
 	var docs []interface{}
 
 	for _, doc := range datas {
@@ -63,7 +63,7 @@ func (m *defaultMongoTestModel) BatchInsert(datas []*MongoTest) error {
 	return m.GetCollection(session).Insert(docs...)
 }
 
-func (m *defaultMongoTestModel) FindOne(id string) (*MongoTest, error) {
+func (m *defaultMongoTestModel) FindOne(id string) (*Test, error) {
 	if !bson.IsObjectIdHex(id) {
 		return nil, ErrInvalidObjectId
 	}
@@ -74,7 +74,7 @@ func (m *defaultMongoTestModel) FindOne(id string) (*MongoTest, error) {
 	}
 
 	defer m.PutSession(session)
-	var data MongoTest
+	var data Test
 	key := prefixMongoTestCacheKey + id
 	err = m.GetCollection(session).FindOneId(&data, key, bson.ObjectIdHex(id))
 	switch err {
@@ -107,14 +107,14 @@ func (m *defaultMongoTestModel) cacheKeyFromQuery(query interface{}) (string, er
 	return b.String(), nil
 }
 
-func (m *defaultMongoTestModel) FindByAny(query interface{}) (*MongoTest, error) {
+func (m *defaultMongoTestModel) FindByAny(query interface{}) (*Test, error) {
 	session, err := m.TakeSession()
 	if err != nil {
 		return nil, err
 	}
 	defer m.PutSession(session)
 
-	var data MongoTest
+	var data Test
 
 	key, err := m.cacheKeyFromQuery(query)
 	if err != nil {
@@ -132,7 +132,7 @@ func (m *defaultMongoTestModel) FindByAny(query interface{}) (*MongoTest, error)
 	}
 }
 
-func (m *defaultMongoTestModel) Update(data *MongoTest) error {
+func (m *defaultMongoTestModel) Update(data *Test) error {
 	session, err := m.TakeSession()
 	if err != nil {
 		return err
@@ -154,7 +154,7 @@ func (m *defaultMongoTestModel) Delete(id string) error {
 	return m.GetCollection(session).RemoveId(bson.ObjectIdHex(id), key)
 }
 
-func (m *defaultMongoTestModel) List(query interface{}, opts ...mongoc.QueryOption) (res []MongoTest, err error) {
+func (m *defaultMongoTestModel) List(query interface{}, opts ...mongoc.QueryOption) (res []Test, err error) {
 	session, err := m.TakeSession()
 	if err != nil {
 		return nil, err

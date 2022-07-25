@@ -4,7 +4,7 @@ package db
 import (
 	"context"
 	"fmt"
-	"github.com/zjzjzjzj1874/best-pracrice-go-zero/model"
+	"github.com/zjzjzjzj1874/best-pracrice-go-zero/model/mysql"
 	"gorm.io/gorm"
 	"time"
 )
@@ -33,9 +33,9 @@ func (db *Mysql) MigrateWithApi(tableNames []string) error {
 	//}
 
 	tables := []interface{}{
-		model.Mock{},
-		model.Test{},
-		model.User{},
+		mysql.Mock{},
+		mysql.Test{},
+		mysql.User{},
 	}
 	for _, table := range tables {
 		err := db.AutoMigrate(&table)
@@ -51,9 +51,9 @@ func (db *Mysql) MigrateWithApi(tableNames []string) error {
 // MigrateWithApi 使用API来跑MySQL Migrate
 func (db *Mysql) migrateAll() error {
 	tables := []interface{}{
-		model.Mock{},
-		model.User{},
-		model.Test{},
+		mysql.Mock{},
+		mysql.User{},
+		mysql.Test{},
 	}
 	ctx, cancel := context.WithTimeout(context.TODO(), 20*time.Second)
 	defer cancel()

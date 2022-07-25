@@ -34,12 +34,12 @@ service my-zero {
     @doc(
         summary: "接口参数测试API"
     )
-    @handler TestPost
+    @handler Post
     post / (ListReq) returns (MongoTest)
 
     @doc(
         summary: "接口参数测试API"
     )
-    @handler TestGet
+    @handler Get
     get / (ListReq) returns (MongoTest)
 }
