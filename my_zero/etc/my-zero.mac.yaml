@@ -11,7 +11,7 @@ DebugPort: 9999 # debug模式
 #  FilePath: ./logs/logrus.log
 
 CacheRedis:
-  - Host: 127.0.0.1:6379
+  - Host: 10.9.155.11:6379
     Pass: 123456a
     Type: node # cluster
 
@@ -19,15 +19,15 @@ Redis:
   PoolSize: 10
   DB: 11 # 使用db的数据库
   CacheRedis:
-    - Host: 127.0.0.1:6379
+    - Host: 10.9.155.11:6379
       Pass: 123456a
       Type: node # cluster
 
 MongoDB:
-  URL: mongodb://127.0.0.1:27017/test
+  URL: mongodb://docker.for.mac.localhost:27017/test
 
 MysqlConf:
-  DSN: "root:admin123@tcp(localhost:33060)/test?charset=utf8&parseTime=True&loc=Local"
+  DSN: "root:admin123@tcp(docker.for.mac.localhost:3307)/test?charset=utf8&parseTime=True&loc=Local"
   LogLevel: 2
   LogPath: ./logs/mysql.log
 
@@ -36,13 +36,13 @@ Cron:
 
 RabbitMQ:
   Consumer:
-    Addr: "amqp://guest:guest@localhost:5672/"
+    Addr: "amqp://guest:guest@10.9.155.11:5672/"
     Name: "TEST"
   Producer:
-    Addr: "amqp://guest:guest@localhost:5672/"
+    Addr: "amqp://guest:guest@10.9.155.11:5672/"
     Name: "TEST"
 
-# 普罗米修斯监控,部署请查看github.com/zjzjzjzj1874/docker,先部署Prometheus,再部署grafana
+# 普罗米修斯监控
 Prometheus:
   Host: 0.0.0.0
   Port: 10010

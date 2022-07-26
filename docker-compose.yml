@@ -1,0 +1,26 @@
+version: '3.0'
+
+networks:
+  # docker的网络,请提前建好 `docker network create zero_test`
+  zero_test:
+    external: true
+
+services:
+  my-zero:
+    env_file:
+      - .env
+    build:
+      context: . # build上下文地址
+      dockerfile: ./my_zero/Dockerfile # 使用的dockerfile构建文件
+    image: my-zero
+    container_name: my-zero
+    restart: always
+    command: ./my-zero -f /app/etc/my-zero.${Env}.yaml
+    privileged: true
+    volumes:
+      - ${ProjectPath}/my_zero/etc:/app/etc
+    ports:
+      - "20220:8888"
+      - "10010:10010" # 普罗米修斯接口
+    networks:
+      - zero_test
