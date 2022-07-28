@@ -42,4 +42,8 @@ service my-zero {
     )
     @handler Get
     get / (ListReq) returns (MongoTest)
+
+    @doc summary: "excel表格解析"
+    @handler ExcelParse
+    post /excel (ListReq) returns (Response)
 }

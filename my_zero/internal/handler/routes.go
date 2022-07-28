@@ -57,6 +57,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/",
 				Handler: v0test.GetHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/excel",
+				Handler: v0test.ExcelParseHandler(serverCtx),
+			},
 		},
 		rest.WithPrefix("/go-zero/v0/test"),
 	)
