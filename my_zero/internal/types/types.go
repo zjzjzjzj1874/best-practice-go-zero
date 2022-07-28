@@ -26,7 +26,7 @@ type RabbitmqProResponse struct {
 type ListReq struct {
 	CreatedTime []string `json:"created_time,optional" description:"入库时间"`
 	ID          string   `json:"id,optional" description:"内容id"`
-	Name        string   `json:"name,optional" description:"名称"`
+	Name        string   `json:"name,optional" validate:"min=3,max=10" description:"名称"`
 }
 
 type Response struct {

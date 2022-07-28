@@ -1,6 +1,7 @@
 package test
 
 import (
+	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper"
 	"net/http"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
@@ -13,6 +14,11 @@ func GetHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.ListReq
 		if err := httpx.Parse(r, &req); err != nil {
+			httpx.Error(w, err)
+			return
+		}
+
+		if err := helper.Validate().StructCtx(r.Context(), &req); err != nil {
 			httpx.Error(w, err)
 			return
 		}

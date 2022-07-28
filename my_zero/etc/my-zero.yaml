@@ -27,7 +27,7 @@ MongoDB:
   URL: mongodb://127.0.0.1:27017/test
 
 MysqlConf:
-  DSN: "root:admin123@tcp(localhost:33060)/test?charset=utf8&parseTime=True&loc=Local"
+  DSN: "root:admin123@tcp(localhost:3306)/test?charset=utf8&parseTime=True&loc=Local"
   LogLevel: 2
   LogPath: ./logs/mysql.log
 
@@ -41,9 +41,3 @@ RabbitMQ:
   Producer:
     Addr: "amqp://guest:guest@localhost:5672/"
     Name: "TEST"
-
-# 普罗米修斯监控,部署请查看github.com/zjzjzjzj1874/docker,先部署Prometheus,再部署grafana
-Prometheus:
-  Host: 0.0.0.0
-  Port: 10010
-  Path: /metrics
