@@ -45,6 +45,7 @@ go-zero最佳实践
 + [ ] casbin权限
 + [ ] try with [dtm](https://github.com/dtm-labs/dtm)
 + [x] validate集成校验
++ [x] 华为obs集成
 + [x] rpc中etcd服务,如果使用k8s部署,那么将直接使用target注册到k8s中,由k8s的服务发现处理
 + [x] prometheus服务监控
 + [x] 集成mysql(use gorm)
