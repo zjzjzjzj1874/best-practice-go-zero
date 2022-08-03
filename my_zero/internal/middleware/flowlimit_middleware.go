@@ -1,12 +1,15 @@
 package middleware
 
 import (
+	"bytes"
 	"encoding/json"
+	"io/ioutil"
+	"net/http"
+
 	"github.com/sirupsen/logrus"
 	"github.com/zeromicro/go-zero/core/limit"
 	"github.com/zeromicro/go-zero/core/stores/redis"
 	"github.com/zeromicro/go-zero/rest/httpx"
-	"net/http"
 )
 
 const (
@@ -21,7 +24,7 @@ type (
 	}
 
 	Req struct {
-		BusinessKey string `json:"business_key,optional,omitempty" form:"business_key,optional"`
+		BusinessID string `json:"business_id,optional" form:"business_id,optional"`
 	}
 )
 
@@ -35,12 +38,13 @@ func NewFlowLimitMiddleware(conf redis.RedisConf) *FlowLimitMiddleware {
 func (m *FlowLimitMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req Req
-		if err := httpx.Parse(r, &req); err != nil {
+
+		if err := parse(r, &req); err != nil {
 			httpx.Error(w, err)
 			return
 		}
 
-		if req.BusinessKey == "" {
+		if req.BusinessID == "" {
 			res, _ := json.Marshal(map[string]interface{}{
 				"code": http.StatusBadRequest,
 				"msg":  "请传入必要的业务",
@@ -50,7 +54,7 @@ func (m *FlowLimitMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 			return
 		}
 
-		pass, err := m.Check(req.BusinessKey)
+		pass, err := m.Check(req.BusinessID)
 		if err != nil || !pass {
 			res, _ := json.Marshal(map[string]interface{}{
 				"code": http.StatusTooManyRequests,
@@ -90,4 +94,26 @@ func (m *FlowLimitMiddleware) Check(key string) (bool, error) {
 		return true, nil
 	}
 
+}
+
+func parse(r *http.Request, req *Req) error {
+	if err := httpx.ParsePath(r, req); err != nil {
+		return err
+	}
+
+	if err := httpx.ParseForm(r, req); err != nil {
+		return err
+	}
+
+	if err := httpx.ParseHeaders(r, req); err != nil {
+		return err
+	}
+
+	bodyRes, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		return err
+	}
+	r.Body = ioutil.NopCloser(bytes.NewReader(bodyRes))
+
+	return json.Unmarshal(bodyRes, req)
 }
