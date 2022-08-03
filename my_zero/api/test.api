@@ -27,7 +27,8 @@ type (
 
 @server(
 	prefix: go-zero/v0/test
-	group: v0/test
+	middleware: FlowLimit  //限流器
+    group: v0/test
 )
 
 service my-zero {

@@ -46,23 +46,26 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodPost,
-				Path:    "/",
-				Handler: v0test.PostHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodGet,
-				Path:    "/",
-				Handler: v0test.GetHandler(serverCtx),
-			},
-			{
-				Method:  http.MethodPost,
-				Path:    "/excel",
-				Handler: v0test.ExcelParseHandler(serverCtx),
-			},
-		},
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.FlowLimit},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/",
+					Handler: v0test.PostHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/",
+					Handler: v0test.GetHandler(serverCtx),
+				},
+				{
+					Method:  http.MethodPost,
+					Path:    "/excel",
+					Handler: v0test.ExcelParseHandler(serverCtx),
+				},
+			}...,
+		),
 		rest.WithPrefix("/go-zero/v0/test"),
 	)
 }

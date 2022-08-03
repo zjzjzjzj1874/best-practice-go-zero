@@ -1,13 +1,11 @@
 package main
 
 import (
-	"context"
 	"flag"
 	"fmt"
 	_ "net/http/pprof"
 
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper"
-	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper/rabbitmq"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/config"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/cron"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/handler"
@@ -30,9 +28,9 @@ func main() {
 	defer server.Stop()
 
 	helper.OpenPPROF(c.PprofConf)
-	cron.Init(ctx)                                             // 初始化轮询任务
-	rabbitmq.InitProducer(context.TODO(), ctx.Config.RabbitMQ) // 初始化消息队列生产者
-	rabbitmq.InitConsumer(context.TODO(), ctx.Config.RabbitMQ) // 初始化消息队列消费者
+	cron.Init(ctx) // 初始化轮询任务
+	//rabbitmq.InitProducer(context.TODO(), ctx.Config.RabbitMQ) // 初始化消息队列生产者
+	//rabbitmq.InitConsumer(context.TODO(), ctx.Config.RabbitMQ) // 初始化消息队列消费者
 
 	handler.RegisterHandlers(server, ctx)
 

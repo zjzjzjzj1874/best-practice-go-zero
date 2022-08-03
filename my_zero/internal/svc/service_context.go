@@ -1,8 +1,10 @@
 package svc
 
 import (
+	"github.com/zeromicro/go-zero/rest"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/model/mongo"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/model/mysql"
+	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/middleware"
 	"reflect"
 
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper"
@@ -15,6 +17,7 @@ type ServiceContext struct {
 	RedisClient    helper.Client
 	MysqlDB        *db.Mysql // 本服务自己封装的一个mysql client
 	MongoTestModel mongo.MongoTestModel
+	FlowLimit      rest.Middleware
 	//GormDB      *gorm.DB// database中的gorm.DB客户端
 }
 
@@ -24,5 +27,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		RedisClient:    helper.MustNewClient(c.Mode, c.CacheRedis),
 		MysqlDB:        db.NewMysqlClient(mysql.MustNewDB(c.MysqlConf)),
 		MongoTestModel: mongo.NewMongoTestModel(c.MongoDB.URL, reflect.TypeOf(mongo.Test{}).Name(), c.CacheRedis),
+		FlowLimit:      middleware.NewFlowLimitMiddleware(c.CacheRedis[0].RedisConf).Handle,
 	}
 }
