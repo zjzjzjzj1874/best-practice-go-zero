@@ -9,6 +9,8 @@ import (
 	"github.com/huaweicloud/huaweicloud-sdk-go-obs/obs"
 )
 
+// TODO 抽象一个对象,上传对象只需要一个reader,然后获取对象的访问url => 周末抽空实现
+
 // ConfObs 华为对象存储配置
 type ConfObs struct {
 	AK       string // accessKey

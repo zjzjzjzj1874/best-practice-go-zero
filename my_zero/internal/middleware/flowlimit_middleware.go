@@ -1,8 +1,15 @@
+/**
+ * @author zjzjzjzj
+ * @description 限流器=> 一般而言,不同业务的限流不太一样(字段),所以可能不同的路由组需要限流的字段不太一样
+ * @date 5:20 PM 2022/8/3
+**/
+
 package middleware
 
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"net/http"
 
@@ -17,6 +24,10 @@ const (
 	quota   = 5  // 周期内请求次数,允许=,但是不允许>
 )
 
+var (
+	ErrorNoBusiness = errors.New("请传入业务ID")
+)
+
 type (
 	FlowLimitMiddleware struct {
 		host string // redis host
@@ -24,7 +35,7 @@ type (
 	}
 
 	Req struct {
-		BusinessID string `json:"business_id,optional" form:"business_id,optional"`
+		BusinessID string `json:"business_id,optional,omitempty" form:"business_id,optional"`
 	}
 )
 
@@ -38,8 +49,7 @@ func NewFlowLimitMiddleware(conf redis.RedisConf) *FlowLimitMiddleware {
 func (m *FlowLimitMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req Req
-
-		if err := parse(r, &req); err != nil {
+		if err := Parse(r, &req); err != nil {
 			httpx.Error(w, err)
 			return
 		}
@@ -96,24 +106,23 @@ func (m *FlowLimitMiddleware) Check(key string) (bool, error) {
 
 }
 
-func parse(r *http.Request, req *Req) error {
-	if err := httpx.ParsePath(r, req); err != nil {
+func Parse(r *http.Request, v *Req) error {
+	// 一般就只确认Form表单和body的参数,header和path需要的话可以再添加
+	if err := httpx.ParseForm(r, v); err != nil {
 		return err
 	}
-
-	if err := httpx.ParseForm(r, req); err != nil {
-		return err
-	}
-
-	if err := httpx.ParseHeaders(r, req); err != nil {
-		return err
+	if v.BusinessID != "" {
+		return nil
 	}
 
 	bodyRes, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return err
 	}
+	if len(bodyRes) == 0 {
+		return ErrorNoBusiness
+	}
 	r.Body = ioutil.NopCloser(bytes.NewReader(bodyRes))
 
-	return json.Unmarshal(bodyRes, req)
+	return json.Unmarshal(bodyRes, v)
 }

@@ -50,6 +50,7 @@ go-zero最佳实践
 + [x] prometheus服务监控
 + [x] 集成mysql(use gorm)
 + [x] 集成mongo(zero原生支持的mgo)
++ [x] go-zero PeriodLimit => 滑动窗口实现的限流器 => 当然go-zero也有基于令牌桶实现的限流器
 
 ## 参考资料
 
