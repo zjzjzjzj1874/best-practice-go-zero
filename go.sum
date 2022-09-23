@@ -567,6 +567,8 @@ github.com/yusufpapurcu/wmi v1.2.2/go.mod h1:SBZ9tNy3G9/m5Oi98Zks0QjeHVDvuK0qfxQ
 github.com/zenazn/goji v0.9.0/go.mod h1:7S9M489iMyHBNxwZnk9/EHS098H4/F6TATF2mIxtB1Q=
 github.com/zeromicro/go-zero v1.3.5 h1:+3T4Rx/5o/EgLuCE3Qo4X0i+3GCHRYEgkabmfKhhQ7Q=
 github.com/zeromicro/go-zero v1.3.5/go.mod h1:wh4o794b7Ul3W0k35Pw9nc3iB4O0OpaQTMQz/PJc1bc=
+github.com/zjzjzjzj1874/huaweicloud-sdk-go-obs v1.0.0 h1:i3m+fESppv3hrtlwfzByKed3wD2I4F5UG7KllVs2rto=
+github.com/zjzjzjzj1874/huaweicloud-sdk-go-obs v1.0.0/go.mod h1:fUFVlpJxmSb9+0Nqa5U19EdKKJ53fBmoGUwdh0S14rc=
 go.etcd.io/etcd/api/v3 v3.5.4 h1:OHVyt3TopwtUQ2GKdd5wu3PmmipR4FTwCqoEjSyRdIc=
 go.etcd.io/etcd/api/v3 v3.5.4/go.mod h1:5GB2vv4A4AOn3yk7MftYGHkUfGtDHnEraIjym4dYz5A=
 go.etcd.io/etcd/client/pkg/v3 v3.5.4 h1:lrneYvz923dvC14R54XcA7FXoZ3mlGZAgmwhfm7HqOg=

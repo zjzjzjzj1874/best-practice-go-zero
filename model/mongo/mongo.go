@@ -14,3 +14,11 @@ type Test struct {
 	CreatedAt int64            `bson:"created_at" json:"created_at" description:"创建时间"`
 	Hobbies   sqlx.StringSlice `bson:"hobbies" json:"hobbies" description:"爱好"`
 }
+
+//go:generate goctl model mongo -t TestService --home ../ --project my_zero -c --style go_zero -d .
+type TestService struct {
+	ID        bson.ObjectId    `bson:"_id" json:"id" description:"主键ID"`
+	TestName  string           `bson:"test_name" json:"test_name" description:"测试名称"`
+	CreatedAt int64            `bson:"created_at" json:"created_at" description:"创建时间"`
+	Hobbies   sqlx.StringSlice `bson:"hobbies" json:"hobbies" description:"爱好"`
+}

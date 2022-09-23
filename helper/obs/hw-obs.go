@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/huaweicloud/huaweicloud-sdk-go-obs/obs"
+	"github.com/zjzjzjzj1874/huaweicloud-sdk-go-obs/obs"
 )
 
 // TODO 抽象一个对象,上传对象只需要一个reader,然后获取对象的访问url => 周末抽空实现
