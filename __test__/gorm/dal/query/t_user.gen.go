@@ -16,7 +16,7 @@ import (
 
 	"gorm.io/plugin/dbresolver"
 
-	"github.com/zjzjzjzj1874/best-pracrice-go-zero/tests/gorm/dal/model"
+	"github.com/zjzjzjzj1874/best-pracrice-go-zero/__test__/gorm/dal/model"
 )
 
 func newTUser(db *gorm.DB) tUser {

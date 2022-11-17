@@ -2,8 +2,8 @@ package gorm
 
 import (
 	"context"
-	"github.com/zjzjzjzj1874/best-pracrice-go-zero/tests/gorm/dal/model"
-	"github.com/zjzjzjzj1874/best-pracrice-go-zero/tests/gorm/dal/query"
+	"github.com/zjzjzjzj1874/best-pracrice-go-zero/__test__/gorm/dal/model"
+	"github.com/zjzjzjzj1874/best-pracrice-go-zero/__test__/gorm/dal/query"
 	"gorm.io/driver/mysql"
 	"gorm.io/gen"
 	"gorm.io/gorm"
