@@ -4,6 +4,10 @@ import (
 	"flag"
 	"fmt"
 	_ "net/http/pprof"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/config"
@@ -34,7 +38,32 @@ func main() {
 	//rabbitmq.InitConsumer(context.TODO(), ctx.Config.RabbitMQ) // 初始化消息队列消费者
 
 	handler.RegisterHandlers(server, ctx)
+	//async()
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()
+}
+
+func async() {
+	for i := 0; i < 3; i++ {
+		go func(idx int) {
+			sigs := make(chan os.Signal, 1)
+			signal.Notify(sigs, syscall.SIGHUP, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
+
+			for {
+				time.Sleep(time.Second)
+				fmt.Println("hello world")
+
+				select {
+				case <-sigs:
+					fmt.Println("notify sigs,bye:", idx)
+					fmt.Println("http shutdown")
+					return
+				default:
+
+				}
+			}
+		}(i)
+	}
+
 }

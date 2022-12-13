@@ -2,7 +2,7 @@ Name: my-zero
 Host: 0.0.0.0
 Port: 8888
 Debug: true # debug模式
-DebugPort: 9999 # debug模式
+#DebugPort: 9999 # pprof debug模式
 
 #Logrus:
 #  ReportCaller: false    #打印调用者信息

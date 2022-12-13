@@ -3,6 +3,8 @@ package config
 import (
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/rest"
+	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper/email"
+	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper/obs"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/model/mysql"
 
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper"
@@ -23,5 +25,7 @@ type Config struct {
 	Cron struct {
 		TaskTimeoutSpec string
 	}
-	RabbitMQ rabbitmq.Config
+	RabbitMQ  rabbitmq.Config
+	EmailConf email.EmailConf
+	HwObs     obs.ConfObs
 }
