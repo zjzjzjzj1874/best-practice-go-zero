@@ -1,8 +1,10 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
+	"google.golang.org/appengine/log"
 	_ "net/http/pprof"
 	"os"
 	"os/signal"
@@ -31,20 +33,20 @@ func main() {
 	server := rest.MustNewServer(c.RestConf)
 	defer server.Stop()
 
-	// todo rabbitmq学习pprof的开启和zero中prometheus的开启,将从这里取消哦,以后添加一个中间件初始化的方法,初始化pprof,mq,cron的任务等等
 	helper.OpenPPROF(c.PprofConf)
-	cron.Init(ctx) // 初始化轮询任务
-	//rabbitmq.InitProducer(context.TODO(), ctx.Config.RabbitMQ) // 初始化消息队列生产者
-	//rabbitmq.InitConsumer(context.TODO(), ctx.Config.RabbitMQ) // 初始化消息队列消费者
+	cron.InitCron(ctx) // 初始化定时任务
 
 	handler.RegisterHandlers(server, ctx)
-	//async()
+
+	bc, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	async(bc)
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()
 }
 
-func async() {
+func async(ctx context.Context) {
 	for i := 0; i < 3; i++ {
 		go func(idx int) {
 			sigs := make(chan os.Signal, 1)
@@ -52,15 +54,16 @@ func async() {
 
 			for {
 				time.Sleep(time.Second)
-				fmt.Println("hello world")
-
+				fmt.Println(time.Now())
 				select {
 				case <-sigs:
 					fmt.Println("notify sigs,bye:", idx)
 					fmt.Println("http shutdown")
 					return
+				case <-ctx.Done():
+					log.Infof(ctx, "ctx.Done() ")
+					return
 				default:
-
 				}
 			}
 		}(i)

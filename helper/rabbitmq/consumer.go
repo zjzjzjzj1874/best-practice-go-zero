@@ -8,7 +8,7 @@ import (
 )
 
 func init() {
-	fmt.Println("init something in rabbitmq consumer")
+	//fmt.Println("init something in rabbitmq consumer")
 }
 
 // InitConsumer TODO 测试一些错误的case:rabbitmq主动关闭,如何重连

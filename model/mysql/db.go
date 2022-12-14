@@ -32,7 +32,7 @@ type MysqlConfig struct {
 func MustNewDB(c MysqlConfig) *gorm.DB {
 	once.Do(func() {
 		// 设置日志输出文件
-		setLogOutput(c.LogPath)
+		//setLogOutput(c.LogPath)
 		sqlLogger := logger.New(gormLogger, logger.Config{
 			SlowThreshold:             time.Millisecond * time.Duration(c.SlowThreshold),
 			Colorful:                  c.Colorful,

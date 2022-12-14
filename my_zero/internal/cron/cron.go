@@ -3,6 +3,7 @@ package cron
 
 import (
 	"sync"
+	"time"
 
 	"github.com/robfig/cron"
 	"github.com/sirupsen/logrus"
@@ -10,38 +11,59 @@ import (
 )
 
 var (
-	cr            *cron.Cron
-	cronLockInMem *sync.Map // cron任务在内存中的锁 =>即:当上一次任务没跑完,本次不需要执行
+	cr      *cron.Cron
+	taskMap sync.Map
 )
 
-func InitTask(key, spec string) {
-	cronLockInMem.Store(key, spec)
+type task struct {
+	name string                        // 任务名称
+	spec string                        // cron执行表达式
+	do   func(ctx *svc.ServiceContext) // 真正任务执行函数
 }
 
-func LoadTask(key string) (value interface{}, ok bool) {
-	return cronLockInMem.Load(key)
+type tasks []task
+
+func InitTask(key string) bool {
+	if v, ok := taskMap.Load(key); ok {
+		if v == true {
+			return false
+		}
+	}
+
+	taskMap.Store(key, true)
+	return true
 }
 
 func ExecutedTask(key string) {
-	cronLockInMem.Delete(key)
+	taskMap.Store(key, false)
 }
 
-func Init(ctx *svc.ServiceContext) {
-	cronLockInMem = &sync.Map{}
+func InitCron(ctx *svc.ServiceContext) {
+	logrus.Infof("任务初始化...")
 	cr = cron.New()
+	tasks := tasks{
+		task{
+			name: "超时任务",
+			spec: ctx.Config.Cron.TaskTimeoutSpec,
+			do:   taskTimeout,
+		},
+	}
 
-	if err := cr.AddJob(ctx.Config.Cron.TaskTimeoutSpec, &TaskTimeoutCron{
-		ctx:  ctx,
-		Spec: ctx.Config.Cron.TaskTimeoutSpec,
-		Name: "超时订单清理任务",
-	}); err != nil {
-		panic(err)
+	for i := range tasks {
+		task := tasks[i]
+		err := cr.AddFunc(task.spec, func() {
+			if InitTask(task.name) {
+				logrus.Debugf("%s start running on %s", task.name, time.Now().Format(time.RFC3339))
+				task.do(ctx)
+				ExecutedTask(task.name)
+			} else {
+				logrus.Infof("%s is running", task.name)
+			}
+		})
+		if err != nil {
+			logrus.Fatalf("start ask fail;[name:%s,spec:%s,err:%s]", task.name, task.spec, err)
+		}
 	}
 
 	cr.Start()
-	logrus.Infof("cron task is running...")
-}
-
-func GetCronLock() *sync.Map {
-	return cronLockInMem
 }

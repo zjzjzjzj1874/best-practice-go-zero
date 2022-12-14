@@ -41,3 +41,16 @@ RabbitMQ:
   Producer:
     Addr: "amqp://guest:guest@localhost:5672/"
     Name: "TEST"
+
+EmailConf:
+  Username: "user"
+  Password: "pwd"
+  Port: 567
+  Host: "localhost"
+  From: "hello"
+
+HwObs:
+  AK: "ak"
+  SK: "sk"
+  Endpoint: "localhost"
+  Project: "zero"

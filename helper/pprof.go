@@ -13,6 +13,7 @@ type PprofConf struct {
 }
 
 // OpenPPROF 根据debug模式来选择是否开启pprof监测
+// todo rabbitmq学习pprof的开启和zero中prometheus的开启,将从这里取消哦,以后添加一个中间件初始化的方法,初始化pprof,mq,cron的任务等等
 func OpenPPROF(conf PprofConf) {
 	if !conf.Debug {
 		return

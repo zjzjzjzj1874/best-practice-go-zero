@@ -9,7 +9,7 @@ import (
 )
 
 func init() {
-	fmt.Println("init something in rabbitmq Producer")
+	//fmt.Println("init something in rabbitmq Producer")
 }
 
 func InitProducer(ctx context.Context, conf Config) {
