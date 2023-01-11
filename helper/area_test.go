@@ -3,6 +3,7 @@ package helper
 import (
 	"fmt"
 	"testing"
+	"unicode/utf8"
 )
 
 //func TestGetArea(t *testing.T) {
@@ -41,4 +42,17 @@ func TestGetArea(t *testing.T) {
 
 		})
 	}
+
+	t.Run("utf-8", func(t *testing.T) {
+		t.Log(utf8.RuneCountInString("👨‍👩‍👧‍👧"))
+		t.Log(utf8.RuneCountInString("👨"))
+		t.Log(utf8.RuneCountInString("‍👩"))
+		//t.Log(utf8.RuneCountInString("👨‍👩‍👧"))
+		//t.Log(utf8.RuneCountInString("👨‍👩‍👧‍👧"))
+		//t.Log(len([]rune("👨‍👩‍👧")))
+		//t.Log(len([]rune("👨‍👩‍👧‍👧")))
+		//t.Log(utf8.RuneCountInString("总要有点脾气，才对得起自己。纵使我臭名昭著，又何曾伤你分毫？以后要多笑笑，给那些讨厌你的人看，越嚣张越好！"))
+		//t.Log(len("👪长度👪"))
+		//t.Log(len([]rune("👪长度👪  👪👨‍👩‍👧‍👧  👪👨‍👩‍👧‍👧👪")))
+	})
 }
