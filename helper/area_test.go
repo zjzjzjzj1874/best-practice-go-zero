@@ -43,7 +43,7 @@ func TestGetArea(t *testing.T) {
 		})
 	}
 
-	t.Run("utf-8", func(t *testing.T) {
+	t.Run("#Emoji表情长度测试", func(t *testing.T) {
 		t.Log(utf8.RuneCountInString("👨‍👩‍👧‍👧"))
 		t.Log(utf8.RuneCountInString("👨"))
 		t.Log(utf8.RuneCountInString("‍👩"))
