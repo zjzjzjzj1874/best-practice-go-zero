@@ -1,18 +1,17 @@
 version: '3.0'
 
-networks:
-  # docker的网络,请提前建好 `docker network create zero_test`
-  zero_test:
-    external: true
-
 services:
   my-zero:
-    env_file:
+    env_file: # 这个是默认的,不写也是这个
       - .env
     build:
       context: . # build上下文地址
       dockerfile: ./my_zero/Dockerfile # 使用的dockerfile构建文件
-    image: my-zero
+      cache_from: # 使用缓存加速构建速度
+        - zero:base
+        - type=local,src=path/to/cache
+        - type=gha
+    image: my-zero:${Tag}
     container_name: my-zero
     restart: always
     command: ./my-zero -f /app/etc/my-zero.${Env}.yaml
@@ -20,7 +19,5 @@ services:
     volumes:
       - ${ProjectPath}/my_zero/etc:/app/etc
     ports:
-      - "20220:8888"
+      - "80:8888"
       - "10010:10010" # 普罗米修斯接口
-    networks:
-      - zero_test
