@@ -64,6 +64,14 @@ def BuildImage = {
     }
 }
 
+def DeployK8S = {
+    sh '''
+        echo "====== docker tag: ${DOCKER_TAG} ======"
+        make clean-docker && make env && make build SVC=${SVC}
+        make env && pwd
+        sudo bash ./scripts/k8s_deploy.sh ${NS} ${DOCKER_TAG} ${BRANCH_ENV} ${SVC}
+    '''
+}
 pipeline {
 
   options {
@@ -139,6 +147,20 @@ pipeline {
                 stash name: 'source', includes: '**', excludes: '**/.git,**/.git/**'
               }
             }
+
+            stage('Tag Version Prepare') {
+              steps {
+                script {
+                    // 部署环境
+                    echo "当前版本:${DOCKER_TAG}"
+                    if (env.DOCKER_TAG == '' || env.DOCKER_TAG == 'latest') {
+                        echo "替换默认的latest版本"
+                        DOCKER_TAG=sh(script: "git log -n 1 --pretty=format:%H", returnStdout: true)
+                    }
+                    echo "替换后版本:${DOCKER_TAG}"
+                }
+              }
+            }
         }
     }
     stage('Transfer on JUMP_SERVER') {
@@ -160,6 +182,7 @@ pipeline {
       environment {
         PROJECT_PATH = "/home/ubuntu/jenkins/workspace/zero_dev"
         BRANCH_ENV = '.dev'
+        NS = 'zero-dev'
       }
       agent { label 'JUMPER' }
       stages {
@@ -188,6 +211,7 @@ pipeline {
       environment {
         PROJECT_PATH = "/home/ubuntu/jenkins/workspace/zero_test"
         BRANCH_ENV = '.test'
+        NS = 'zero-test'
       }
       agent { label 'JUMPER' }
       stages {
@@ -216,6 +240,7 @@ pipeline {
       environment {
         PROJECT_PATH = "/home/ubuntu/zero"
         BRANCH_ENV = '.pro'
+        NS = 'zero-pro'
       }
       agent { label 'JUMPER' }
       stages {

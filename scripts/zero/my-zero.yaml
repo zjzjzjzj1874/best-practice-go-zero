@@ -1,0 +1,101 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-my-zero
+  namespace: default
+  labels:
+    app: deployment-my-zero
+spec:
+  replicas: 1
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: deployment-my-zero
+  template:
+    metadata:
+      labels:
+        app: deployment-my-zero
+    spec:
+      serviceAccountName: find-endpoints
+      hostAliases: # Pay Your Attention => 启动容器,如果需要修改容器的hosts,可以添加hostAliases  : docker-compose中可以使用extra_hosts
+        - ip: "10.0.0.1"
+          hostnames:
+            - "www.baidu.com"
+      containers:
+        - name: deployment-my-zero
+          image: my-zero:latest
+          command: [ "/app/my-zero","-f","/etc/config/k8s.yaml" ]
+          lifecycle:
+            preStop:
+              exec:
+                command: [ "sh","-c","sleep 5" ]
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/config
+            - name: timezone
+              mountPath: /etc/localtime
+      imagePullSecrets:
+        - name: default-secret
+      volumes:
+        - name: config-volume
+          configMap:
+            name: conf-my-zero-api
+            items:
+              - key: my-zero.k8s.yaml # 配合上面的配置文件挂载
+                path: k8s.yaml
+        - name: timezone
+          hostPath:
+            path: /usr/share/zoneinfo/Asia/Shanghai
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deployment-my-zero-svc
+  namespace: default
+spec:
+  ports:
+    - port: 80
+  selector:
+    app: deployment-my-zero
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: deployment-my-zero-hpa-c
+  namespace: default
+  labels:
+    app: deployment-my-zero-hpa-c
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: deployment-my-zero
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: 80
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: deployment-my-zero-hpa-m
+  namespace: default
+  labels:
+    app: deployment-my-zero-hpa-m
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: deployment-my-zero
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: 80
