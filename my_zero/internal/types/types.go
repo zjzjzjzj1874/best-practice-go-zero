@@ -38,3 +38,11 @@ type MongoTest struct {
 	CreatedAt int64    `bson:"created_at" json:"created_at" description:"创建时间"`
 	Hobbies   []string `bson:"hobbies" json:"hobbies" description:"爱好"`
 }
+
+type ManualExecTaskRequest struct {
+	Name string `json:"name" description:"表达式任务名称"`
+}
+
+type ManualExecTaskResponse struct {
+	Msg string `json:"msg" description:"返回信息"`
+}

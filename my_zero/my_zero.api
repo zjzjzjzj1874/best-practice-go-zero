@@ -3,4 +3,5 @@ import (
 	"api/migrate.api"
 	"api/rabbitmq.api"
 	"api/test.api"
+	"api/task.api"
 )

@@ -4,6 +4,7 @@ package handler
 import (
 	"net/http"
 
+	v0 "github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/handler/v0"
 	v0pro "github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/handler/v0/pro"
 	v0test "github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/handler/v0/test"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/svc"
@@ -63,6 +64,20 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 					Method:  http.MethodPost,
 					Path:    "/excel",
 					Handler: v0test.ExcelParseHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/go-zero/v0/test"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.FlowLimit},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/manual",
+					Handler: v0.ManualRunTaskHandler(serverCtx),
 				},
 			}...,
 		),

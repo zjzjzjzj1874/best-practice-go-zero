@@ -1,0 +1,2 @@
+- api中新增接口
+  - 执行`goctl api go -api my_zero.api  -style go_zero  -dir  . `

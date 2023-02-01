@@ -51,6 +51,7 @@ func InitCron(ctx *svc.ServiceContext) {
 
 	for i := range tasks {
 		task := tasks[i]
+		set(task.name, &tasks[i]) // 将任务注册到全局map
 		err := cr.AddFunc(task.spec, func() {
 			if InitTask(task.name) {
 				logrus.Debugf("%s start running on %s", task.name, time.Now().Format(time.RFC3339))
