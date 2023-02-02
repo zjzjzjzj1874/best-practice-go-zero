@@ -2,6 +2,7 @@ package cron
 
 import (
 	"github.com/sirupsen/logrus"
+	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/threading"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/svc"
 )
@@ -21,7 +22,8 @@ func set(name string, value interface{}) {
 func RunWithName(svcCtx *svc.ServiceContext, name string) string {
 	val, ok := globalMap[name]
 	if !ok {
-		logrus.Errorf("不存在改任务:%s", name)
+		logrus.Errorf("不存在该任务:%s", name)
+		logx.Errorf("不存在该任务:%s", name)
 		return "请先注册任务"
 	}
 	switch tt := val.(type) {

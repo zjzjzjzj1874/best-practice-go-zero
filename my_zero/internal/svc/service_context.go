@@ -4,10 +4,10 @@ import (
 	"github.com/zeromicro/go-zero/rest"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper/obs"
+	"github.com/zjzjzjzj1874/best-pracrice-go-zero/middlewares"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/model/mongo"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/config"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/db"
-	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/middleware"
 )
 
 type ServiceContext struct {
@@ -31,6 +31,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		//ExportTaskModel: mongo.NewExportTaskModel(c.MongoDB.URL, reflect.TypeOf(mongo.ExportTask{}).Name(), c.CacheRedis),
 		////MongoTestModel: mongo.NewMongoTestModel(c.MongoDB.URL, reflect.TypeOf(mongo.Test{}).Name(), c.CacheRedis),
 		//FlowLimit: middleware.NewFlowLimitMiddleware(c.CacheRedis[0].RedisConf).Handle,
-		LogTrace: middleware.NewLogTraceMiddleware().Handle,
+		LogTrace: middlewares.NewLogTraceMiddleware().Handle,
 	}
 }

@@ -37,6 +37,7 @@ func main() {
 
 	helper.OpenPPROF(c.PprofConf)
 	cron.InitCron(ctx) // 初始化定时任务
+	helper.InitLogrus()
 
 	handler.RegisterHandlers(server, ctx)
 
