@@ -27,7 +27,7 @@ func NewManualRunTaskLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Man
 
 func (l *ManualRunTaskLogic) ManualRunTask(req *types.ManualExecTaskRequest) (resp *types.ManualExecTaskResponse, err error) {
 	logrus.Infof("手动触发任务入口")
-	logx.Infof("手动触发任务入口")
-	msg := cron.RunWithName(l.svcCtx, req.Name)
+	logx.WithContext(l.ctx).Infof("手动触发任务入口")
+	msg := cron.RunWithName(l.ctx, l.svcCtx, req.Name)
 	return &types.ManualExecTaskResponse{Msg: msg}, nil
 }

@@ -1,6 +1,7 @@
 package cron
 
 import (
+	"context"
 	"github.com/sirupsen/logrus"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/threading"
@@ -19,11 +20,11 @@ func set(name string, value interface{}) {
 	globalMap[name] = value
 }
 
-func RunWithName(svcCtx *svc.ServiceContext, name string) string {
+func RunWithName(ctx context.Context, svcCtx *svc.ServiceContext, name string) string {
 	val, ok := globalMap[name]
 	if !ok {
 		logrus.Errorf("不存在该任务:%s", name)
-		logx.Errorf("不存在该任务:%s", name)
+		logx.WithContext(ctx).Errorf("不存在该任务:%s", name)
 		return "请先注册任务"
 	}
 	switch tt := val.(type) {
