@@ -2,6 +2,7 @@ package v0
 
 import (
 	"context"
+	"github.com/sirupsen/logrus"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/cron"
 
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/svc"
@@ -25,6 +26,7 @@ func NewManualRunTaskLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Man
 }
 
 func (l *ManualRunTaskLogic) ManualRunTask(req *types.ManualExecTaskRequest) (resp *types.ManualExecTaskResponse, err error) {
+	logrus.Infof("手动触发任务入口")
 	msg := cron.RunWithName(l.svcCtx, req.Name)
 	return &types.ManualExecTaskResponse{Msg: msg}, nil
 }

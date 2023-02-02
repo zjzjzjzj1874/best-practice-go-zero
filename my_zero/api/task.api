@@ -21,7 +21,7 @@ type (
 
 @server(
 	prefix: go-zero/v0/test
-	middleware: FlowLimit  //限流器
+	middleware: FlowLimit,LogTrace  //限流器
     group: v0/
 )
 

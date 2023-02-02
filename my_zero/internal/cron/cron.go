@@ -47,6 +47,11 @@ func InitCron(ctx *svc.ServiceContext) {
 			spec: ctx.Config.Cron.TaskTimeoutSpec,
 			do:   taskTimeout,
 		},
+		task{
+			name: "手动测试任务",
+			spec: ctx.Config.Cron.TaskTimeoutSpec,
+			do:   manualTrigger,
+		},
 	}
 
 	for i := range tasks {

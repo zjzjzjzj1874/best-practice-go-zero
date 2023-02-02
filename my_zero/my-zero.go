@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"github.com/zeromicro/go-zero/core/logx"
 	"google.golang.org/appengine/log"
 	_ "net/http/pprof"
 	"os"
@@ -26,6 +27,7 @@ var configFile = flag.String("f", "etc/my-zero.yaml", "the config file")
 func main() {
 	flag.Parse()
 
+	logx.DisableStat()
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
 
@@ -38,9 +40,9 @@ func main() {
 
 	handler.RegisterHandlers(server, ctx)
 
-	bc, cancel := context.WithCancel(context.Background())
-	defer cancel()
-	async(bc)
+	//bc, cancel := context.WithCancel(context.Background())
+	//defer cancel()
+	//async(bc)
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()

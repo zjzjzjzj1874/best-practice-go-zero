@@ -21,6 +21,7 @@ func set(name string, value interface{}) {
 func RunWithName(svcCtx *svc.ServiceContext, name string) string {
 	val, ok := globalMap[name]
 	if !ok {
+		logrus.Errorf("不存在改任务:%s", name)
 		return "请先注册任务"
 	}
 	switch tt := val.(type) {
