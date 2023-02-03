@@ -1,0 +1,33 @@
+syntax = "v1"
+
+info(
+    title: "任务管理"
+    desc: "任务管理模块"
+    author: "zjzjzjzj"
+    email: "zjzjzjzj1874@gmail.com"
+    version: "v0"
+)
+
+type (
+    // 手动执行任务
+    ManualExecTaskRequest struct {
+        Name string    `json:"name" description:"表达式任务名称"`           // 任务名称
+    }
+
+    ManualExecTaskResponse struct {
+        Msg string    `json:"msg" description:"信息"`
+    }
+)
+
+@server(
+	prefix: task/v0
+	group: task
+)
+
+service task {
+    @doc(
+        summary: "手动执行某个任务"
+    )
+    @handler ManualRunTask
+    post /manual (ManualExecTaskRequest) returns (ManualExecTaskResponse)
+}
