@@ -2,6 +2,7 @@ package cron
 
 import (
 	"fmt"
+	"github.com/robfig/cron"
 	"math/rand"
 	"strconv"
 	"testing"
@@ -169,4 +170,23 @@ func loadCacheTasks(key string, cacheTasksChan chan []helper.CacheTaskQueueMetaD
 			break
 		}
 	}
+}
+
+func TestTaskTimeoutCron(t *testing.T) {
+	t.Run("#Cron", func(t *testing.T) {
+		c := cron.New()
+		err := c.AddFunc("0 0 5 31 2 *", func() {
+			fmt.Println("cron trigger")
+		})
+		if err != nil {
+			t.Errorf("err:%s", err.Error())
+			return
+		}
+		_ = c.AddFunc("@every 10s", func() {
+			fmt.Println("every 10s")
+		})
+		c.Start()
+		fmt.Println("start cron")
+		select {}
+	})
 }

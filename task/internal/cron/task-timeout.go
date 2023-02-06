@@ -4,7 +4,8 @@ import (
 	jsoniter "github.com/json-iterator/go"
 	"github.com/sirupsen/logrus"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper"
-	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/svc"
+	"github.com/zjzjzjzj1874/best-pracrice-go-zero/task/internal/svc"
+
 	"time"
 )
 
@@ -38,14 +39,14 @@ func taskTimeout(ctx *svc.ServiceContext) {
 				}
 				logrus.Infof("UserID:%s,cacheTasks.len:%d,newTasks.len:%d,expireTaskIDs:%v", userID, len(cacheTasks), len(newTasks), expireTaskIDs)
 
-				newstr, err := jsoniter.MarshalToString(newTasks)
+				_, err := jsoniter.MarshalToString(newTasks)
 				if err != nil {
 					logrus.Errorf("jsoniter.MarshalToString failure:[newTasks:%+v,err:%v]", newTasks, err.Error())
 					continue
 				}
 
 				// 重置缓存池中用户缓存
-				err = ctx.RedisClient.CronUpdateTimeoutTasks(userID, newstr)
+				//err = ctx.RedisClient.CronUpdateTimeoutTasks(userID, newstr)
 				if err != nil {
 					logrus.Errorf("CronUpdateTimeoutTasks failure:[userID:%s,err:%v]", userID, err.Error())
 					continue
@@ -55,7 +56,7 @@ func taskTimeout(ctx *svc.ServiceContext) {
 				}
 
 				// 删除用户个人缓存
-				ctx.RedisClient.CronClearTimeoutTasks(userID, expireTaskIDs)
+				//ctx.RedisClient.CronClearTimeoutTasks(userID, expireTaskIDs)
 			case <-exit:
 				logrus.Infof("receive exit singal,ready to exit")
 				return
@@ -63,5 +64,5 @@ func taskTimeout(ctx *svc.ServiceContext) {
 		}
 	}()
 	// 自动任务清理缓存队列
-	ctx.RedisClient.CronSweepTimeoutTaskQueueCacheWithScan(cacheTasksChan, exit)
+	//ctx.RedisClient.CronSweepTimeoutTaskQueueCacheWithScan(cacheTasksChan, exit)
 }
