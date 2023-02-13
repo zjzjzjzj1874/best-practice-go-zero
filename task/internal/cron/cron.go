@@ -2,6 +2,7 @@
 package cron
 
 import (
+	"github.com/zjzjzjzj1874/best-pracrice-go-zero/task/internal/exporter"
 	"sync"
 	"time"
 
@@ -48,6 +49,11 @@ func InitCron(ctx *svc.ServiceContext) {
 			name: "手动测试任务",
 			spec: ctx.Config.Cron.TaskTestSpec,
 			do:   manualTrigger,
+		},
+		task{
+			name: "导出任务",
+			spec: ctx.Config.Cron.TaskExportSpec,
+			do:   exporter.Export,
 		},
 	}
 

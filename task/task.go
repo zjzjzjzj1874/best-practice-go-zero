@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper"
+	"github.com/zjzjzjzj1874/best-pracrice-go-zero/task/internal/cron"
 
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/task/internal/config"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/task/internal/handler"
@@ -30,6 +31,7 @@ func main() {
 
 	handler.RegisterHandlers(server, ctx)
 
+	cron.InitCron(ctx)
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()
 }

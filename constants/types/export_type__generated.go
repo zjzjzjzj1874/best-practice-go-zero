@@ -14,8 +14,10 @@ func ParseExportTypeFromLabelString(s string) (ExportType, error) {
 	switch s {
 	case "":
 		return EXPORT_TYPE_UNKNOWN, nil
-	case "Code导出":
+	case "代码导出":
 		return EXPORT_TYPE__CODE, nil
+	case "报表导出":
+		return EXPORT_TYPE__REPORT, nil
 	}
 	return EXPORT_TYPE_UNKNOWN, InvalidExportType
 }
@@ -26,6 +28,8 @@ func (v ExportType) String() string {
 		return ""
 	case EXPORT_TYPE__CODE:
 		return "CODE"
+	case EXPORT_TYPE__REPORT:
+		return "REPORT"
 	}
 	return "UNKNOWN"
 }
@@ -36,6 +40,8 @@ func ParseExportTypeFromString(s string) (ExportType, error) {
 		return EXPORT_TYPE_UNKNOWN, nil
 	case "CODE":
 		return EXPORT_TYPE__CODE, nil
+	case "REPORT":
+		return EXPORT_TYPE__REPORT, nil
 	}
 	return EXPORT_TYPE_UNKNOWN, InvalidExportType
 }
@@ -45,7 +51,9 @@ func (v ExportType) Label() string {
 	case EXPORT_TYPE_UNKNOWN:
 		return ""
 	case EXPORT_TYPE__CODE:
-		return "Code导出"
+		return "代码导出"
+	case EXPORT_TYPE__REPORT:
+		return "报表导出"
 	}
 	return "UNKNOWN"
 }
@@ -59,7 +67,7 @@ func (ExportType) TypeName() string {
 }
 
 func (ExportType) ConstValues() []github_com_go_courier_enumeration.IntStringerEnum {
-	return []github_com_go_courier_enumeration.IntStringerEnum{EXPORT_TYPE__CODE}
+	return []github_com_go_courier_enumeration.IntStringerEnum{EXPORT_TYPE__CODE, EXPORT_TYPE__REPORT}
 }
 
 func (v ExportType) MarshalText() ([]byte, error) {
