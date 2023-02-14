@@ -129,6 +129,8 @@ func newExportFact(ctx *svc.ServiceContext, task *mongo.ExportTask) ExporterFact
 	switch task.ExportType {
 	case types.EXPORT_TYPE__CODE:
 		exporter = NewExporterCode(ctx, task)
+	case types.EXPORT_TYPE__REPORT:
+		exporter = NewExporterReport(ctx, task)
 	}
 
 	return exporter
