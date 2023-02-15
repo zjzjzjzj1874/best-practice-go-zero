@@ -13,4 +13,4 @@
   `{ "_id" : "张三", "spent" : NumberLong(0), "earn" : NumberLong(6) }
    { "_id" : "李四", "spent" : NumberLong(11), "earn" : NumberLong(29) }`
   - 解释:User表有nick_name(昵称),spent(花费),eran(赚钱)和age(年龄)字段,查询每个用户所有开销和赚取总额;
-  - mysql语句: `select nick_name,SUM(spent) AS spent,SUM(eran) AS eran from User where age >= 18 AND age <= 30;`
+  - mysql语句: `select nick_name,SUM(spent) AS spent,SUM(eran) AS eran from User where age >= 18 AND age <= 30 Group By nick_name;`
