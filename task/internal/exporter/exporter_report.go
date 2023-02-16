@@ -50,6 +50,7 @@ func (e *ExporterReport) readRecords() <-chan interface{} {
 		defer close(chanData)
 		for {
 			if offset > 1<<10 {
+				// TODO 这里可以这样搞:如果数据量特别大,那么需要一页一页查询,查询出来后通过channel发送到组装的func中
 				break
 			}
 
@@ -64,10 +65,11 @@ func (e *ExporterReport) readRecords() <-chan interface{} {
 // 生成Excel表格
 func (e *ExporterReport) genExcel(chanData <-chan interface{}) error {
 	var (
-		index  = 1
-		err    error
-		isErr  bool
-		header = []string{"测试", "数量"}
+		index     = 3
+		err       error
+		isErr     bool
+		sheetName = "测试表格"
+		header    = []string{"测试", "数量"}
 	)
 	f := excelize.NewFile()
 	_ = f.SetSheetRow("sheetName", fmt.Sprintf("A%d", index), &header)
@@ -87,9 +89,13 @@ func (e *ExporterReport) genExcel(chanData <-chan interface{}) error {
 			return err
 		}
 		index++
-		_ = f.SetSheetRow("sheetName", fmt.Sprintf("A%d", index), &[]string{"world", fmt.Sprintf("%v", obj)})
+		_ = f.SetSheetRow(sheetName, fmt.Sprintf("A%d", index), &[]string{"world", fmt.Sprintf("%v", obj)})
 	}
 
+	_ = f.MergeCell(sheetName, "A1", "D1")                // 合并单元格
+	_ = f.SetSheetRow(sheetName, "A1", &[]string{"表格名称"}) // 设置Excel表header
+	_ = f.MergeCell(sheetName, "A2", "D2")
+	_ = f.SetSheetRow(sheetName, "A2", &[]string{fmt.Sprintf("日期:%s", "2023-02-15")})
 	_ = f.SetRowStyle("sheetName", 1, 999, styleID)
 	f.SetActiveSheet(1)     // 默认第一个sheet
 	f.DeleteSheet("Sheet1") // 默认的sheet表删除不要
