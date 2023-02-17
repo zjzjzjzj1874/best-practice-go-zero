@@ -60,15 +60,50 @@ func TestExporterCode_ExcelAssembly(t *testing.T) {
 			go runtime.GC()
 		}()
 		f.NewSheet(sheetName)
-
-		_ = f.MergeCell(sheetName, "A1", "C1")               // 合并单元格
-		_ = f.SetCellValue(sheetName, "A1", "客户名称-内容审核用量统计") // 设置Excel表header
+		fillSty, _ := f.NewStyle(&excelize.Style{
+			Fill: excelize.Fill{
+				// gradient： 渐变色    pattern   填充图案
+				// Pattern: 1,                   // 填充样式  当类型是 pattern 0-18 填充图案  1 实体填充
+				// Color:   []string{"#FF0000"}, // 当Type = pattern 时，只有一个
+				Type:  "gradient",
+				Color: []string{"#DCDCDC", "#DCDCDC"},
+				// 类型是 gradient 使用 0-5 横向(每种颜色横向分布) 纵向 对角向上 对角向下 有外向内 由内向外
+				Shading: 1,
+			}})
+		headStyle, err := f.NewStyle(&excelize.Style{
+			Fill: excelize.Fill{
+				// gradient： 渐变色    pattern   填充图案
+				// Pattern: 1,                   // 填充样式  当类型是 pattern 0-18 填充图案  1 实体填充
+				// Color:   []string{"#FF0000"}, // 当Type = pattern 时，只有一个
+				Type:  "gradient",
+				Color: []string{"#DCDCDC", "#DCDCDC"},
+				// 类型是 gradient 使用 0-5 横向(每种颜色横向分布) 纵向 对角向上 对角向下 有外向内 由内向外
+				Shading: 1,
+			}, Alignment: &excelize.Alignment{
+				Horizontal: "center",
+				Vertical:   "center",
+			},
+		})
+		// 定义行样式（通过JSON格式指定）
+		//headerSty, err := f.NewStyle(`{
+		//	"alignment":{
+		//		"vertical":"center",
+		//		"horizontal":"center"
+		//	}
+		//}`)
+		if err != nil {
+			return
+		}
+		_ = f.MergeCell(sheetName, "A1", "C1")                   // 合并单元格
+		_ = f.SetCellValue(sheetName, "A1", "客户名称(张三)-内容审核用量统计") // 设置Excel表header
+		_ = f.SetCellStyle(sheetName, "A1", "C1", headStyle)     // 设置Excel表header
 		//_ = f.SetSheetRow(sheetName, "A1", &[]string{"客户名称-内容审核用量统计"})  // 设置Excel表header
 		_ = f.MergeCell(sheetName, "A2", "C2")
 		_ = f.SetCellValue(sheetName, "B2", "统计日期:2022.11.23")
 		_ = f.MergeCell(sheetName, "A3", "C3")
 		_ = f.SetCellValue(sheetName, "C3", "调用记录数:6991条,计费量:100223次")
-		_ = f.SetSheetRow(sheetName, fmt.Sprintf("A%d", idx), &header) // 设置Excel表header
+		_ = f.SetSheetRow(sheetName, fmt.Sprintf("A%d", idx), &header)                           // 设置Excel表header
+		_ = f.SetCellStyle(sheetName, fmt.Sprintf("A%d", idx), fmt.Sprintf("D%d", idx), fillSty) // 设置Excel表header
 
 		for i := 0; i < 4; i++ {
 			idx++
