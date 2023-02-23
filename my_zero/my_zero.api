@@ -1,4 +1,5 @@
 import (
+	"api/common.api"
 	"api/liveness.api"
 	"api/migrate.api"
 	"api/rabbitmq.api"

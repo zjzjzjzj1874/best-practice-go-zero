@@ -48,7 +48,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{/*serverCtx.FlowLimit*/},
+			[]rest.Middleware{serverCtx.FlowLimit},
 			[]rest.Route{
 				{
 					Method:  http.MethodPost,
@@ -72,7 +72,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{/*serverCtx.FlowLimit,*/ serverCtx.LogTrace},
+			[]rest.Middleware{serverCtx.FlowLimit, serverCtx.LogTrace},
 			[]rest.Route{
 				{
 					Method:  http.MethodPost,

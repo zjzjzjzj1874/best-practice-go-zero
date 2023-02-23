@@ -1,0 +1,27 @@
+syntax = "v1"
+
+info(
+    title: "go-zero最佳实践"
+    desc: "go-zero最佳实践"
+    author: "zjzjzjzj"
+    email: "zjzjzjzj1874@gmail.com"
+    version: "v0"
+)
+
+type (
+    Request struct {}
+    Response struct {}
+)
+
+@server(
+	prefix: task/
+	group: task
+)
+
+service task {
+    @doc(
+        summary: "健康检查"
+    )
+    @handler swagger
+    get /swagger (Request) returns (Response)
+}

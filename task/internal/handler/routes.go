@@ -14,6 +14,28 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				Method:  http.MethodGet,
+				Path:    "/liveness",
+				Handler: task.LivenessHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/task"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
+				Method:  http.MethodGet,
+				Path:    "/swagger",
+				Handler: task.SwaggerHandler(serverCtx),
+			},
+		},
+		rest.WithPrefix("/task"),
+	)
+
+	server.AddRoutes(
+		[]rest.Route{
+			{
 				Method:  http.MethodPost,
 				Path:    "/manual",
 				Handler: task.ManualRunTaskHandler(serverCtx),

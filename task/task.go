@@ -1,13 +1,13 @@
 package main
 
 import (
+	_ "embed"
 	"flag"
 	"fmt"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper"
-	"github.com/zjzjzjzj1874/best-pracrice-go-zero/task/internal/cron"
-
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/task/internal/config"
+	"github.com/zjzjzjzj1874/best-pracrice-go-zero/task/internal/cron"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/task/internal/handler"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/task/internal/svc"
 
@@ -24,6 +24,7 @@ func main() {
 	helper.InitLogrus()
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
+	c.Swagger = swagger
 
 	ctx := svc.NewServiceContext(c)
 	server := rest.MustNewServer(c.RestConf)
@@ -35,3 +36,6 @@ func main() {
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()
 }
+
+//go:embed swagger.json
+var swagger []byte

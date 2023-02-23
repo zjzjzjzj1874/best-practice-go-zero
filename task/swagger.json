@@ -1,0 +1,146 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "task//liveness": {
+      "get": {
+        "summary": "健康检查",
+        "operationId": "liveness",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/LivenessResponse"
+            }
+          }
+        },
+        "requestBody": {},
+        "tags": [
+          "task"
+        ]
+      }
+    },
+    "task//swagger": {
+      "get": {
+        "summary": "健康检查",
+        "operationId": "swagger",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          }
+        },
+        "requestBody": {},
+        "tags": [
+          "task"
+        ]
+      }
+    },
+    "task/v0/manual": {
+      "post": {
+        "summary": "手动执行某个任务",
+        "operationId": "ManualRunTask",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ManualExecTaskResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 手动执行任务",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ManualExecTaskRequest"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "task"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "LivenessResponse": {
+      "type": "object",
+      "properties": {
+        "msg": {
+          "type": "string"
+        }
+      },
+      "title": "LivenessResponse",
+      "required": [
+        "msg"
+      ]
+    },
+    "ManualExecTaskRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": " 任务名称"
+        }
+      },
+      "title": "ManualExecTaskRequest",
+      "required": [
+        "name",
+        "表达式任务名称"
+      ]
+    },
+    "ManualExecTaskResponse": {
+      "type": "object",
+      "properties": {
+        "msg": {
+          "type": "string"
+        }
+      },
+      "title": "ManualExecTaskResponse",
+      "required": [
+        "msg",
+        "信息"
+      ]
+    },
+    "Request": {
+      "type": "object",
+      "title": "Request"
+    },
+    "Response": {
+      "type": "object",
+      "title": "Response"
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "apiKey": []
+    }
+  ]
+}
