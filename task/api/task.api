@@ -20,7 +20,7 @@ type (
 )
 
 @server(
-	prefix: task/v0
+	prefix: /task/v0
 	group: task
 )
 

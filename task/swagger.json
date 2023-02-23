@@ -15,7 +15,7 @@
     "application/json"
   ],
   "paths": {
-    "task//liveness": {
+    "/task/liveness": {
       "get": {
         "summary": "健康检查",
         "operationId": "liveness",
@@ -33,9 +33,9 @@
         ]
       }
     },
-    "task//swagger": {
+    "/task/swagger": {
       "get": {
-        "summary": "健康检查",
+        "summary": "swagger文件",
         "operationId": "swagger",
         "responses": {
           "200": {
@@ -51,7 +51,7 @@
         ]
       }
     },
-    "task/v0/manual": {
+    "/task/v0/manual": {
       "post": {
         "summary": "手动执行某个任务",
         "operationId": "ManualRunTask",

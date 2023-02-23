@@ -14,13 +14,13 @@ type (
 )
 
 @server(
-	prefix: task/
+	prefix: /task
 	group: task
 )
 
 service task {
     @doc(
-        summary: "健康检查"
+        summary: "swagger文件"
     )
     @handler swagger
     get /swagger (Request) returns (Response)

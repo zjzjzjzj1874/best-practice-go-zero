@@ -51,11 +51,12 @@ go-zero最佳实践
 + [x] 集成mysql(use gorm)
 + [x] 集成mongo(zero原生支持的mgo)
 + [x] go-zero PeriodLimit => 滑动窗口实现的限流器 => 当然go-zero也有基于令牌桶实现的限流器
-+ [x] go-zero自动生成swagger文件:`goctl api plugin -plugin goctl-swagger="swagger -filename swagger.json" -api task.api`
++ [x] go-zero自动生成swagger文件:
+  - 切换到task项目并执行:`goctl api plugin -plugin goctl-swagger="swagger -filename swagger.json" -api task.api`
   - 如果没有安装`goctl-swagger`,请先安装`goctl-swagger`(用于生成Swagger文档的工具):`go install github.com/zeromicro/goctl-swagger@latest`
   - `export PATH=$PATH:$(go env GOPATH)/bin` --> 将所有`gopath/bin`下面的工具添加到全局变量中;
   - `source ./zshrc` --> 我用的oh my zsh,然后重新source即可
-  - 服务器或者本地安装swagger-ui,然后查看网页.`docker run -it -d --name swagger-ui -p 8080:8080 swaggerapi/swagger-ui`
+- 服务器或者本地安装swagger-ui,然后查看网页.`docker run -it -d --name swagger-ui -p 8080:8080 swaggerapi/swagger-ui`
 + [ ] kafka客户端实现
 + [ ] elasticsearch客户端实现
 

@@ -11,7 +11,7 @@ type Config struct {
 	rest.RestConf
 
 	Cron struct {
-		TaskTestSpec   string `json:",default=* * 10/* * * *"`
+		TaskTestSpec   string `json:",default=0 0 1 * * *"`
 		TaskExportSpec string `json:",default=*/30 * * * * *"` // 执行导出任务
 	}
 

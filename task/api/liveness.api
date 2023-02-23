@@ -15,7 +15,7 @@ type (
 )
 
 @server(
-	prefix: task/
+	prefix: /task
 	group: task
 )
 
