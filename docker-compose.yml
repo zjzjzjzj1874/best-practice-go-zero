@@ -1,6 +1,24 @@
 version: '3.0'
 
 services:
+  task:
+    build:
+      context: . # build上下文地址
+      dockerfile: ./task/Dockerfile # 使用的dockerfile构建文件
+      cache_from: # 使用缓存加速构建速度
+        - zero:base
+        - type=local,src=path/to/cache
+        - type=gha
+    image: task
+    container_name: task
+    restart: always
+    command: ./task -f /app/etc/task.yaml
+    privileged: true
+    ports:
+      - "8081:8888"
+    volumes:
+      - ${ProjectPath}/task/etc:/app/etc
+
   my-zero:
     env_file: # 这个是默认的,不写也是这个
       - .env

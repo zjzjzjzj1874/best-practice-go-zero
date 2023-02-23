@@ -23,5 +23,11 @@ service task {
         summary: "swagger文件"
     )
     @handler swagger
-    get /swagger (Request) returns (Response)
+    get /swagger returns (Response)
+
+    @doc(
+        summary: "swagger文件"
+    )
+    @handler swaggerGet
+    get /swagger-bin returns (Response)
 }

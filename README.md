@@ -48,6 +48,7 @@ go-zero最佳实践
 + [x] 华为obs集成
 + [x] rpc中etcd服务,如果使用k8s部署,那么将直接使用target注册到k8s中,由k8s的服务发现处理
 + [x] prometheus服务监控
++ [ ] Opentelemetry+Jaeger链路追踪
 + [x] 集成mysql(use gorm)
 + [x] 集成mongo(zero原生支持的mgo)
 + [x] go-zero PeriodLimit => 滑动窗口实现的限流器 => 当然go-zero也有基于令牌桶实现的限流器
@@ -59,6 +60,18 @@ go-zero最佳实践
 - 服务器或者本地安装swagger-ui,然后查看网页.`docker run -it -d --name swagger-ui -p 8080:8080 swaggerapi/swagger-ui`
 + [ ] kafka客户端实现
 + [ ] elasticsearch客户端实现
+
+## `goctl`实用小技巧
+- 根据api文件生成接口:`goctl api go -api task.api -style go_zero -dir .`,驼峰命名的话`go_zero`替换成`goZero`
+- 根据api文件生成swagger:`goctl api plugin -plugin goctl-swagger="swagger -filename swagger.json" -api task.api`
+- Dockerfile生成:`goctl docker -go task.go`
+- K8S部署yaml生成:`goctl kube deploy -name task -namespace my-ns  -image task -o task-k8s.yaml -port 80 --serviceAccount find-endpoints`
+- 生成`Mongo Model`:`goctl model mongo -type Task -c -style go_zero -d .`
+
+## 部署步骤
+以task服务为例
+- 生成task的`Dockerfile`:`goctl docker -go task.go`
+- `docker-compose`中添加task服务:然后:`docker-compose build task`
 
 ## 参考资料
 

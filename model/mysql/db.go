@@ -1,7 +1,9 @@
 package mysql
 
 import (
+	"database/sql/driver"
 	"fmt"
+	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper/sqlx"
 	"log"
 	"os"
 	"path/filepath"
@@ -131,4 +133,21 @@ func createNewLogFile(filePath string) {
 		return
 	}
 	gormLogger.SetOutput(f)
+}
+
+type (
+	SlaTimes []SlaTime
+	SlaTime  struct {
+		StartTime int `json:"start_time"`
+		EndTime   int `json:"end_time"`
+		During    int `json:"during"`
+	}
+)
+
+func (s *SlaTimes) Scan(src interface{}) error {
+	return sqlx.JSONScan(src, s)
+}
+
+func (s SlaTimes) Value() (driver.Value, error) {
+	return sqlx.JSONValue(s)
 }

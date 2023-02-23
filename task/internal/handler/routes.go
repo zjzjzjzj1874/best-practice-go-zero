@@ -29,6 +29,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/swagger",
 				Handler: task.SwaggerHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/swagger-bin",
+				Handler: task.SwaggerGetHandler(serverCtx),
+			},
 		},
 		rest.WithPrefix("/task"),
 	)

@@ -23,5 +23,6 @@ type Config struct {
 	EmailConf email.EmailConf
 	HwObs     obs.ConfObs
 
-	Swagger []byte `json:",optional"`
+	Swagger     []byte `json:",optional"`
+	SwaggerPath string `json:",default=/app/swagger.json"`
 }
