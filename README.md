@@ -57,7 +57,8 @@ go-zero最佳实践
   - 如果没有安装`goctl-swagger`,请先安装`goctl-swagger`(用于生成Swagger文档的工具):`go install github.com/zeromicro/goctl-swagger@latest`
   - `export PATH=$PATH:$(go env GOPATH)/bin` --> 将所有`gopath/bin`下面的工具添加到全局变量中;
   - `source ./zshrc` --> 我用的oh my zsh,然后重新source即可
-- 服务器或者本地安装swagger-ui,然后查看网页.`docker run -it -d --name swagger-ui -p 8080:8080 swaggerapi/swagger-ui`
+  - 服务器或者本地安装swagger-ui,然后查看网页.`docker run -it -d --name swagger-ui -p 8080:8080 swaggerapi/swagger-ui`
+  - 查看`swagger.json`文件: `curl http://localhost:8888/task/swagger` ,先把`swagger.json`文件复制到镜像中,然后使用`go:embed`把二进制文件读取出来,也可以使用`ioutils.Readfile`;最后返回二进制文件流.
 + [ ] kafka客户端实现
 + [ ] elasticsearch客户端实现
 
