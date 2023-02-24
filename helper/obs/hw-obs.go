@@ -44,6 +44,9 @@ var transport = &http.Transport{
 
 // NewHWObsClient 创建ObsClient结构体
 func NewHWObsClient(conf ConfObs, restConf rest.RestConf) *HwObsClient {
+	if restConf.Mode == "dev" { // 开发环境不注册
+		return &HwObsClient{}
+	}
 	client, err := obs.New(conf.AK, conf.SK, conf.Endpoint, obs.WithHttpTransport(transport))
 	if err != nil {
 		panic(fmt.Sprintf("init obs client failure:%s", err.Error()))

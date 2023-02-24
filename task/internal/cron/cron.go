@@ -61,8 +61,13 @@ func InitCron(ctx *svc.ServiceContext) {
 		task := tasks[i]
 		set(task.name, &tasks[i]) // 将任务注册到全局map
 		err := cr.AddFunc(task.spec, func() {
-			if InitTask(task.name) {
-				logrus.Debugf("%s start running on %s", task.name, time.Now().Format(time.RFC3339))
+			if InitTask(task.name) { // cron任务增加redis分布式事务锁 => 这样这个服务就不仅仅只能部署单节点
+				keepsake, ok := ctx.RedisClient.LockedDistributeTask(task.name)
+				if !ok {
+					logrus.Warnf("没有获取到分布式事务锁:%s start running on %s other Node", task.name, time.Now().Format(time.RFC3339))
+					return
+				}
+				defer ctx.RedisClient.UnLockDistributeTask(task.name, keepsake)
 				task.do(ctx)
 				ExecutedTask(task.name)
 			} else {
