@@ -7,7 +7,6 @@ import (
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/middlewares"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/model/mongo"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/task/internal/config"
-	"reflect"
 )
 
 type ServiceContext struct {
@@ -20,10 +19,10 @@ type ServiceContext struct {
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	return &ServiceContext{
-		Config:          c,
-		LogTrace:        middlewares.NewLogTraceMiddleware().Handle,
-		RedisClient:     helper.MustNewClient(c.Mode, c.CacheRedis),
-		HwObsClient:     obs.NewHWObsClient(c.HwObs, c.RestConf),
-		ExportTaskModel: mongo.NewExportTaskModel(c.MongoDB.URL, reflect.TypeOf(mongo.ExportTask{}).Name(), c.CacheRedis),
+		Config:      c,
+		LogTrace:    middlewares.NewLogTraceMiddleware().Handle,
+		RedisClient: helper.MustNewClient(c.Mode, c.CacheRedis),
+		HwObsClient: obs.NewHWObsClient(c.HwObs, c.RestConf),
+		//ExportTaskModel: mongo.NewExportTaskModel(c.MongoDB.URL, reflect.TypeOf(mongo.ExportTask{}).Name(), c.CacheRedis),
 	}
 }
