@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"go.opentelemetry.io/otel/codes"
 	"io"
 	"log"
 
@@ -22,25 +23,25 @@ func NewApp(r io.Reader, l *log.Logger) *App {
 }
 
 // Run starts polling users for Fibonacci number requests and writes results.
-func (a *App) Run(ctx context.Context) error {
+func (a *App) Run(ctx context.Context, conf Trace) error {
 	for {
 		// Each execution of the run loop, we should get a new "root" span and context.
-		newCtx, span := otel.Tracer(name).Start(ctx, "Run")
+		newCtx, span := otel.Tracer(conf.Name).Start(ctx, "TestTracingCode-Run")
 
-		n, err := a.Poll(ctx)
+		n, err := a.Poll(newCtx, conf)
 		if err != nil {
 			span.End()
 			return err
 		}
 
-		a.Write(newCtx, n)
+		a.Write(newCtx, conf, n)
 		span.End()
 	}
 }
 
 // Poll asks a user for input and returns the request.
-func (a *App) Poll(ctx context.Context) (uint, error) {
-	_, span := otel.Tracer(name).Start(ctx, "Poll")
+func (a *App) Poll(ctx context.Context, conf Trace) (uint, error) {
+	_, span := otel.Tracer(conf.Name).Start(ctx, "TestTracingCode-Poll")
 	defer span.End()
 
 	a.l.Print("What Fibonacci number would you like to know: ")
@@ -51,17 +52,19 @@ func (a *App) Poll(ctx context.Context) (uint, error) {
 }
 
 // Write writes the n-th Fibonacci number back to the user.
-func (a *App) Write(ctx context.Context, n uint) {
+func (a *App) Write(ctx context.Context, conf Trace, n uint) {
 	var span trace.Span
-	ctx, span = otel.Tracer(name).Start(ctx, "Write")
+	ctx, span = otel.Tracer(conf.Name).Start(ctx, "TestTracingCode-Write")
 	defer span.End()
 
 	f, err := func(ctx context.Context) (uint64, error) {
-		_, span := otel.Tracer(name).Start(ctx, "Fibonacci")
+		_, span := otel.Tracer(conf.Name).Start(ctx, "TestTracingCode-Fibonacci")
 		defer span.End()
 		return Fibonacci(n)
 	}(ctx)
 	if err != nil {
+		span.RecordError(err)
+		span.SetStatus(codes.Error, err.Error())
 		a.l.Printf("Fibonacci(%d): %v\n", n, err)
 	} else {
 		a.l.Printf("Fibonacci(%d) = %d\n", n, f)
