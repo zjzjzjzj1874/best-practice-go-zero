@@ -28,3 +28,8 @@ HwObs:
   SK:
   Endpoint:
   Project:
+
+# 链路追踪 => go-zero自带的链路追踪
+Telemetry:
+  Name: my-zero-task
+  Endpoint: http://your-ip:14268/api/traces

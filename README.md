@@ -40,7 +40,8 @@ go-zero最佳实践
 ## TODO list
 
 + [x] 集成一个比较好用的log插件:目前使用logrus
-+ [x] Opentelemetry+Jaeger链路追踪:代码位置`./example/otel`
++ [x] Go-Zero自带链路追踪:Jaeger:[配置位置](./task/etc/task.yaml),仅需要在配置中添加`Telemetry`信息.
++ [x] Opentelemetry+Jaeger链路追踪:[代码位置](./example/otel)
 + [ ] 链路追踪+日志追踪:链路追踪有traceId,如果使用中间件获取每个request中的traceId,然后使用logrus的hook,日志打印过程中有traceId则添加,链路追踪会更加完善.
 + [ ] 使用协程池处理一些并发较高的method或者逻辑
 + [ ] rabbitmq生产者消费者优化 TODO (断线重连优化)
