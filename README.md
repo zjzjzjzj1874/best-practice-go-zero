@@ -39,7 +39,9 @@ go-zero最佳实践
 
 ## TODO list
 
-+ [ ] 集成一个比较好用的log插件
++ [x] 集成一个比较好用的log插件:目前使用logrus
++ [x] Opentelemetry+Jaeger链路追踪:代码位置`./example/otel`
++ [ ] 链路追踪+日志追踪:链路追踪有traceId,如果使用中间件获取每个request中的traceId,然后使用logrus的hook,日志打印过程中有traceId则添加,链路追踪会更加完善.
 + [ ] 使用协程池处理一些并发较高的method或者逻辑
 + [ ] rabbitmq生产者消费者优化 TODO (断线重连优化)
 + [ ] casbin权限
@@ -48,7 +50,6 @@ go-zero最佳实践
 + [x] 华为obs集成
 + [x] rpc中etcd服务,如果使用k8s部署,那么将直接使用target注册到k8s中,由k8s的服务发现处理
 + [x] prometheus服务监控
-+ [ ] Opentelemetry+Jaeger链路追踪
 + [x] 集成mysql(use gorm)
 + [x] 集成mongo(zero原生支持的mgo)
 + [x] go-zero PeriodLimit => 滑动窗口实现的限流器 => 当然go-zero也有基于令牌桶实现的限流器
