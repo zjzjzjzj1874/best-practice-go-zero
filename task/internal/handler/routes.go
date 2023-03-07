@@ -39,13 +39,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	)
 
 	server.AddRoutes(
-		[]rest.Route{
-			{
-				Method:  http.MethodPost,
-				Path:    "/manual",
-				Handler: task.ManualRunTaskHandler(serverCtx),
-			},
-		},
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.LogTrace},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/manual",
+					Handler: task.ManualRunTaskHandler(serverCtx),
+				},
+			}...,
+		),
 		rest.WithPrefix("/task/v0"),
 	)
 }

@@ -21,6 +21,7 @@ type (
 
 @server(
 	prefix: /task/v0
+	middleware: LogTrace  // 追踪过滤器
 	group: task
 )
 
