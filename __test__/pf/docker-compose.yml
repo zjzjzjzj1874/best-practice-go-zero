@@ -1,0 +1,8 @@
+version: "3.0"
+
+services:
+  pprof:
+    image: pprof-test
+    container_name: pprof-test
+    ports:
+      - "11080:8080"
