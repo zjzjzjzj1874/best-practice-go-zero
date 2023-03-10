@@ -2,6 +2,8 @@ Name: task
 Host: 0.0.0.0
 Port: 8888
 Mode: dev
+Debug: true
+DebugPort: 40001
 
 CacheRedis:
   - Host: 127.0.0.1:6379

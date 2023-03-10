@@ -4,6 +4,8 @@ import (
 	_ "embed"
 	"flag"
 	"fmt"
+	_ "net/http/pprof"
+
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/rest"
@@ -35,6 +37,7 @@ func main() {
 	//httpx.SetErrorHandler(errors.ErrorHandler)// 自定义错误返回,非restful类型,兼容我方前端
 	handler.RegisterHandlers(server, ctx)
 
+	helper.OpenPPROF(c.PprofConf)
 	cron.InitCron(ctx)
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()

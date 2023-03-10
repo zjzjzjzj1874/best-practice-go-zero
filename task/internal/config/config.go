@@ -3,6 +3,7 @@ package config
 import (
 	"github.com/zeromicro/go-zero/core/stores/cache"
 	"github.com/zeromicro/go-zero/rest"
+	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper/email"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper/obs"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/model/mysql"
@@ -10,6 +11,7 @@ import (
 
 type Config struct {
 	rest.RestConf
+	helper.PprofConf
 
 	Cron struct {
 		TaskTestSpec   string `json:",default=0 0 1 * * *"`
