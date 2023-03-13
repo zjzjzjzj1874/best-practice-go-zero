@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	_ "net/http/pprof"
 )
 
 // PprofConf pprof参数设置
@@ -24,7 +25,7 @@ func OpenPPROF(conf PprofConf) {
 	}
 
 	go func() {
-		fmt.Printf("listen on %d ...\n", conf.DebugPort)
+		fmt.Printf("listen pprof on %d ...\n", conf.DebugPort)
 
 		err := http.ListenAndServe(fmt.Sprintf("0.0.0.0:%d", conf.DebugPort), nil)
 		if err != nil {
