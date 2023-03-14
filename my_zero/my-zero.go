@@ -4,9 +4,6 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"github.com/zeromicro/go-zero/core/logx"
-	"google.golang.org/appengine/log"
-	_ "net/http/pprof"
 	"os"
 	"os/signal"
 	"syscall"
@@ -19,7 +16,9 @@ import (
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/conf"
+	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/rest"
+	"google.golang.org/appengine/log"
 )
 
 var configFile = flag.String("f", "etc/my-zero.yaml", "the config file")
