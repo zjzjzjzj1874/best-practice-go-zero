@@ -22,6 +22,10 @@ type Config struct {
 		URL string // MongoDB数据库链接url
 	}
 
+	Auth struct {
+		AccessSecret string
+		AccessExpire int64
+	}
 	Cron struct {
 		TaskTimeoutSpec string
 	}

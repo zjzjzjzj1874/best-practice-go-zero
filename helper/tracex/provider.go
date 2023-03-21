@@ -16,7 +16,8 @@ import (
 // GlobalTracer 相当于一个工厂函数
 // 使用他将生产一个全局的tracer，可以把这个tracer当成logger一样的使用
 var (
-	once         sync.Once
+	onceRpc      sync.Once
+	onceHttp     sync.Once
 	GlobalTracer trace.Tracer
 )
 
@@ -25,7 +26,7 @@ func NewGrpcProvider(ctx context.Context, conf Trace) trace.Tracer {
 		return nil
 	}
 
-	once.Do(func() {
+	onceRpc.Do(func() {
 		exporter := NewGrpcExporter(ctx, conf.Endpoint)
 		res, err := resource.New(
 			context.Background(),
@@ -61,7 +62,7 @@ func NewHttpProvider(ctx context.Context, conf Trace) trace.Tracer {
 		return nil
 	}
 
-	once.Do(func() {
+	onceHttp.Do(func() {
 		exporter := NewHttpExporter(ctx, conf.Endpoint)
 		res, err := resource.New(
 			context.Background(),

@@ -33,6 +33,9 @@ MysqlConf:
 
 Cron:
   TaskTimeoutSpec: "* * 1 * * *"
+Auth:
+  AccessSecret: ad879037-c7a4-4063-9236-6bfc35d54b7d
+  AccessExpire: 86400
 
 RabbitMQ:
   Consumer:
