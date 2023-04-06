@@ -2,6 +2,83 @@
 
 go-zero最佳实践
 
+## 项目结构
+```shell
+.
+├── Dockerfile -- docker构建文件
+├── Jenkinsfile -- jenkins流水线脚本
+├── LICENSE -- MIT许可证
+├── Makefile 
+├── README.md -- 文档
+├── __test__ -- 测试单元
+├── constants -- 常量
+│   ├── errors -- 错误定义
+│   └── types -- 枚举类型定义
+├── deployment -- 部署文件夹
+├── docker-compose.yml
+├── example -- 示例代码
+├── go.mod -- golang依赖包
+├── helper -- 工具类
+│   ├── area.go -- 中国省市区解析器
+│   ├── area_test.go -- 单元测试
+│   ├── breaker -- 限流器
+│   ├── cmd.go -- 命令行执行器
+│   ├── contextx -- 上下文
+│   ├── converter.go -- 类型转换器
+│   ├── division.go -- sqlite的区域
+│   ├── division_test.go -- 单测
+│   ├── divisions.sqlite -- 地区文件sqlite
+│   ├── email -- 邮件工具类
+│   ├── ffmpeg.go -- FFmpeg执行
+│   ├── ffmpeg_test.go -- 单测
+│   ├── logrusx.go -- 日志中间件
+│   ├── obs -- 华为对象存储
+│   ├── pprof.go -- pprof工具
+│   ├── pprof_test.go -- 单测
+│   ├── rabbitmq -- 消息队列(rabbitmq)
+│   ├── redis.go -- redis中间件
+│   ├── redis_model.go -- 模型定义
+│   ├── redis_test.go -- 单测
+│   ├── sqlx -- 数据库工具类
+│   ├── swagger.go -- swagger工具
+│   ├── tracex -- 链路追踪工具
+│   ├── validate.go -- validate工具
+│   └── validate_test.go -- 单测
+├── middlewares -- 中间件
+│   └── log_trace.go -- 日志中间件
+├── model -- 数据库模型
+│   ├── mongo -- MongoDB模型
+│   └── mysql -- MYSQL模型
+├── my_zero -- zero模块
+│   ├── Dockerfile -- 构建文件
+│   ├── README.md -- 文档
+│   ├── api -- api文件夹
+│   ├── etc -- 配置文件
+│   ├── internal -- 内部逻辑
+│   ├── my-zero.go -- 入口函数
+│   └── my_zero.api -- 入口api文件
+├── order -- 订单模块
+│   └── api -- api文件夹
+├── scripts -- 脚本
+│   ├── k8s_deploy.sh -- 部署脚本
+├── static -- 静态文件
+├── task -- 任务模块
+│   ├── Dockerfile -- 构建文件
+│   ├── README.md -- 文档
+│   ├── api -- api文件夹
+│   ├── etc -- 配置文件
+│   ├── internal -- 内部逻辑
+│   ├── swagger.json -- swagger文件
+│   ├── task-k8s.yaml -- 部署文件
+│   ├── task.api -- 入口api
+│   ├── task.go -- 入口函数
+│   └── task.sh -- 脚本
+├── template -- goctl模板
+│   └── mongo -- mongo模板
+├── user -- 用户模块
+│   └── rpc -- rpc模块
+
+```
 ## How to create a service/project:
 
 - exec `goctl api new my_zero`,then you will see a new service named my-zero.
