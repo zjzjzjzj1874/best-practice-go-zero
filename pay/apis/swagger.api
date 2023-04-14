@@ -1,0 +1,14 @@
+syntax = "v1"
+
+@server(
+	prefix: /pay
+	group: swagger
+)
+
+service pay-api {
+    @doc(
+        summary: "swagger文件"
+    )
+    @handler swagger
+    get /swagger returns()
+}

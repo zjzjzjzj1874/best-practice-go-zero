@@ -22,8 +22,13 @@ func (v StatusError) Response() *StatusErrorResponse {
 		Msg:  v.Error(),
 	}
 }
+
 func ErrBadRequest(msg string) StatusError {
 	return NewStatusError(StatusBadRequestError).WithMsg(msg)
+}
+
+func NewUnauthorizedErr(msg string) StatusError {
+	return NewStatusError(StatusUnauthorized).WithMsg(msg)
 }
 
 func NewStatusError(code Status) StatusError {

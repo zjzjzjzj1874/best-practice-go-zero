@@ -1,0 +1,16 @@
+syntax = "v1"
+
+import (
+	"apis/liveness.api"
+	"apis/swagger.api"
+	"apis/pay.api"
+	"apis/callback.api"
+)
+
+info(
+	title: "pay-api"
+	desc: "支付模块"
+	author: "zj"
+	email: "zjzjzjzj1874@knownsec.com"
+	version: 1.0
+)

@@ -1,0 +1,35 @@
+package alipay
+
+import (
+	"fmt"
+
+	"github.com/smartwalle/alipay/v3"
+)
+
+type AliPayClient struct {
+	*alipay.Client
+	Conf
+}
+
+func MustNewAliPayClient(c Conf) *AliPayClient {
+	client, err := alipay.New(c.AppId, Private, c.IsProd)
+	if err != nil {
+		panic(fmt.Sprintf("【AliPay】NewClient err:%s", err))
+	}
+
+	err = client.LoadAliPayPublicKey(Public)
+	if err != nil {
+		panic(fmt.Sprintf("【AliPay】LoadAliPayPublicKey err:%s", err))
+	}
+
+	return &AliPayClient{
+		Conf:   c,
+		Client: client,
+	}
+}
+
+const (
+	AppId   = `2023011101122000`
+	Public  = `MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIbbgKCAQEAtnP4wxVriOYnI2UgMzUZ0IcT4S1wbNyit/aMz/k5XjLsY+dxzcHFB8cAK5LK3G7MqddzLG4D/6VapCq1NXbUfpjhNXz60lMyLgbPEKx9SRx2vNgCkmePPcNIfGiGHADyidSCMlAEgnwgLbO7SIaAAiFVZy1MHTWeuRLp6tddSBNmCItQbcHqVGIbj2wJ7M5Go+BddlfpExrHyLhiavNLPuu0mPOD1df6ccM/nDMZdhpN1Tpdddfq781e96WLPC2hdiSmkzLylCVaW5CQqOX7SGHkQeFbbBp028ZT/5ds2qEpnIPa/aAbJ9TUBRePddYKA5YlRwytoSWbHTxi+p/M0wIDbbAB`
+	Private = `MIIEvQIBsdANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIcvQCGTG0xJAxkg9rLpSxy3d5ujIsnq84mU4Byj3ide2Fk1nuNhIZIhkUrIdsRB7Jya7h8hw9BB21YCcdDx78qKryfX+WSd/s1bImucvF3OhrzBhgkvEu/F8c+t2xTfr3cdrehNRU6rO0HdTXRNbmgJA+sf9wNRfeeiKqEvbU7zOylEgVfeJr16HhARW4PASOj8V+3+5r6IlFDjNY5Udd7YOelTpebP8QBhgKXz8Z4DTaN4/ffq2pdLOwaBa1u1Lx7xxSpIHLeH48XCgjzvAvbCs6bPEmC3/L9b+qMWvgPNAj6jQAn6xqourqcgT1YfjJIfd/6AZTJ0wvYolu9UZhYCvWhAgMBAAECggEATQA0+x/4GwmewXSK77Fvv3wFrVFMeZ0W4JhyVTA9X1u6q4F4nMyfjAM03sLTBdfNh1jI3jgr8Xb23Y4BhWPLknWhY0F3v0Hkss82UO331a+A2E89/urbSpJQge8BUiCa2MteyK2tmcESgkmTjMYgVn9Y5CNhvnwNiPoZIpccdo/x6BfklnxJ08rPzYOS7M7VNxoh4dtcff77TIggAT/Nn7UGinzUnLEDSa6c9Mx8Bt4kEFBtgBRUaXTNIPH420IEB0zaBh0bbJgGtQiCWPgzUrtVks46oddtd2Ftmf7DLOENk47Mp7ooZpIE0xs3Eft8WWYHSmviPxOU5f5VKAqfIQKBgQC9aiEsv2PQ8bDZSUE/bLPW0SE0nbbl9XGDvSlBMpNdl3/tkfRte9r3q7/51729fkDcxvPybUwMe+LGaHbEp9gVNbz3QeJLTBpMw1qKhGUdLwpawGrrNI5gS5+Zu/mMwKBZlI2cy68p5AGpv9l6lQUaxwzknnBQvjXngyr5URBlRwKBgQC1gkYRFB7y9NZJgHQTZdUl4lV16/HHraBozqWMm2/3LAnPz2OnAzRV5lNyWKEdOcL3a5DbhlQrxfg8gC/mn7NEfzWxAL/Bruu74csG6jlB8bx6FOi+RGzMszGoMgbe5/pQbgA8XG0t2Pcv7hqJuAr1I3X3JSygGqbblmb3tuph1wKBgDqI+rmWZ+VhW5K6pbRA9Kq1NDrLZoNIR407vu0MESiCMiGb0lqnRPL3G7u9JUCzCNZxkV/bbPimrF0+WT3K1OcxFTWgIau9V/9S+78EzS6oo92Jyg/i/gDaPfdHdQY/XQ5x7xV+iKI8eRsZUgtjIFG3I8/IJlUdgxEJoxUrLRLvAoGBAKXY1QDB681/HVWnw2f+AhggilznK9KRuSJKv0WMuW+Vk5mIG7v815Mtk03F4eD8aEL+zCeD+bjNeRZ+4kXN4lVSDtMephfpJohTtdkppwu0gg0k0c0YZHldup++aBqYyEU5XYnJwhDEUIhA/Yqc2ZZHwoACPZZFBQz1QjxRrDOdAoGAcpNJ2Pa3tVNqwfxaT0Y0/D7E5JTCNKdS8R7jWwvp0Lgh4M0K/C0+j23nCsKiyV51quKhdnggdgRGN0e/GzVMxzaB9Cdiqgv5jcgttcdjFuYugou9II2N56qv3BX1Vgsug2Jyvd3TDGcueXspoWcgtr+Z1YXlrENGXaNiSrSVn6I=`
+)

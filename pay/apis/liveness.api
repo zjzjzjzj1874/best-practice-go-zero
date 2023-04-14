@@ -1,0 +1,12 @@
+syntax = "v1"
+
+@server(
+	prefix: pay
+	group: liveness
+)
+
+service pay-api {
+	@doc summary: 支付服务探针接口
+	@handler Liveness
+	get /liveness
+}

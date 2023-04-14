@@ -24,7 +24,6 @@ RUN go build -ldflags="-s -w" -o /app/my-zero my_zero/my-zero.go
 # 需要进入容器用这个镜像alpine
 FROM alpine
 
-
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=builder /usr/share/zoneinfo/Asia/Shanghai /usr/share/zoneinfo/Asia/Shanghai
 ENV TZ Asia/Shanghai

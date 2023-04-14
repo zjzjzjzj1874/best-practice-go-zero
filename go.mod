@@ -15,7 +15,9 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.12
 	github.com/robfig/cron v1.2.0
 	github.com/sirupsen/logrus v1.8.1
+	github.com/smartwalle/alipay/v3 v3.2.1
 	github.com/streadway/amqp v1.0.0
+	github.com/wechatpay-apiv3/wechatpay-go v0.2.16
 	github.com/xuri/excelize/v2 v2.6.0
 	github.com/zeromicro/go-zero v1.3.5
 	github.com/zjzjzjzj1874/huaweicloud-sdk-go-obs v1.0.0
@@ -23,7 +25,6 @@ require (
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.13.0
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.13.0
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp v1.13.0
-	go.opentelemetry.io/otel/exporters/stdout/stdouttrace v1.14.0
 	go.opentelemetry.io/otel/sdk v1.14.0
 	go.opentelemetry.io/otel/trace v1.14.0
 	golang.org/x/sync v0.1.0
@@ -73,6 +74,7 @@ require (
 	github.com/prometheus/procfs v0.7.3 // indirect
 	github.com/richardlehane/mscfb v1.0.4 // indirect
 	github.com/richardlehane/msoleps v1.0.1 // indirect
+	github.com/smartwalle/ncrypto v1.0.0 // indirect
 	github.com/spaolacci/murmur3 v1.1.0 // indirect
 	github.com/stretchr/objx v0.5.0 // indirect
 	github.com/xuri/efp v0.0.0-20220407160117-ad0f7a785be8 // indirect

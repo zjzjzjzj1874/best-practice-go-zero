@@ -1,0 +1,40 @@
+syntax = "v1"
+
+type (
+	PayReq {
+        ID        int `path:"id" description:"待支付订单号" validate:"required"`
+        PayChanel int `json:"pay_channel" description:"支付渠道1微信 2支付宝" validate:"oneof=1 2"`
+	    ReturnUrl string `json:"return_url,optional" description:"支付后跳转链接"`
+	}
+
+	PayQueryReq struct {
+     	ID        int `path:"id" description:"待支付订单号" validate:"required"`
+     }
+
+	PayResp {
+	    PayUrl string `json:"pay_url" description:"支付链接:支付宝直接跳转,微信是个二维码,需要解析才能使用"`
+	}
+
+	PayResultResp {
+        TradeNo    string `json:"trade_no" description:"交易号"`
+        OrderNo    string `json:"order_no" description:"订单号"`
+        OrderState int    `json:"order_state" description:"订单支付结果"`
+	}
+)
+
+@server(
+	jwt: Auth
+	middleware: Log
+	prefix: pay
+	group: pay
+)
+
+service pay-api {
+	@doc summary: 支付服务接口
+	@handler Pay
+	post /:id(PayReq) returns(PayResp)
+
+	@doc summary: 支付结果查询
+	@handler PayResult
+	get /:id(PayQueryReq) returns(PayResultResp)
+}

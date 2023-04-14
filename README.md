@@ -153,6 +153,24 @@ go-zero最佳实践
 - 生成task的`Dockerfile`:`goctl docker -go task.go`
 - `docker-compose`中添加task服务:然后:`docker-compose build task`
 
+## api脚手架生成代码
+- pay
+```shell
+cd ./pay && goctl api go -api pay.api -style go_zero -dir .
+```
+
+## swagger json文件生成
+- pay
+```shell
+cd ./pay && goctl api plugin -plugin goctl-swagger="swagger -filename pay.json" -api pay.api -dir .
+```
+
+## Dockerfile生成
+- pay
+```shell
+cd ./pay && goctl docker -go pay.go
+```
+
 ## 参考资料
 
 - [go-zero实战：让微服务Go起来——2 环境搭建](https://juejin.cn/post/7036010137408143373#heading-4)
