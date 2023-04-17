@@ -8,6 +8,7 @@ import (
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper/flow_limit"
 	"net"
 	"net/http"
+	"strings"
 )
 
 type Limiter string
@@ -46,17 +47,10 @@ func NewFlowLimitMiddleware(conf redis.RedisConf, conf2 flow_limit.Conf, limiter
 func (m *FlowLimitMiddleware) Handle(next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var (
-			err  error
-			host = r.Header.Get("X-Real-IP")
+			err error
 		)
 
-		if host == "" {
-			host, _, err = net.SplitHostPort(r.RemoteAddr)
-			if err != nil {
-				logrus.Errorf("net.Split HostPort failure:[remoteAddr:%s,err:%s]", r.RemoteAddr, err.Error())
-			}
-		}
-		pass, err := m.Check(host)
+		pass, err := m.Check(m.resolveHost(r))
 		if err != nil || !pass {
 			logrus.Errorf("RemoteAddr:%s,realIP:%s:X-Forward-For:%s,err:%v", r.RemoteAddr, r.Header.Get("X-Real-IP"), r.Header.Get("X-Forward-For"), err)
 			res, _ := json.Marshal(map[string]interface{}{
@@ -95,4 +89,29 @@ func (m *FlowLimitMiddleware) Check(key string) (bool, error) {
 		// unknown response, we just let the request go
 		return true, nil
 	}
+}
+
+func (m *FlowLimitMiddleware) resolveHost(r *http.Request) (host string) {
+	ip := r.Header.Get("X-Real-IP") // 只包含客户端机器的一个IP，如果为空，某些代理服务器（如Nginx）会填充此header
+	if net.ParseIP(ip) != nil {
+		return ip
+	}
+	ip = r.Header.Get("X-Forward-For") // 一系列的IP地址列表，以,分隔，每个经过的代理服务器都会添加一个IP。
+	for _, i := range strings.Split(ip, ",") {
+		if net.ParseIP(i) != nil {
+			return i
+		}
+	}
+
+	ip, _, err := net.SplitHostPort(r.RemoteAddr) // 包含客户端的真实IP地址。 这是Web服务器从其接收连接并将响应发送到的实际物理IP地址。 但是，如果客户端通过代理连接，它将提供代理的IP地址。
+	if err != nil {
+		logrus.Errorf("net.SplitHostPort failure:{remoteAddr:%s,err:%s}", r.RemoteAddr, err.Error())
+		return ""
+	}
+
+	if net.ParseIP(ip) != nil {
+		return ip
+	}
+
+	return ""
 }
