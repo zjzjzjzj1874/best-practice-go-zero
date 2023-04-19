@@ -20,6 +20,10 @@ type JsonPool struct {
 	encode *json.Encoder
 }
 
+func (p *JsonPool) Reset() {
+	p.buf.Reset()
+}
+
 var (
 	encodePool = sync.Pool{New: func() any {
 		var buf bytes.Buffer
@@ -34,7 +38,10 @@ var (
 )
 
 func main() {
-	jp := encodePool.Get().(*JsonPool)
+	jp, ok := encodePool.Get().(*JsonPool)
+	if ok {
+		jp.Reset()
+	}
 	defer encodePool.Put(jp)
 
 	_ = jp.encode.Encode(&person)
@@ -47,7 +54,10 @@ func MarshalWithJson() {
 }
 
 func MarshalWithJsonEncodeAndBuf() {
-	jp := encodePool.Get().(*JsonPool)
+	jp, ok := encodePool.Get().(*JsonPool)
+	if ok {
+		jp.Reset()
+	}
 	defer encodePool.Put(jp)
 
 	_ = jp.encode.Encode(&person)
