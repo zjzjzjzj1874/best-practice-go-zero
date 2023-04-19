@@ -113,5 +113,7 @@ func (m *FlowLimitMiddleware) resolveHost(r *http.Request) (host string) {
 		return ip
 	}
 
+	//RemoteAddr是最可靠的，但是如果客户端位于代理之后或使用负载平衡器或反向代理服务器时，它将永远不会提供正确的IP地址，因此顺序是先是X-REAL-IP，然后是X-FORWARDED-FOR，然后是 RemoteAddr。
+	//请注意，恶意用户可以创建伪造的X-REAL-IP和X-FORWARDED-FOR标头。
 	return ""
 }
