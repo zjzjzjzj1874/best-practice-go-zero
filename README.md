@@ -140,6 +140,7 @@ go-zero最佳实践
   - 查看`swagger.json`文件: `curl http://localhost:8888/task/swagger` ,先把`swagger.json`文件复制到镜像中,然后使用`go:embed`把二进制文件读取出来,也可以使用`ioutils.Readfile`;最后返回二进制文件流.
 + [ ] kafka客户端实现
 + [ ] elasticsearch客户端实现
++ [x] 使用swagger文件生成golang客户端代码 => `swagger-codegen generate -i swagger.json -l go -o ./gen`,具体使用见下方`根据swagger文件生成golang客户端`
 + [x] json优化:1.json.NewEncoder代替json.marshal;2.使用json.Encoder的底层缓冲区,减少内存分配和垃圾回收开销
 
 ## `goctl`实用小技巧
@@ -164,6 +165,12 @@ cd ./pay && goctl api go -api pay.api -style go_zero -dir .
 - pay
 ```shell
 cd ./pay && goctl api plugin -plugin goctl-swagger="swagger -filename pay.json" -api pay.api -dir .
+```
+
+## 根据swagger文件生成golang客户端
+- pay
+```shell
+swagger-codegen generate -i ./pay/pay.json -l go -o ./gen/pay
 ```
 
 ## Dockerfile生成

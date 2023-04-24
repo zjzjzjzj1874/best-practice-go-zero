@@ -1,0 +1,226 @@
+openapi: 3.0.1
+info:
+  title: pay-api
+  description: 支付模块
+  version: ""
+servers:
+- url: /
+security:
+- apiKey: []
+paths:
+  /pay/swagger:
+    get:
+      tags:
+      - swagger
+      summary: swagger文件
+      operationId: swagger
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                x-content-type: application/json
+  pay/callback/ali:
+    post:
+      tags:
+      - callback
+      summary: 支付宝支付回调接口
+      operationId: CallbackAli
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                x-content-type: application/json
+  pay/callback/wechat:
+    post:
+      tags:
+      - callback
+      summary: 微信支付回调接口
+      operationId: CallbackWx
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WechatNotifyReq'
+        required: true
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                x-content-type: application/json
+      x-codegen-request-body-name: body
+  pay/liveness:
+    get:
+      tags:
+      - liveness
+      summary: 支付服务探针接口
+      operationId: Liveness
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                x-content-type: application/json
+  pay/{id}:
+    get:
+      tags:
+      - pay
+      summary: 支付结果查询
+      operationId: PayResult
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PayResultResp'
+    post:
+      tags:
+      - pay
+      summary: 支付服务接口
+      operationId: Pay
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PayReq'
+        required: true
+      responses:
+        "200":
+          description: A successful response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PayResp'
+      x-codegen-request-body-name: body
+components:
+  schemas:
+    PayQueryReq:
+      title: PayQueryReq
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+    PayReq:
+      title: PayReq
+      required:
+      - id
+      - pay_channel
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        pay_channel:
+          type: integer
+          format: int32
+        return_url:
+          type: string
+    PayResp:
+      title: PayResp
+      required:
+      - pay_url
+      type: object
+      properties:
+        pay_url:
+          type: string
+      example:
+        pay_url: pay_url
+    PayResultResp:
+      title: PayResultResp
+      required:
+      - order_no
+      - order_state
+      - trade_no
+      type: object
+      properties:
+        trade_no:
+          type: string
+        order_no:
+          type: string
+        order_state:
+          type: integer
+          format: int32
+      example:
+        order_no: order_no
+        trade_no: trade_no
+        order_state: 0
+    Resource:
+      title: Resource
+      required:
+      - algorithm
+      - associated_data
+      - ciphertext
+      - nonce
+      - original_type
+      type: object
+      properties:
+        original_type:
+          type: string
+        algorithm:
+          type: string
+        ciphertext:
+          type: string
+        associated_data:
+          type: string
+        nonce:
+          type: string
+    WechatNotifyReq:
+      title: WechatNotifyReq
+      required:
+      - create_time
+      - event_type
+      - id
+      - resource
+      - resource_type
+      - summary
+      type: object
+      properties:
+        id:
+          type: string
+        create_time:
+          type: string
+        resource_type:
+          type: string
+        event_type:
+          type: string
+        summary:
+          type: string
+        resource:
+          $ref: '#/components/schemas/Resource'
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      description: Enter JWT Bearer token **_only_**
+      name: Authorization
+      in: header
+x-original-swagger-version: "2.0"
