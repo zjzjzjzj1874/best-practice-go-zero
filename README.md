@@ -205,7 +205,7 @@ go-zero最佳实践
 - pay
 
 ```shell
-cd ./pay && goctl api go -api pay.api -style go_zero -dir .
+make api SVC=pay
 ```
 
 ## swagger json文件生成
@@ -213,7 +213,7 @@ cd ./pay && goctl api go -api pay.api -style go_zero -dir .
 - pay
 
 ```shell
-make api SVC=pay
+make json SVC=pay
 ```
 
 ## 根据swagger文件生成golang客户端
@@ -221,7 +221,7 @@ make api SVC=pay
 - pay
 
 ```shell
-swagger-codegen generate -i ./pay/pay.json -l go -o ./gen/pay
+make swagger SVC=pay
 ```
 
 ## Dockerfile生成
@@ -229,7 +229,7 @@ swagger-codegen generate -i ./pay/pay.json -l go -o ./gen/pay
 - pay
 
 ```shell
-cd ./pay && goctl docker -go pay.go
+make dockerfile SVC=pay
 ```
 
 ## 参考资料

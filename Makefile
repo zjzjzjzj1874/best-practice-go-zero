@@ -52,11 +52,28 @@ env:
 	echo BRANCH_ENV="${BRANCH_ENV}" >> .env
 
 .PHONY:api # 脚手架生成服务框架  eg:make api SVC=pay
-api:
+api: $(GOBIN)/goctl
 	goctl api go -api ./${SVC}/${SVC}.api -style go_zero -dir ./${SVC}
 
 .PHONY:swagger # 根据swagger文件生成对应的client  eg:make api SVC=pay
-swagger:
+swagger:  # 注意:command -v swagger-codegen 用于查找swagger-codegen的绝对路径;
+	@if ! [ -x "$(command -v swagger-codegen)" ]; then \
+		echo 'Installing swagger-codegen...'; \
+		brew install swagger-codegen; \
+	fi
 	swagger-codegen generate -i ./${SVC}/${SVC}.json -l go -o ./gen/${SVC}
 
-# TODO add json
+.PHONY:json # eg:make json SVC=pay
+json: $(GOBIN)/goctl # 这里表示需要检查是否已经安装了goctl工具,没有的话要先安装
+	goctl api plugin -plugin goctl-swagger="swagger -filename ./${SVC}/${SVC}.json" -api ./${SVC}/${SVC}.api -dir .
+
+.PHONY:dockerfile # eg:make dockerfile SVC=pay
+dockerfile: $(GOBIN)/goctl
+	cd ./${SVC} && goctl docker -go ${SVC}.go && cd -
+
+.PHONY:kube # eg:make kube SVC=pay
+kube: $(GOBIN)/goctl
+	goctl kube deploy -name backend-${SVC} -namespace default  -image ${SVC} -o ./deploy/my-zero/${SVC}-k8s.yaml -port 80 --serviceAccount find-endpoints
+
+$(GOBIN)/goctl:
+	go install github.com/zeromicro/go-zero/tools/goctl@latest
