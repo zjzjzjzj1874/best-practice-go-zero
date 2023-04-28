@@ -80,13 +80,14 @@ go-zero最佳实践
 │   └── rpc -- rpc模块
 ```
 
-## How to create a service/project:
+## go-zero usage
+### How to create a service/project:
 
 - exec `goctl api new my_zero`,then you will see a new service named my-zero.
 
-## start with microservice
+### start with microservice
 
-### user-rpc
+#### user-rpc
 
 - if `protoc,protoc-gen-go,protoc-gen-rpc-go` are not installed, try with `goctl env check -i -f`;
 
@@ -96,15 +97,13 @@ go-zero最佳实践
 
 - do your business in [getUserLogic.go](./user/rpc/internal/logic/getUserLogic.go)
 
-## Run with api file
+### Run with api file
 
 - cd into target file && exec `goctl api go -api my_zero.api -style goZero -dir .`
 
-## Create a Dockerfile
+### Create a Dockerfile
 
 - cd into target file && exec `goctl docker -go my-zero.go`
-
-## Do some compare
 
 ### migrate or autogen model?
 
@@ -125,6 +124,18 @@ go-zero最佳实践
   - it's convenient to sync model in code through db.
 
 - choose the most suitable is necessary.
+
+### `goctl`实用小技巧
+
+- 根据api文件生成接口:`goctl api go -api task.api -style go_zero -dir .`,驼峰命名的话`go_zero`替换成`goZero`
+
+- 根据api文件生成swagger:`goctl api plugin -plugin goctl-swagger="swagger -filename swagger.json" -api task.api`
+
+- Dockerfile生成:`goctl docker -go task.go`
+
+- K8S部署yaml生成:`goctl kube deploy -name task -namespace my-ns  -image task -o task-k8s.yaml -port 80 --serviceAccount find-endpoints`
+
+- 生成`Mongo Model`:`goctl model mongo -type Task -c -style go_zero -d .`
 
 ## TODO list
 
@@ -179,20 +190,10 @@ go-zero最佳实践
 + [x] 使用swagger文件生成golang客户端代码 => \`swagger-codegen generate -i swagger.json -l go -o ./gen\`,具体使用见下方\`根据swagger文件生成golang客户端\``swagger-codegen generate -i swagger.json -l go -o ./gen`,具体使用见下方`根据swagger文件生成golang客户端`
 
 + [x] json优化:1.json.NewEncoder代替json.marshal;2.使用json.Encoder的底层缓冲区,减少内存分配和垃圾回收开销
++ [ ] 有http请求的路由中新增log中间件,用于请求的path和消耗的时间;
 
-## `goctl`实用小技巧
-
-- 根据api文件生成接口:`goctl api go -api task.api -style go_zero -dir .`,驼峰命名的话`go_zero`替换成`goZero`
-
-- 根据api文件生成swagger:`goctl api plugin -plugin goctl-swagger="swagger -filename swagger.json" -api task.api`
-
-- Dockerfile生成:`goctl docker -go task.go`
-
-- K8S部署yaml生成:`goctl kube deploy -name task -namespace my-ns  -image task -o task-k8s.yaml -port 80 --serviceAccount find-endpoints`
-
-- 生成`Mongo Model`:`goctl model mongo -type Task -c -style go_zero -d .`
-
-## 部署步骤
+## project deploy
+### 部署步骤
 
 以task服务为例
 
@@ -200,7 +201,7 @@ go-zero最佳实践
 
 - `docker-compose`中添加task服务:然后:`docker-compose build task`
 
-## api脚手架生成代码
+### api脚手架生成代码
 
 - pay
 
@@ -208,7 +209,7 @@ go-zero最佳实践
 make api SVC=pay
 ```
 
-## swagger json文件生成
+### swagger json文件生成
 
 - pay
 
@@ -216,7 +217,7 @@ make api SVC=pay
 make json SVC=pay
 ```
 
-## 根据swagger文件生成golang客户端
+### 根据swagger文件生成golang客户端
 
 - pay
 
@@ -224,13 +225,19 @@ make json SVC=pay
 make swagger SVC=pay
 ```
 
-## Dockerfile生成
+### Dockerfile生成
 
 - pay
 
 ```shell
 make dockerfile SVC=pay
 ```
+
+## 其他依赖
+
+### 微信支付
+- [go-client](https://github.com/wechatpay-apiv3/wechatpay-go)
+- [postman脚本](https://github.com/wechatpay-apiv3/wechatpay-postman-script)
 
 ## 参考资料
 

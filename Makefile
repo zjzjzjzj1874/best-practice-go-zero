@@ -1,4 +1,24 @@
+PKG = $(shell cat go.mod | grep "^module " | sed -e "s/module //g")
+VERSION = v$(shell cat ./.version)
+COMMIT_SHA ?= $(shell git describe --always)-devel
+
+GOOS ?= $(shell go env GOOS)
+GOARCH ?= $(shell go env GOARCH)
+GOBUILD=CGO_ENABLED=0 go build -ldflags "-X ${PKG}/version.Version=${VERSION}+sha.${COMMIT_SHA}"
+GOINSTALL=CGO_ENABLED=0 go install -ldflags "-X ${PKG}/version.Version=${VERSION}+sha.${COMMIT_SHA}"
+
 GOBIN ?= $(shell go env GOPATH)/bin
+
+.PHONY:echo
+echo:
+	@echo "PKG:${PKG}"
+	@echo "VERSION:${VERSION}"
+	@echo "COMMIT_SHA:${COMMIT_SHA}"
+	@echo "GOOS:${GOOS}"
+	@echo "GOARCH:${GOARCH}"
+	@echo "GOBUILD:${GOBUILD}"
+	@echo "GOINSTALL:${GOINSTALL}"
+	@echo "GOBIN:${GOBIN}"
 
 # 运行测试用例
 .PHONY:test

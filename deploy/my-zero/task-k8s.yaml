@@ -63,6 +63,7 @@ spec:
     - port: 80
   selector:
     app: backend-task
+  type: NodePort # 节点类型的svc
 
 ---
 
