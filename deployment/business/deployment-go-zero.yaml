@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: deployment-my-zero
-  namespace: default
+  namespace: ${NS}
   labels:
     app: deployment-my-zero
 spec:
@@ -19,7 +19,7 @@ spec:
       serviceAccountName: find-endpoints
       containers:
         - name: deployment-my-zero
-          image: my-zero
+          image: my-zero:${DOCKER_TAG}
           command: [ "/app/my-zero","-f","/etc/config/k8s.yaml" ] # 使用挂载出去的configmap
           volumeMounts:
             - name: config-volume
@@ -66,7 +66,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: deployment-my-zero-svc
-  namespace: default
+  namespace: ${NS}
 spec:
   ports:
     - port: 80
@@ -79,7 +79,7 @@ apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
   name: deployment-my-zero-hpa-c
-  namespace: default
+  namespace: ${NS}
   labels:
     app: deployment-my-zero-hpa-c
 spec:
@@ -101,7 +101,7 @@ apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
   name: deployment-my-zero-hpa-m
-  namespace: default
+  namespace: ${NS}
   labels:
     app: deployment-my-zero-hpa-m
 spec:

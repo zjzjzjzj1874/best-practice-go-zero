@@ -1,0 +1,152 @@
+#!groovy
+// Jenkins中添加jenkins的lib => 见./deployment/JenkinsLib.MD
+
+@Library('jenkinslib@main') _
+
+def tools = new org.devops.tools()
+def email = new org.devops.notify_email()
+def wechat = new org.devops.notify_wechat()
+
+// 启动容器 envsubst => 把文件中的环境变量进行替换后以标准输入传递给kubectl,可以直接省去sed脚本编写
+def Deploy(){
+  sh '''
+      make env && make build SVC=${SVC}
+      envsubst < deployment/${SVC}.yaml | kubectl apply -f -
+  '''
+}
+
+pipeline {
+  options {
+    timestamps() // 显示日志时间戳 => 使用前先安装插件
+    skipDefaultCheckout() // 隐式删checkout scm语句
+    timeout(time: 20, unit: 'MINUTES') // 流水线超时设置:20min
+  }
+
+  agent none
+
+  parameters {
+    choice (
+          name: 'SVC',
+          choices: [
+              'my-zero','access-api', 'access-rpc'
+          ],
+          description: '请选择需要发布的服务'
+    )
+    string (name: 'DOCKER_TAG', defaultValue: 'latest', description: 'docker镜像tag，默认latest')
+  }
+
+  environment { // 全局变量定义
+    DOCKER_TAG = "${params.DOCKER_TAG}"
+    BRANCH_ENV = "${params.BRANCH_ENV}"
+    SVC = "${params.SVC}"
+  }
+  stages {
+    stage('Check on Controller') {
+        agent { label 'HOST' }
+        stages {
+            stage('Cleaning workspace') {
+              steps { sh 'ls -l && sudo rm -rf ./*' }
+            }
+
+            stage('SCE Checkout') {
+                steps { checkout scm }
+            }
+
+            stage('Stash artifacts') {
+              steps {
+                stash name: 'source', includes: '**', excludes: '**/.git,**/.git/**'
+              }
+            }
+
+            stage('Tag Version Prepare') {
+              steps {
+                script {
+                    // 部署环境
+                    echo "当前版本:${DOCKER_TAG}"
+                    if (env.DOCKER_TAG == '' || env.DOCKER_TAG == 'latest') {
+                        echo "替换默认的latest版本"
+                        DOCKER_TAG=sh(script: "git log -n 1 --pretty=format:%H", returnStdout: true)
+                    }
+                    echo "替换后版本:${DOCKER_TAG}"
+                }
+              }
+            }
+        }
+    }
+    stage('Transfer on JUMP_SERVER') {
+        agent { label 'JUMPER' }
+        stages {
+            stage('Cleaning workspace') {
+              steps { sh 'ls -l && sudo rm -rf ./*' }
+            }
+            stage('Unstash artifacts') {
+              steps {
+                unstash 'source'
+              }
+            }
+        }
+    }
+
+    stage ('Deploy on Dev') {
+      when { branch 'dev' }
+      environment {
+        DOCKER_TAG = "${DOCKER_TAG}"
+        BRANCH_ENV = 'dev'
+        NS = 'zero-dev'
+      }
+      agent { label 'JUMPER' }
+      stages {
+          stage('Starting containers') {
+            steps {
+              script {deploy ()}
+            }
+          }
+        }
+    }
+    stage ('Deploy on Test') {
+      when { branch 'test' }
+      environment {
+        DOCKER_TAG = "${DOCKER_TAG}"
+        BRANCH_ENV = 'test'
+        NS = 'zero-test'
+      }
+      agent { label 'JUMPER' }
+      stages {
+          stage('Starting containers') {
+            steps {
+              script {deploy ()}
+            }
+          }
+        }
+    }
+    stage ('Deploy on Prod') {
+      when { branch 'main' }
+      environment {
+        DOCKER_TAG = "${DOCKER_TAG}"
+        BRANCH_ENV = 'pro'
+        NS = 'zero-pro'
+      }
+      agent { label 'JUMPER' }
+      stages {
+          stage('Starting containers') {
+            steps {
+              script {deploy ()}
+            }
+          }
+        }
+    }
+  }
+
+  // 构建后操作
+  post {
+    always { script { tools.PrintMsg("构建完成","green") }}
+    success { script { currentBuild.description = "构建成功！" }}
+    failure { script {
+        currentBuild.description = "构建失败！"
+        tools.PrintMsg("构建失败,发送邮件和企业微信推送","red")
+        email.EmailNotify("本次构建失败")
+        wechat.WorkWechatNotifyWithMsg("https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=your-key","构建失败")
+    }}
+    aborted { script { currentBuild.description = "取消本次构建！" }}
+  }
+}
