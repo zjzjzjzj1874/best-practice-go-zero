@@ -1,0 +1,14 @@
+syntax = "v1"
+
+
+@server(
+	prefix: /user
+	group: liveness
+)
+service user-api {
+    @doc(
+		summary: user-api服务探针接口
+	)
+	@handler Liveness
+	get /liveness
+}

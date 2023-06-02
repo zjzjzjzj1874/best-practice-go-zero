@@ -1,0 +1,297 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "user-api",
+    "description": "用户模块api",
+    "version": ""
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/user/liveness": {
+      "get": {
+        "summary": "user-api服务探针接口",
+        "operationId": "Liveness",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "requestBody": {},
+        "tags": [
+          "liveness"
+        ]
+      }
+    },
+    "/user/swagger": {
+      "get": {
+        "summary": "swagger文件",
+        "operationId": "swagger",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {}
+          }
+        },
+        "requestBody": {},
+        "tags": [
+          "swagger"
+        ]
+      }
+    },
+    "customers/get-phone-auth": {
+      "post": {
+        "summary": "获取手机验证码",
+        "operationId": "GetCellPhoneAuth",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetCellPhoneAuthResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 获取手机验证码",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetCellPhoneAuthReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "customer"
+        ]
+      }
+    },
+    "customers/login-phone": {
+      "post": {
+        "summary": "手机号登录",
+        "operationId": "LoginPhone",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/LoginPhoneResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LoginPhoneReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "customer"
+        ]
+      }
+    },
+    "customers/login-wechat": {
+      "post": {
+        "summary": "微信扫码登录",
+        "operationId": "LoginWechat",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/LoginWechatResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LoginWechatReq"
+            }
+          }
+        ],
+        "requestBody": {},
+        "tags": [
+          "customer"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "GetCellPhoneAuthReq": {
+      "type": "object",
+      "properties": {
+        "phone": {
+          "type": "string"
+        }
+      },
+      "title": "GetCellPhoneAuthReq",
+      "required": [
+        "phone",
+        "客户电话"
+      ]
+    },
+    "GetCellPhoneAuthResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "default": "200"
+        },
+        "msg": {
+          "type": "string",
+          "default": "请求成功"
+        }
+      },
+      "title": "GetCellPhoneAuthResp",
+      "required": [
+        "code",
+        "返回码",
+        "msg",
+        "消息说明"
+      ]
+    },
+    "LoginData": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "extra": {
+          "type": "string"
+        }
+      },
+      "title": "LoginData",
+      "required": [
+        "token",
+        "jwt",
+        "extra",
+        "额外信息"
+      ]
+    },
+    "LoginPhoneReq": {
+      "type": "object",
+      "properties": {
+        "phone": {
+          "type": "string"
+        },
+        "phone_auth": {
+          "type": "string"
+        },
+        "browser_fingerprint": {
+          "type": "string"
+        }
+      },
+      "title": "LoginPhoneReq",
+      "required": [
+        "phone",
+        "手机号",
+        "phone_auth",
+        "手机验证码",
+        "browser_fingerprint",
+        "浏览器指纹"
+      ]
+    },
+    "LoginPhoneResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "default": "200"
+        },
+        "msg": {
+          "type": "string",
+          "default": "请求成功"
+        },
+        "data": {
+          "$ref": "#/definitions/LoginData"
+        }
+      },
+      "title": "LoginPhoneResp",
+      "required": [
+        "code",
+        "返回码",
+        "msg",
+        "消息说明",
+        "data",
+        "登录数据"
+      ]
+    },
+    "LoginWechatReq": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string"
+        },
+        "browser_fingerprint": {
+          "type": "string"
+        }
+      },
+      "title": "LoginWechatReq",
+      "required": [
+        "code",
+        "登录Code",
+        "browser_fingerprint",
+        "浏览器指纹"
+      ]
+    },
+    "LoginWechatResp": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32",
+          "default": "200"
+        },
+        "msg": {
+          "type": "string",
+          "default": "请求成功"
+        },
+        "data": {
+          "$ref": "#/definitions/LoginData"
+        }
+      },
+      "title": "LoginWechatResp",
+      "required": [
+        "code",
+        "返回码",
+        "msg",
+        "消息说明",
+        "data",
+        "登录数据"
+      ]
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "apiKey": []
+    }
+  ]
+}

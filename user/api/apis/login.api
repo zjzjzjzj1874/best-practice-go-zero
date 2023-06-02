@@ -1,0 +1,76 @@
+syntax = "v1"
+
+type (
+
+	// 获取手机验证码
+	GetCellPhoneAuthReq {
+		Phone           string `json:"phone" description:"客户电话"`
+	}
+
+	GetCellPhoneAuthResp {
+		Code int32         `json:"code,default=200" description:"返回码"`
+		Msg  string        `json:"msg,default=请求成功" description:"消息说明"`
+	}
+
+	// 客户登录
+	 LoginData {
+		Token string `json:"token" description:"jwt"`
+	    Extra string `json:"extra" description:"额外信息"`
+	}
+
+	 LoginPhoneReq {
+		Phone           string `json:"phone" description:"手机号"`
+		PhoneAuth       string `json:"phone_auth" description:"手机验证码"`
+	    BrowserFingerprint string `json:"browser_fingerprint" description:"浏览器指纹"`
+	}
+	 LoginPhoneResp {
+		Code int32              `json:"code,default=200" description:"返回码"`
+		Msg  string             `json:"msg,default=请求成功" description:"消息说明"`
+		Data *LoginData `json:"data" description:"登录数据"`
+	}
+
+	 LoginWechatReq {
+    	Code string `json:"code" description:"登录Code"`
+	    BrowserFingerprint string `json:"browser_fingerprint" description:"浏览器指纹"`
+	}
+
+	 LoginWechatResp {
+		Code int32              `json:"code,default=200" description:"返回码"`
+		Msg  string             `json:"msg,default=请求成功" description:"消息说明"`
+		Data *LoginData `json:"data" description:"登录数据"`
+	}
+)
+
+
+@server(
+	middleware: Recover,Log
+	group: customer
+	prefix: customers
+)
+service user-api {
+	@doc(
+		summary: 手机号登录
+	)
+	@handler  LoginPhone
+	post /login-phone( LoginPhoneReq) returns( LoginPhoneResp)
+
+	@doc(
+		summary: 微信扫码登录
+	)
+	@handler  LoginWechat
+	post /login-wechat( LoginWechatReq) returns( LoginWechatResp)
+
+}
+
+@server(
+	middleware: Recover,Log,FlowLimit
+	group: customer
+	prefix: customers
+)
+service user-api {
+	@doc(
+		summary: 获取手机验证码
+	)
+	@handler GetCellPhoneAuth
+	post /get-phone-auth(GetCellPhoneAuthReq) returns(GetCellPhoneAuthResp)
+}
