@@ -10,7 +10,14 @@ def wechat = new org.devops.notify_wechat()
 // 启动容器 envsubst => 把文件中的环境变量进行替换后以标准输入传递给kubectl,可以直接省去sed脚本编写
 def Deploy(){
   sh '''
+      #!/bin/bash
+      set -e  # 这里表示:有错误及时中断
       make env && make build SVC=${SVC}
+      envsubst < deployment/${SVC}.yaml | kubectl apply -f -
+  '''
+
+  sh '''
+      make -i env && make -i build SVC=${SVC}   # make -i,忽略make构建中的错误
       envsubst < deployment/${SVC}.yaml | kubectl apply -f -
   '''
 }
