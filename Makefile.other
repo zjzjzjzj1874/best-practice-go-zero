@@ -1,0 +1,33 @@
+PKG = $(shell cat go.mod | grep "^module " | sed -e "s/module //g")
+NAME = $(shell basename $(PKG))
+VERSION = v$(shell cat .version)
+COMMIT_SHA ?= $(shell git rev-parse --short HEAD)
+
+GOOS ?= $(shell go env GOOS)
+GOARCH ?= $(shell go env GOARCH)
+
+GOBUILD=CGO_ENABLED=0 GOOS=$(GOOS) GOARCH=$(GOARCH) go build -a -ldflags "-X ${PKG}/version.Version=${VERSION}+sha.${COMMIT_SHA}"
+
+WORKSPACE ?= srv-finance
+
+up:
+	cd ./cmd/$(WORKSPACE) && go run .
+
+dockerize:
+	cd ./cmd/$(WORKSPACE) && go run . dockerize
+
+migrate:
+	cd ./cmd/$(WORKSPACE) && go run . migrate
+
+build: openapi
+	cd ./cmd/$(WORKSPACE) && $(GOBUILD)
+
+openapi: tools.install
+	cd ./cmd/$(WORKSPACE) && tools openapi
+
+tools.install:
+	go install git.querycap.com/tools/cmd/cmd/tools
+
+upgrade:
+	go get -u ./...
+
