@@ -51,26 +51,50 @@
         ]
       }
     },
-    "/task/v0/manual": {
-      "post": {
-        "summary": "手动执行某个任务",
-        "operationId": "ManualRunTask",
+    "/task/swagger-bin": {
+      "get": {
+        "summary": "swagger文件",
+        "operationId": "swaggerGet",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/ManualExecTaskResponse"
+              "$ref": "#/definitions/Response"
+            }
+          }
+        },
+        "requestBody": {},
+        "tags": [
+          "task"
+        ]
+      }
+    },
+    "/task/v0/run/{name}": {
+      "post": {
+        "summary": "手动执行任务",
+        "operationId": "ManualRun",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ManualRunResp"
             }
           }
         },
         "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "body",
             "description": " 手动执行任务",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/ManualExecTaskRequest"
+              "$ref": "#/definitions/ManualRunReq"
             }
           }
         ],
@@ -94,28 +118,27 @@
         "msg"
       ]
     },
-    "ManualExecTaskRequest": {
+    "ManualRunReq": {
       "type": "object",
       "properties": {
         "name": {
-          "type": "string",
-          "description": " 任务名称"
+          "type": "string"
         }
       },
-      "title": "ManualExecTaskRequest",
+      "title": "ManualRunReq",
       "required": [
         "name",
-        "表达式任务名称"
+        "任务名称"
       ]
     },
-    "ManualExecTaskResponse": {
+    "ManualRunResp": {
       "type": "object",
       "properties": {
         "msg": {
           "type": "string"
         }
       },
-      "title": "ManualExecTaskResponse",
+      "title": "ManualRunResp",
       "required": [
         "msg",
         "信息"

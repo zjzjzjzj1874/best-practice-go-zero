@@ -10,11 +10,11 @@ info(
 
 type (
     // 手动执行任务
-    ManualExecTaskRequest struct {
-        Name string    `json:"name" description:"表达式任务名称"`           // 任务名称
+    ManualRunReq struct {
+		Name string `path:"name" description:"任务名称"`
     }
 
-    ManualExecTaskResponse struct {
+    ManualRunResp struct {
         Msg string    `json:"msg" description:"信息"`
     }
 )
@@ -27,8 +27,8 @@ type (
 
 service task {
     @doc(
-        summary: "手动执行某个任务"
+        summary: "手动执行任务"
     )
-    @handler ManualRunTask
-    post /manual (ManualExecTaskRequest) returns (ManualExecTaskResponse)
+    @handler ManualRun
+    post /run/:name (ManualRunReq) returns (ManualRunResp)
 }

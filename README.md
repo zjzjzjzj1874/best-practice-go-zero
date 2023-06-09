@@ -209,12 +209,24 @@ go-zero最佳实践
 make api SVC=pay
 ```
 
+- task
+
+```shell
+make api SVC=task
+```
+
 ### swagger json文件生成
 
 - pay
 
 ```shell
 make json SVC=pay
+```
+
+- task
+
+```shell
+make json SVC=task
 ```
 
 ### 根据swagger文件生成golang客户端

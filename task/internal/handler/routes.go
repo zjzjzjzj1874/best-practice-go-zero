@@ -44,8 +44,8 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			[]rest.Route{
 				{
 					Method:  http.MethodPost,
-					Path:    "/manual",
-					Handler: task.ManualRunTaskHandler(serverCtx),
+					Path:    "/run/:name",
+					Handler: task.ManualRunHandler(serverCtx),
 				},
 			}...,
 		),

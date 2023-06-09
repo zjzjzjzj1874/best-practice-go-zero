@@ -43,7 +43,7 @@ func main() {
 	server.Start()
 }
 
-//go:embed swagger.json
+//go:embed task.json
 var swagger []byte
 
 // Opt 设置自定义跨域请求,或者返回的header

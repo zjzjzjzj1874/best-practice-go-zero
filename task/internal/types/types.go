@@ -11,10 +11,10 @@ type Request struct {
 type Response struct {
 }
 
-type ManualExecTaskRequest struct {
-	Name string `json:"name" description:"表达式任务名称"` // 任务名称
+type ManualRunReq struct {
+	Name string `path:"name" description:"任务名称"`
 }
 
-type ManualExecTaskResponse struct {
+type ManualRunResp struct {
 	Msg string `json:"msg" description:"信息"`
 }

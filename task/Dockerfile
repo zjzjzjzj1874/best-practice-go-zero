@@ -11,7 +11,7 @@ ADD go.sum .
 RUN go mod download
 COPY . .
 COPY ./task/etc /app/etc
-COPY ./task/swagger.json /app/
+COPY ./task/task.json /app/
 RUN go build -ldflags="-s -w" -o /app/task task/task.go
 
 FROM alpine
@@ -19,6 +19,6 @@ FROM alpine
 WORKDIR /app
 COPY --from=builder /app/task /app/task
 COPY --from=builder /app/etc /app/etc
-COPY --from=builder /app/swagger.json /app/
+COPY --from=builder /app/task.json /app/
 
 CMD ["./task", "-f", "etc/task.yaml"]
