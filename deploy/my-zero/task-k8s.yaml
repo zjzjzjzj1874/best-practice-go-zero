@@ -85,7 +85,8 @@ spec:
   - type: Resource
     resource:
       name: cpu
-      targetAverageUtilization: 80
+      #targetAverageUtilization: 80 # 实际使用率  = 实际使用cpu/申请cpu:这个很容易触发
+      targetAverageValue: 500m # 实际使用超过500m才触发扩容
 
 ---
 
@@ -107,4 +108,6 @@ spec:
   - type: Resource
     resource:
       name: memory
-      targetAverageUtilization: 80
+      #targetAverageUtilization: 80 # 实际使用率  = 实际使用内存/申请内存:这个很容易触发
+      targetAverageValue: 500Mi # 实际使用超过500Mi才触发扩容
+

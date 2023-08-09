@@ -2,4 +2,5 @@ import (
 	"api/liveness.api"
 	"api/swagger.api"
 	"api/task.api"
+	"api/text.api"
 )

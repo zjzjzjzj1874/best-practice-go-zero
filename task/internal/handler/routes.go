@@ -4,6 +4,7 @@ package handler
 import (
 	"net/http"
 
+	imp "github.com/zjzjzjzj1874/best-pracrice-go-zero/task/internal/handler/imp"
 	task "github.com/zjzjzjzj1874/best-pracrice-go-zero/task/internal/handler/task"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/task/internal/svc"
 
@@ -50,5 +51,19 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			}...,
 		),
 		rest.WithPrefix("/task/v0"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/:id",
+					Handler: imp.ImportHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/task/import"),
 	)
 }

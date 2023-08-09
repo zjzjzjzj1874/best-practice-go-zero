@@ -1,0 +1,28 @@
+syntax = "v1"
+
+type (
+	ImportReq {
+		Id            string  `path:"id" description:"objectId" validate:"required"`
+        BlackWhiteType   int     `json:"black_white_type" description:"黑白名单类型 1黑 2白" validate:"required"`
+    }
+	ImportResp {
+        Code      int         `json:"code"`
+        Msg       string      `json:"msg"`
+        Data      string      `json:"data"`
+	}
+)
+
+
+@server(
+	prefix: /task/import
+	middleware: LogTrace  // 追踪过滤器
+	group: imp
+)
+
+service task {
+    @doc(
+        summary: "导入文本库"
+    )
+    @handler Import
+    post /:id (ImportReq) returns (ImportResp)
+}

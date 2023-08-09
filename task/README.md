@@ -4,3 +4,8 @@
   `docker build -t xx .`
 - 手动调用定时任务
   `curl -X POST http://localhost:30008/task/v0/manual -d '{"name":"测试任务"}' --header "Content-Type: application/json"`
+
+#### api生成代码
+```shell
+goctl api go -api task.api -style go_zero -dir .
+```
