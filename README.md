@@ -258,3 +258,8 @@ make dockerfile SVC=pay
 - [go-zero实战：让微服务Go起来——9 服务监控 Prometheus](https://juejin.cn/post/7044509187027501063)
 
 - [基于Docker搭建Prometheus和Grafana](https://www.cnblogs.com/xiao987334176/p/9930517.html#autoid-3-0-0)
+
+
+### 其他说明
+
+go-zero在处理multipart-formdata的结构时,如果path中有参数,formdata中也有参数,请参考[import](./task/internal/handler/imp/import_handler.go)代码中的处理方法.

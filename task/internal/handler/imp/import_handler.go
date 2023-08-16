@@ -14,11 +14,11 @@ import (
 func ImportHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.ImportReq
-		if err := httpx.ParsePath(r, &req); err != nil {
+		if err := httpx.ParsePath(r, &req); err != nil { // 解析path中的参数
 			httpx.Error(w, err)
 			return
 		}
-		if err := httpx.ParseForm(r, &req); err != nil {
+		if err := httpx.ParseForm(r, &req); err != nil { // 解析form表单参数
 			httpx.Error(w, err)
 			return
 		}
