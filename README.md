@@ -191,6 +191,7 @@ go-zero最佳实践
 
 + [x] json优化:1.json.NewEncoder代替json.marshal;2.使用json.Encoder的底层缓冲区,减少内存分配和垃圾回收开销
 + [ ] 有http请求的路由中新增log中间件,用于请求的path和消耗的时间;
++ [ ] TODO 写一个类似[gptx](https://github.com/zjzjzjzj1874/chatgpt)的wechat发消息的命令行工具;加油!!!
 
 ## project deploy
 ### 部署步骤
