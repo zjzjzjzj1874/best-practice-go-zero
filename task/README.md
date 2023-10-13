@@ -9,3 +9,8 @@
 ```shell
 goctl api go -api task.api -style go_zero -dir .
 ```
+
+#### api生成代码
+```shell
+goctl api go -api task.api -style go_zero -dir .
+```

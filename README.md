@@ -169,6 +169,9 @@ go-zero最佳实践
 
 + [x] go-zero PeriodLimit => 滑动窗口实现的限流器 => 当然go-zero也有基于令牌桶实现的限流器
 
++ [x] 微信定时向用户/群组发送消息,[代码](./__test__/wechat/msg.go)
++ [x] 火山引擎翻译API调用,[官方网站](https://www.volcengine.com/docs/4640/65066),[代码](./__test__/volcengine/volcengine.go)
+
 + [x] go-zero自动生成swagger文件:
 
   - 切换到task项目并执行:`goctl api plugin -plugin goctl-swagger="swagger -filename swagger.json" -api task.api`
