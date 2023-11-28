@@ -77,6 +77,14 @@ func Test_Zadd(t *testing.T) {
 		Member: "10",
 	})
 }
+func Test_ZScore(t *testing.T) {
+	res, err := client.ZScore(context.Background(), ZSet, "14").Result()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	t.Logf("res:%v\n", res)
+}
 
 func Test_ZRang(t *testing.T) {
 	res, err := client.ZRangeByScoreWithScores(context.Background(), ZSet, &redis.ZRangeBy{
