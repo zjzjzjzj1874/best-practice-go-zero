@@ -27,7 +27,7 @@ module.exports = {
         {value: 'ci', name: 'ci💻:      Modify CI/CD related content'},
     ],
 
-    scopes: [{name: 'accounts'}, {name: 'admin'}, {name: 'exampleScope'}, {name: 'changeMe'}],
+    scopes: [{ name: 'middleware' }, { name: 'struct' }, { name: 'whole' }, { name: 'part' }],
 
     allowTicketNumber: false,
     isTicketNumberRequired: false,
@@ -59,16 +59,15 @@ module.exports = {
     },
 
     allowCustomScopes: true,
+    skipQuestions: ["body"],
     // upperCaseSubject: true,
     // footerPrefix: 'Related issue:',
 
     // allowBreakingChanges: ['feat', 'fix'],
     // skip any questions you want
     // skipQuestions: ['scope', 'body'],
-
     // limit subject length
     subjectLimit: 100,
     // breaklineChar: '|', // It is supported for fields body and footer.
-    // footerPrefix : 'ISSUES CLOSED:'
     // askForBreakingChangeFirst : true, // default is false
 };
