@@ -6,7 +6,6 @@ this is a test file
 ## 目录结构
 ```shell
 tree -L 1  # 查看一级目录
-
 ├── README.md
 ├── batch
 ├── chore
