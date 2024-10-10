@@ -23,7 +23,23 @@ func NewExcelParseLogic(ctx context.Context, svcCtx *svc.ServiceContext) *ExcelP
 	}
 }
 
+func (l *ExcelParseLogic) Validate(req *types.ListReq) (err error) {
+	// 前置逻辑校验
+	return
+}
 func (l *ExcelParseLogic) ExcelParse(req *types.ListReq) (resp *types.Response, err error) {
+	// 前置逻辑校验
+	if err := l.Validate(req); err != nil {
+		return nil, err
+	}
+
+	// 异步组装数据并发送。
+	go l.SendExcel(req)
+
+	return &types.Response{}, nil
+}
+
+func (l *ExcelParseLogic) SendExcel(req *types.ListReq) {
 	// todo: add your logic here and delete this line
 
 	return

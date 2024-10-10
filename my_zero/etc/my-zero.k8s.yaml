@@ -52,6 +52,9 @@ AccessRpc:
 #      - http://etcd:2379
 #    Key: access.rpc
 
+Auth:
+  AccessSecret: ad879037-c7a4-4063-9236-6bfc35d54b7d
+  AccessExpire: 86400
 UserRpc:
   Target: deployment-user-rpc-svc:80 #goctl kube 默认生成的k8s yaml的serviceName: {rpc中定义的name}-svc
   Timeout: 5000
