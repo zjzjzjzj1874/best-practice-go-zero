@@ -3,4 +3,5 @@ import (
 	"api/swagger.api"
 	"api/task.api"
 	"api/text.api"
+	"api/bulk.api"
 )

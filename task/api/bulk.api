@@ -1,0 +1,25 @@
+syntax = "v1"
+
+type (
+	BulkReq {}
+	BulkResp {
+        Code      int         `json:"code"`
+        Msg       string      `json:"msg"`
+        Data      string      `json:"data"`
+	}
+)
+
+
+@server(
+	prefix: /task/bulk
+	middleware: LogTrace  // 追踪过滤器
+	group: bulk
+)
+
+service task {
+    @doc(
+        summary: "go-zero批量操作"
+    )
+    @handler Bulk
+    post / (BulkReq) returns (BulkResp)
+}

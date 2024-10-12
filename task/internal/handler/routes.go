@@ -4,6 +4,7 @@ package handler
 import (
 	"net/http"
 
+	bulk "github.com/zjzjzjzj1874/best-pracrice-go-zero/task/internal/handler/bulk"
 	imp "github.com/zjzjzjzj1874/best-pracrice-go-zero/task/internal/handler/imp"
 	task "github.com/zjzjzjzj1874/best-pracrice-go-zero/task/internal/handler/task"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/task/internal/svc"
@@ -55,7 +56,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 
 	server.AddRoutes(
 		rest.WithMiddlewares(
-			[]rest.Middleware{},
+			[]rest.Middleware{serverCtx.LogTrace},
 			[]rest.Route{
 				{
 					Method:  http.MethodPost,
@@ -65,5 +66,19 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 			}...,
 		),
 		rest.WithPrefix("/task/import"),
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.LogTrace},
+			[]rest.Route{
+				{
+					Method:  http.MethodPost,
+					Path:    "/",
+					Handler: bulk.BulkHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithPrefix("/task/bulk"),
 	)
 }

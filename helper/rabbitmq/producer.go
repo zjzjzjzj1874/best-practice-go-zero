@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/streadway/amqp"
+	"github.com/zeromicro/go-zero/core/logx"
 	"log"
 	"time"
 )
@@ -76,5 +77,13 @@ func newProducer(conf Config) {
 			}
 			fmt.Printf("Publish success:[data:%+v]\n", meta)
 		}
+	}
+}
+
+func confirmOne(routingKey string, confirms <-chan amqp.Confirmation) {
+	if confirmed := <-confirms; confirmed.Ack {
+		logx.Errorf("【%s-confirm】确认消息投递，tag：%d.\n", routingKey, confirmed.DeliveryTag)
+	} else {
+		logx.Errorf("【%s-confirm】确认消息投递失败，tag：%d.\n", routingKey, confirmed.DeliveryTag)
 	}
 }

@@ -21,10 +21,19 @@ type ManualRunResp struct {
 
 type ImportReq struct {
 	Id             string `path:"id" description:"objectId" validate:"required"`
-	BlackWhiteType int    `form:"black_white_type" description:"黑白名单类型 1黑 2白" validate:"required"`
+	BlackWhiteType int    `json:"black_white_type" description:"黑白名单类型 1黑 2白" validate:"required"`
 }
 
 type ImportResp struct {
+	Code int    `json:"code"`
+	Msg  string `json:"msg"`
+	Data string `json:"data"`
+}
+
+type BulkReq struct {
+}
+
+type BulkResp struct {
 	Code int    `json:"code"`
 	Msg  string `json:"msg"`
 	Data string `json:"data"`
