@@ -132,8 +132,25 @@ func NewConsumer(amqpURI, exchange, exchangeType, queueName, key, ctag string) (
 		return nil, fmt.Errorf("Queue Consume: %s", err)
 	}
 
-	go handle(deliveries, c.done)
+	//go handle(deliveries, c.done)
 
+	count := 0
+	for d := range deliveries {
+		count++
+		go func(d amqp.Delivery, c int) {
+			log.Printf(
+				"【收到消息-%d】got %dB delivery: [%v] %q",
+				c,
+				len(d.Body),
+				d.DeliveryTag,
+				d.Body,
+			)
+			d.Ack(false)
+		}(d, count)
+	}
+
+	log.Printf("handle: deliveries channel closed")
+	c.done <- nil
 	return c, nil
 }
 

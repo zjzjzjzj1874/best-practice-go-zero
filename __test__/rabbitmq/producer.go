@@ -8,6 +8,7 @@ import (
 	"github.com/streadway/amqp"
 	"github.com/zeromicro/go-zero/core/logx"
 	"log"
+	"math"
 	"time"
 )
 
@@ -25,8 +26,10 @@ func init() {
 }
 
 func main() {
+	fmt.Println("result ===== ", math.Log10(float64(10000)))
+
 	for i := 0; i < 10; i++ {
-		time.Sleep(time.Microsecond * 100)
+		time.Sleep(time.Millisecond * 1000)
 		if err := publish(*uri, *exchangeName, *exchangeType, *routingKey, *body, *reliable); err != nil {
 			log.Fatalf("%s", err)
 		}
