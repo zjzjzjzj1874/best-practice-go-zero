@@ -6,11 +6,9 @@ import (
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper/obs"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/middlewares"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/model/mongo"
-	"github.com/zjzjzjzj1874/best-pracrice-go-zero/model/mysql"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/config"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/db"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/middleware"
-	"reflect"
 )
 
 type ServiceContext struct {
@@ -29,11 +27,11 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	return &ServiceContext{
 		Config: c,
 		//RedisClient:     helper.MustNewClient(c.Mode, c.CacheRedis),
-		MysqlDB: db.NewMysqlClient(mysql.MustNewDB(c.MysqlConf)),
+		//MysqlDB: db.NewMysqlClient(mysql.MustNewDB(c.MysqlConf)),
 		//HwObsClient:     obs.NewHWObsClient(c.HwObs, c.RestConf),
 		//ExportTaskModel: mongo.NewExportTaskModel(c.MongoDB.URL, reflect.TypeOf(mongo.ExportTask{}).Name(), c.CacheRedis),
-		MongoTestModel: mongo.NewMongoTestModel(c.MongoDB.URL, reflect.TypeOf(mongo.Test{}).Name(), c.CacheRedis),
-		FlowLimit:      middleware.NewFlowLimitMiddleware(c.CacheRedis[0].RedisConf).Handle,
-		LogTrace:       middlewares.NewLogTraceMiddleware().Handle,
+		//MongoTestModel: mongo.NewMongoTestModel(c.MongoDB.URL, reflect.TypeOf(mongo.Test{}).Name(), c.CacheRedis),
+		FlowLimit: middleware.NewFlowLimitMiddleware(c.CacheRedis[0].RedisConf).Handle,
+		LogTrace:  middlewares.NewLogTraceMiddleware().Handle,
 	}
 }

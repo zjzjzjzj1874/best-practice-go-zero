@@ -4,23 +4,29 @@ import (
 	"errors"
 	"fmt"
 	"github.com/xuri/excelize/v2"
-	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper"
-	"net/http"
-
 	"github.com/zeromicro/go-zero/rest/httpx"
+	"github.com/zjzjzjzj1874/best-pracrice-go-zero/helper"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/logic/v0/test"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/svc"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/my_zero/internal/types"
+	"net/http"
+	"strings"
 )
 
 func ExcelParseHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		path := r.URL.String()
+		if strings.LastIndex(path, "?") != -1 {
+			path = path[:strings.LastIndex(path, "?")]
+			path = path[strings.Index(path, "/")+1:]
+		}
+		fmt.Println("path === ", path)
+
 		var req types.ListReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.Error(w, err)
 			return
 		}
-
 		if err := helper.Validate().StructCtx(r.Context(), &req); err != nil {
 			httpx.Error(w, err)
 			return
