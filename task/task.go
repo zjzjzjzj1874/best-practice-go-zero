@@ -1,9 +1,19 @@
+/*
+ * @Author: zjzjzjzj1874 zjzjzjzj1874@gmail.com
+ * @Date: 2023-12-12 11:27:59
+ * @LastEditors: zjzjzjzj1874 zjzjzjzj1874@gmail.com
+ * @LastEditTime: 2025-02-08 14:11:43
+ * @FilePath: /best-practice-go-zero/task/task.go
+ * @Description: task服务入口
+ */
 package main
 
 import (
 	_ "embed"
 	"flag"
 	"fmt"
+	"net/http"
+
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/rest"
@@ -14,7 +24,6 @@ import (
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/task/internal/cron"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/task/internal/handler"
 	"github.com/zjzjzjzj1874/best-pracrice-go-zero/task/internal/svc"
-	"net/http"
 )
 
 var configFile = flag.String("f", "etc/task.yaml", "the config file")
@@ -36,6 +45,7 @@ func main() {
 	httpx.SetErrorHandler(errors.ErrorRestfulHandler) // 自定义错误返回,restful类型
 	//httpx.SetErrorHandler(errors.ErrorHandler)// 自定义错误返回,非restful类型,兼容我方前端
 	handler.RegisterHandlers(server, ctx)
+	server.PrintRoutes() // 打印路由
 
 	helper.OpenPPROF(c.PprofConf)
 	cron.InitCron(ctx)

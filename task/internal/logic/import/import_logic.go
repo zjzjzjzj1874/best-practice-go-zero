@@ -1,4 +1,12 @@
-package import
+/*
+ * @Author: zjzjzjzj1874 zjzjzjzj1874@gmail.com
+ * @Date: 2023-12-12 11:27:59
+ * @LastEditors: zjzjzjzj1874 zjzjzjzj1874@gmail.com
+ * @LastEditTime: 2025-02-08 11:42:23
+ * @FilePath: /best-practice-go-zero/task/internal/logic/import/import_logic.go
+ * @Description: package name modify
+ */
+package ipt
 
 import (
 	"context"

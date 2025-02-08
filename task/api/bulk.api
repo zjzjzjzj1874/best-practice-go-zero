@@ -14,6 +14,7 @@ type (
 	prefix: /task/bulk
 	middleware: LogTrace  // 追踪过滤器
 	group: bulk
+    signature: true // 通过 signature 关键字开启签名功能
 )
 
 service task {
